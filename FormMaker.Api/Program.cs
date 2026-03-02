@@ -20,6 +20,8 @@ builder.Services.AddSingleton<IFunctionsWorkerMiddleware, CorsMiddleware>();
 // Add DbContext with SQLite for local development or PostgreSQL for production
 var connectionString = builder.Configuration.GetValue<string>("Values:ConnectionStrings:FormMakerDb")
     ?? builder.Configuration.GetValue<string>("ConnectionStrings:FormMakerDb")
+    ?? builder.Configuration.GetValue<string>("DATABASE_URL")
+    ?? builder.Configuration.GetValue<string>("POSTGRES_URL")
     ?? "Data Source=formmaker.db";
 
 builder.Services.AddDbContext<FormMakerDbContext>(options =>

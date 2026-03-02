@@ -40,7 +40,7 @@ Deploy your Form Maker app (Blazor WASM + API) completely **FREE** using:
    - **Name**: `formmaker-api`
    - **Region**: Choose closest to you
    - **Branch**: `main`
-   - **Root Directory**: `FormMaker.Api`
+   - **Root Directory**: (Leave this **BLANK**)
    - **Runtime**: `Docker`
    - **Instance Type**: `Free`
 

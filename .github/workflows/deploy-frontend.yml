@@ -21,8 +21,17 @@ jobs:
         with:
           dotnet-version: 8.0.x
 
+      - name: Restore Dependencies
+        run: dotnet restore
+
       - name: Publish Client
         run: dotnet publish FormMaker.Client/FormMaker.Client.csproj -c Release -o release
+
+      - name: Debug Output
+        run: |
+          echo "Listing release directory:"
+          ls -R release
+          if [ -f "release/wwwroot/index.html" ]; then echo "index.html found"; else echo "index.html NOT found" && exit 1; fi
 
       - name: Fix Service Worker and Assets
         run: |

@@ -22,3 +22,17 @@ services:
         value: Data Source=/app/data/formmaker.db
     plan: free
     healthCheckPath: /
+
+  # static site for the Blazor client
+  - type: static
+    name: formmaker-client
+    repo: https://github.com/kriss2012/form-crafter
+    branch: main
+    root: FormMaker.Client
+    buildCommand: dotnet publish FormMaker.Client/FormMaker.Client.csproj -c Release -o publish
+    publishPath: publish/wwwroot
+    envVars:
+      # point the client at the API; adjust after deployment if URL changes
+      - key: REACT_APP_API_BASE_URL
+        value: https://formmaker-api.onrender.com
+    plan: free

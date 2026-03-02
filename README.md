@@ -1,58 +1,77 @@
-# 📝 Form Maker (Form Crafter)
+# <p align="center">✨ Form Crafter ✨</p>
 
-A modern, accessible, drag-and-drop form builder designed for creating business and legal documents with ease. Built with **Blazor WebAssembly** and **.NET 8**.
+<p align="center">
+  <img src="FormMaker.Client/wwwroot/hero-3d.png" alt="Form Crafter 3D Hero" width="800">
+</p>
 
-![Form Maker Screenshot](https://raw.githubusercontent.com/kriss2012/form-crafter/main/FormMaker.Client/wwwroot/icon-512.png)
+<p align="center">
+  <strong>The Future of Business Document Crafting</strong><br>
+  <em>A Premium, High-Performance Drag & Drop Form Builder</em>
+</p>
 
-## 🚀 Live Demo
-- **Frontend**: [https://kriss2012.github.io/form-crafter/](https://kriss2012.github.io/form-crafter/)
-- **Backend API**: [https://formmaker-api.onrender.com/api/](https://formmaker-api.onrender.com/api/) (hosted on Render.com)
+---
 
-## ✨ Features
-- **Drag & Drop Workspace**: Intuitive canvas for placing and arranging form elements.
-- **Rich Element Library**: Text inputs, labels, checkboxes, images, date pickers, dropdowns, and even signature pads.
-- **Accessibility First**: Designed with WCAG 2.1 AA guidelines in mind, featuring high contrast, large targets, and screen reader support.
-- **Real-time Preview**: Switch between Desktop, Tablet, and Mobile views instantly.
-- **Cloud Sync**: All forms are saved to a secure PostgreSQL database (via Render and Neon.tech).
-- **Undo/Redo Support**: Full history management for all your design changes.
+## 🌐 Experience It Live
 
-## 🛠️ Technology Stack
-- **Frontend**: Blazor WebAssembly (.NET 8)
-- **UI Framework**: MudBlazor
-- **Backend**: Azure Functions (Isolated Worker)
-- **Database**: PostgreSQL (via Neon.tech)
-- **Infrastructure**: Docker, GitHub Actions, Render.com
+<p align="center">
+  <a href="https://kriss2012.github.io/form-crafter/">
+    <img src="https://img.shields.io/badge/Launch%20App-Vibrant%20Blue?style=for-the-badge&logo=rocket" alt="Launch App">
+  </a>
+  &nbsp;
+  <a href="https://formmaker-api.onrender.com/api/">
+    <img src="https://img.shields.io/badge/API%20Status-Online-brightgreen?style=for-the-badge&logo=render" alt="API Status">
+  </a>
+</p>
 
-## 💻 Local Development
+---
 
-### Prerequisites
-- [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-- [Node.js](https://nodejs.org/) (for some optional build tools)
-- Visual Studio 2022 or VS Code
+## 💎 Project Overview
+**Form Crafter** is a state-of-the-art web application designed for people who need professional results without technical complexity. Whether you're drafting legal contracts or business feedback forms, Form Crafter provides a fluid, 3D-inspired workspace that makes design feel like play.
 
-### Running the App
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/kriss2012/form-crafter.git
-   cd form-crafter
-   ```
-2. Run the API:
-   ```bash
-   cd FormMaker.Api
-   dotnet run
-   ```
-3. Run the Client:
-   ```bash
-   cd ../FormMaker.Client
-   dotnet run
-   ```
+### 🚀 Key Highlights
+> [!IMPORTANT]
+> **Accessibility First**: Designed to be usable by everyone, including elderly and non-technical users.
 
-## 📄 Documentation
-- [Deployment Guide](DEPLOYMENT-RENDER.md) - How to host your own version.
-- [Database Setup](DEPLOYMENT-RENDER.md#database-setup) - Configuring PostgreSQL.
+- 🛠️ **Seamless Drag & Drop**: A glassmorphism-inspired canvas that responds instantly to your touch.
+- 🎨 **Rich Element Library**: From simple text fields to complex **3D-rendered signature pads**.
+- 📱 **Multi-Device Mastery**: Real-time 3D viewport switching for Desktop, Tablet, and Mobile.
+- ☁️ **Cloud Synergy**: Automatic synchronization with a permanent PostgreSQL backend.
 
-## 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
+---
 
-## 📜 License
-This project is licensed under the MIT License.
+## 🏗️ The Tech Stack
+
+| Layer | Technology |
+| :--- | :--- |
+| **Frontend** | Blazor WebAssembly (.NET 8) |
+| **UI Design** | MudBlazor Premium Components |
+| **Backend** | Azure Functions (Isolated Worker) |
+| **Data** | PostgreSQL via Neon.tech |
+| **DevOps** | Docker & GitHub Actions |
+
+---
+
+## 💻 Get Started Locally
+
+```bash
+# 1. Clone the project
+git clone https://github.com/kriss2012/form-crafter.git
+
+# 2. Spin up the Backend
+cd FormMaker.Api && dotnet run
+
+# 3. Launch the Designer
+cd ../FormMaker.Client && dotnet run
+```
+
+---
+
+## 📄 Advanced Resources
+- 📘 [Complete Deployment Guide](DEPLOYMENT-RENDER.md)
+- 🗄️ [Database Configuration](DEPLOYMENT-RENDER.md#database-setup)
+
+---
+
+<p align="center">
+  Built with ❤️ by <strong>kriss2012</strong>
+</p>

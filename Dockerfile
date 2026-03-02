@@ -25,5 +25,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureFunctionsJobHost__Logging__Console__IsEnabled=true \
     FUNCTIONS_WORKER_RUNTIME=dotnet-isolated
 
-# Expose port 80
+# Expose port (Render uses internal port)
 EXPOSE 80
+
+# Entrypoint for Azure Functions host
+ENTRYPOINT ["/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost"]

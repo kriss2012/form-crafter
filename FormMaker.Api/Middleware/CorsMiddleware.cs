@@ -67,7 +67,7 @@ public class CorsMiddleware : IFunctionsWorkerMiddleware
             // List of allowed origins
             var allowedOrigins = new[]
             {
-                "https://zyonify.github.io",
+                "https://kriss2012.github.io",
                 "http://localhost:5000",
                 "http://localhost:5001"
             };

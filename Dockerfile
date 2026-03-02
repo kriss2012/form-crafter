@@ -2,31 +2,24 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy csproj and restore dependencies
-COPY FormMaker.Api/FormMaker.Api.csproj FormMaker.Api/
-COPY FormMaker.Shared/FormMaker.Shared.csproj FormMaker.Shared/
-RUN dotnet restore "FormMaker.Api/FormMaker.Api.csproj"
+# Copy the entire workspace to get all csproj and shared folders
+COPY . .
 
-# Copy everything else and build
-COPY FormMaker.Api/ FormMaker.Api/
-COPY FormMaker.Shared/ FormMaker.Shared/
-WORKDIR /src/FormMaker.Api
-RUN dotnet publish "FormMaker.Api.csproj" -c Release -o /app/publish
+# Restore and publish
+RUN dotnet restore "FormMaker.Api/FormMaker.Api.csproj"
+RUN dotnet publish "FormMaker.Api/FormMaker.Api.csproj" -c Release -o /app/publish
 
 # Runtime stage
 FROM mcr.microsoft.com/azure-functions/dotnet-isolated:4-dotnet-isolated8.0
 WORKDIR /home/site/wwwroot
 
-# Copy the published files from build stage
+# Copy from build
 COPY --from=build /app/publish .
 
-# Set environment variables for Azure Functions
 ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
     AzureFunctionsJobHost__Logging__Console__IsEnabled=true \
     FUNCTIONS_WORKER_RUNTIME=dotnet-isolated
 
-# Expose port (Render uses internal port)
 EXPOSE 80
 
-# Entrypoint for Azure Functions host
 ENTRYPOINT ["/azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost"]

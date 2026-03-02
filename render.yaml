@@ -6,7 +6,7 @@ services:
     region: oregon
     branch: main
     dockerfilePath: Dockerfile
-    dockerCommand: /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost
+    dockerCommand: ""
     envVars:
       - key: AzureWebJobsStorage
         value: UseDevelopmentStorage=false

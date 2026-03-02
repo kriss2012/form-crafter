@@ -1,0 +1,161 @@
+@using MudBlazor
+@using MudBlazor.Services
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.h5">
+            <MudIcon Icon="@Icons.Material.Filled.Keyboard" Class="mr-2" />
+            Keyboard Shortcuts
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <MudText Typo="Typo.subtitle1" Class="mb-4" Style="font-weight: 600;">
+            Enhance your productivity with these keyboard shortcuts
+        </MudText>
+
+        <!-- Editing Shortcuts -->
+        <MudText Typo="Typo.h6" Class="mb-2 mt-4" Style="font-weight: 600;">
+            Editing
+        </MudText>
+        <MudSimpleTable Dense="true" Striped="true" Style="margin-bottom: 24px;">
+            <thead>
+                <tr>
+                    <th style="width: 40%;">Action</th>
+                    <th>Shortcut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Undo</td>
+                    <td><kbd>Ctrl + Z</kbd></td>
+                </tr>
+                <tr>
+                    <td>Redo</td>
+                    <td><kbd>Ctrl + Y</kbd></td>
+                </tr>
+                <tr>
+                    <td>Duplicate Element</td>
+                    <td><kbd>Ctrl + D</kbd></td>
+                </tr>
+                <tr>
+                    <td>Copy Element</td>
+                    <td><kbd>Ctrl + C</kbd></td>
+                </tr>
+                <tr>
+                    <td>Paste Element</td>
+                    <td><kbd>Ctrl + V</kbd></td>
+                </tr>
+                <tr>
+                    <td>Delete Element</td>
+                    <td><kbd>Delete</kbd> or <kbd>Backspace</kbd></td>
+                </tr>
+            </tbody>
+        </MudSimpleTable>
+
+        <!-- Selection Shortcuts -->
+        <MudText Typo="Typo.h6" Class="mb-2" Style="font-weight: 600;">
+            Selection
+        </MudText>
+        <MudSimpleTable Dense="true" Striped="true" Style="margin-bottom: 24px;">
+            <thead>
+                <tr>
+                    <th style="width: 40%;">Action</th>
+                    <th>Shortcut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Multi-Select Elements</td>
+                    <td><kbd>Ctrl + Click</kbd></td>
+                </tr>
+                <tr>
+                    <td>Select All</td>
+                    <td><kbd>Ctrl + A</kbd></td>
+                </tr>
+                <tr>
+                    <td>Deselect All</td>
+                    <td><kbd>Esc</kbd></td>
+                </tr>
+            </tbody>
+        </MudSimpleTable>
+
+        <!-- Navigation Shortcuts -->
+        <MudText Typo="Typo.h6" Class="mb-2" Style="font-weight: 600;">
+            Navigation & Accessibility
+        </MudText>
+        <MudSimpleTable Dense="true" Striped="true" Style="margin-bottom: 24px;">
+            <thead>
+                <tr>
+                    <th style="width: 40%;">Action</th>
+                    <th>Shortcut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Navigate Elements</td>
+                    <td><kbd>Tab</kbd> / <kbd>Shift + Tab</kbd></td>
+                </tr>
+                <tr>
+                    <td>Select Focused Element</td>
+                    <td><kbd>Enter</kbd> or <kbd>Space</kbd></td>
+                </tr>
+                <tr>
+                    <td>Move Element (Fine)</td>
+                    <td><kbd>Arrow Keys</kbd></td>
+                </tr>
+                <tr>
+                    <td>Move Element (Grid)</td>
+                    <td><kbd>Shift + Arrow Keys</kbd></td>
+                </tr>
+                <tr>
+                    <td>Show This Dialog</td>
+                    <td><kbd>Ctrl + /</kbd> or <kbd>F1</kbd></td>
+                </tr>
+            </tbody>
+        </MudSimpleTable>
+
+        <!-- View Shortcuts -->
+        <MudText Typo="Typo.h6" Class="mb-2" Style="font-weight: 600;">
+            View
+        </MudText>
+        <MudSimpleTable Dense="true" Striped="true">
+            <thead>
+                <tr>
+                    <th style="width: 40%;">Action</th>
+                    <th>Shortcut</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Zoom In</td>
+                    <td><kbd>Ctrl + +</kbd></td>
+                </tr>
+                <tr>
+                    <td>Zoom Out</td>
+                    <td><kbd>Ctrl + -</kbd></td>
+                </tr>
+                <tr>
+                    <td>Reset Zoom</td>
+                    <td><kbd>Ctrl + 0</kbd></td>
+                </tr>
+            </tbody>
+        </MudSimpleTable>
+
+        <MudAlert Severity="Severity.Info" Class="mt-4" Dense="true">
+            <strong>Tip:</strong> All keyboard shortcuts are designed to work with screen readers.
+            Actions will be announced as you perform them.
+        </MudAlert>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Close">
+            Close
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    public IDialogReference MudDialog { get; set; } = default!;
+
+    void Close() => MudDialog.Close();
+}

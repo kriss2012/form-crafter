@@ -1,0 +1,178 @@
+@page "/register"
+@using FormMaker.Client.Services
+@inject ApiService ApiService
+@inject CustomAuthStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+
+<PageTitle>Register - Form Maker</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="mt-8">
+    <MudPaper Class="pa-8" Elevation="3">
+        <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true">
+            Create Account
+        </MudText>
+        <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Secondary" Class="mb-6">
+            Get started with Form Maker today
+        </MudText>
+
+        <EditForm Model="@registerModel" OnValidSubmit="HandleRegister">
+            <DataAnnotationsValidator />
+
+            <MudTextField @bind-Value="registerModel.DisplayName"
+                          Label="Display Name (Optional)"
+                          Variant="Variant.Outlined"
+                          Disabled="@isLoading"
+                          Class="mb-4"
+                          HelperText="How should we call you?" />
+
+            <MudTextField @bind-Value="registerModel.Email"
+                          Label="Email"
+                          Variant="Variant.Outlined"
+                          InputType="InputType.Email"
+                          Required="true"
+                          Disabled="@isLoading"
+                          Class="mb-4"
+                          HelperText="Enter a valid email address" />
+
+            <MudTextField @bind-Value="registerModel.Password"
+                          Label="Password"
+                          Variant="Variant.Outlined"
+                          InputType="InputType.Password"
+                          Required="true"
+                          Disabled="@isLoading"
+                          Class="mb-4"
+                          HelperText="Minimum 8 characters" />
+
+            <MudTextField @bind-Value="registerModel.ConfirmPassword"
+                          Label="Confirm Password"
+                          Variant="Variant.Outlined"
+                          InputType="InputType.Password"
+                          Required="true"
+                          Disabled="@isLoading"
+                          Class="mb-6"
+                          HelperText="Re-enter your password" />
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <MudAlert Severity="Severity.Error" Class="mb-4">@errorMessage</MudAlert>
+            }
+
+            <MudButton ButtonType="ButtonType.Submit"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       FullWidth="true"
+                       Size="Size.Large"
+                       Disabled="@isLoading"
+                       Class="mb-4">
+                @if (isLoading)
+                {
+                    <MudProgressCircular Class="mr-2" Size="Size.Small" Indeterminate="true" />
+                    <span>Creating Account...</span>
+                }
+                else
+                {
+                    <span>Create Account</span>
+                }
+            </MudButton>
+        </EditForm>
+
+        <MudDivider Class="my-4" />
+
+        <MudText Typo="Typo.body2" Align="Align.Center">
+            Already have an account?
+            <MudLink OnClick='@(() => Navigation.NavigateTo("login"))' Color="Color.Primary" Style="cursor: pointer;">Sign In</MudLink>
+        </MudText>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private RegisterModel registerModel = new();
+    private bool isLoading = false;
+    private string? errorMessage;
+
+    private class RegisterModel
+    {
+        public string DisplayName { get; set; } = "";
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
+        public string ConfirmPassword { get; set; } = "";
+    }
+
+    private async Task HandleRegister()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        // Client-side validation
+        if (string.IsNullOrWhiteSpace(registerModel.Email))
+        {
+            errorMessage = "Email is required";
+            isLoading = false;
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(registerModel.Password))
+        {
+            errorMessage = "Password is required";
+            isLoading = false;
+            return;
+        }
+
+        if (registerModel.Password.Length < 8)
+        {
+            errorMessage = "Password must be at least 8 characters";
+            isLoading = false;
+            return;
+        }
+
+        if (registerModel.Password != registerModel.ConfirmPassword)
+        {
+            errorMessage = "Passwords do not match";
+            isLoading = false;
+            return;
+        }
+
+        try
+        {
+            var request = new RegisterRequest
+            {
+                Email = registerModel.Email,
+                Password = registerModel.Password,
+                DisplayName = string.IsNullOrWhiteSpace(registerModel.DisplayName) ? null : registerModel.DisplayName
+            };
+
+            var response = await ApiService.PostUnauthenticatedAsync<RegisterRequest, AuthResponse>(
+                "auth/register",
+                request
+            );
+
+            if (response != null)
+            {
+                await AuthStateProvider.MarkUserAsAuthenticated(response.Token, response.User);
+                Snackbar.Add("Account created successfully! Welcome to Form Maker!", Severity.Success);
+                Navigation.NavigateTo("forms");
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            if (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
+            {
+                errorMessage = "Email already registered or invalid data";
+            }
+            else
+            {
+                errorMessage = "Unable to connect to server. Please try again.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "An error occurred. Please try again.";
+            Console.WriteLine($"Registration error: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

@@ -1,0 +1,239 @@
+@using FormMaker.Client.Services
+@using FormMaker.Shared.Models
+@inject ApiService ApiService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+
+<MudDialog>
+    <DialogContent>
+        @if (isCreating)
+        {
+            <MudProgressCircular Indeterminate="true" />
+            <MudText Typo="Typo.body1" Class="mt-3">Creating shareable link...</MudText>
+        }
+        else if (!string.IsNullOrEmpty(shareLink))
+        {
+            <!-- Success State: Show Share Link -->
+            <MudAlert Severity="Severity.Success" Class="mb-4">
+                Shareable link created successfully!
+            </MudAlert>
+
+            <MudTextField @bind-Value="shareUrl"
+                          Label="Share Link"
+                          ReadOnly="true"
+                          Variant="Variant.Outlined"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@Icons.Material.Filled.ContentCopy"
+                          OnAdornmentClick="CopyToClipboard"
+                          Class="mb-3" />
+
+            <MudText Typo="Typo.body2" Class="mb-2">Share this link with anyone to let them fill out your form.</MudText>
+
+            <MudDivider Class="my-4" />
+
+            <MudText Typo="Typo.h6" Class="mb-2">Form Settings</MudText>
+
+            <MudGrid>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.body2">Views: <strong>@formResponse!.ViewCount</strong></MudText>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudText Typo="Typo.body2">Submissions: <strong>@formResponse.SubmissionCount</strong></MudText>
+                </MudItem>
+                @if (formResponse.MaxSubmissions.HasValue)
+                {
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body2">Max Submissions: <strong>@formResponse.MaxSubmissions</strong></MudText>
+                    </MudItem>
+                }
+                @if (formResponse.ExpiresAt.HasValue)
+                {
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body2">Expires: <strong>@formResponse.ExpiresAt.Value.ToLocalTime().ToString("MMM d, yyyy h:mm tt")</strong></MudText>
+                    </MudItem>
+                }
+                <MudItem xs="12">
+                    <MudText Typo="Typo.body2">Status: <strong>@(formResponse.IsActive ? "Active" : "Inactive")</strong></MudText>
+                </MudItem>
+            </MudGrid>
+        }
+        else
+        {
+            <!-- Creation Form -->
+            <MudText Typo="Typo.h6" Class="mb-4">Create Shareable Link</MudText>
+
+            <MudTextField @bind-Value="title"
+                          Label="Form Title"
+                          Variant="Variant.Outlined"
+                          Required="true"
+                          Class="mb-3" />
+
+            <MudTextField @bind-Value="description"
+                          Label="Description (Optional)"
+                          Variant="Variant.Outlined"
+                          Lines="3"
+                          Class="mb-3" />
+
+            <MudNumericField @bind-Value="maxSubmissions"
+                             Label="Max Submissions (Optional)"
+                             Variant="Variant.Outlined"
+                             Min="1"
+                             Class="mb-3"
+                             HelperText="Leave empty for unlimited submissions" />
+
+            <MudDatePicker @bind-Date="expiresAt"
+                           Label="Expiration Date (Optional)"
+                           Variant="Variant.Outlined"
+                           MinDate="DateTime.Today"
+                           Class="mb-3"
+                           HelperText="Leave empty for no expiration" />
+
+            <MudSwitch @bind-Value="requireAuth"
+                       Label="Require login to fill form"
+                       Color="Color.Primary"
+                       T="bool"
+                       Class="mb-3" />
+
+            <MudDivider Class="my-3" />
+
+            <MudSwitch @bind-Value="enableNotifications"
+                       Label="Send email notifications for new submissions"
+                       Color="Color.Primary"
+                       T="bool"
+                       Class="mb-3" />
+
+            @if (enableNotifications)
+            {
+                <MudTextField @bind-Value="notificationEmail"
+                              Label="Notification Email"
+                              Variant="Variant.Outlined"
+                              Required="true"
+                              InputType="InputType.Email"
+                              Class="mb-3"
+                              HelperText="Email address to receive submission notifications" />
+            }
+        }
+    </DialogContent>
+    <DialogActions>
+        @if (!string.IsNullOrEmpty(shareLink))
+        {
+            <MudButton OnClick="OpenFormInNewTab" Color="Color.Primary" Variant="Variant.Filled">
+                Open Form
+            </MudButton>
+            <MudButton OnClick="Close" Color="Color.Default">
+                Close
+            </MudButton>
+        }
+        else
+        {
+            <MudButton OnClick="Cancel" Color="Color.Default">Cancel</MudButton>
+            <MudButton OnClick="CreateShareLink" Color="Color.Primary" Variant="Variant.Filled" Disabled="@(string.IsNullOrWhiteSpace(title) || isCreating)">
+                Create Link
+            </MudButton>
+        }
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    IMudDialogInstance? MudDialog { get; set; }
+
+    [Parameter]
+    public FormTemplate? Template { get; set; }
+
+    private string title = "";
+    private string? description;
+    private int? maxSubmissions;
+    private DateTime? expiresAt;
+    private bool requireAuth = false;
+    private bool enableNotifications = false;
+    private string? notificationEmail;
+
+    private bool isCreating = false;
+    private string? shareLink;
+    private string? shareUrl;
+    private FormResponse? formResponse;
+
+    protected override void OnInitialized()
+    {
+        if (Template != null)
+        {
+            title = Template.Name ?? "Untitled Form";
+            description = $"Fill out this form: {Template.Name}";
+        }
+    }
+
+    private async Task CreateShareLink()
+    {
+        if (Template == null || string.IsNullOrWhiteSpace(title))
+        {
+            Snackbar.Add("Please provide a form title", Severity.Error);
+            return;
+        }
+
+        isCreating = true;
+
+        try
+        {
+            var request = new CreateFormRequest
+            {
+                TemplateId = Template.Id,
+                Title = title,
+                Description = description,
+                RequireAuth = requireAuth,
+                MaxSubmissions = maxSubmissions,
+                ExpiresAt = expiresAt?.ToUniversalTime(),
+                NotificationEmail = notificationEmail,
+                EnableNotifications = enableNotifications
+            };
+
+            formResponse = await ApiService.CreateFormAsync(request);
+
+            if (formResponse != null)
+            {
+                shareLink = formResponse.ShareLink;
+                shareUrl = $"{Navigation.BaseUri}fill/{shareLink}";
+                Snackbar.Add("Shareable link created!", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Failed to create shareable link", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error creating link: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            isCreating = false;
+        }
+    }
+
+    private void CopyToClipboard()
+    {
+        if (!string.IsNullOrEmpty(shareUrl))
+        {
+            // For now, just show the URL (clipboard API requires JS Interop which we can add later)
+            Snackbar.Add("Link ready to copy!", Severity.Info);
+        }
+    }
+
+    private void OpenFormInNewTab()
+    {
+        if (!string.IsNullOrEmpty(shareUrl))
+        {
+            Navigation.NavigateTo(shareUrl, true);
+        }
+    }
+
+    private void Cancel()
+    {
+        MudDialog?.Cancel();
+    }
+
+    private void Close()
+    {
+        MudDialog?.Close();
+    }
+}

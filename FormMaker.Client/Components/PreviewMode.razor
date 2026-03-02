@@ -1,0 +1,173 @@
+@using FormMaker.Shared.Models
+@using FormMaker.Shared.Models.Elements
+@using FormMaker.Shared.Enums
+
+<!-- Preview Toolbar -->
+<div style="position: fixed; top: 0; left: 0; right: 0; z-index: 2000; background-color: #fafafa; border-bottom: 2px solid #e0e0e0; padding: 12px 24px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
+    <MudText Typo="Typo.h6" Style="margin-right: 16px;">
+        Preview: @CurrentTemplate.Name
+    </MudText>
+
+    <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
+        <MudButton OnClick="@(() => SetDeviceMode("mobile"))"
+                   Variant="@(deviceMode == "mobile" ? Variant.Filled : Variant.Outlined)"
+                   StartIcon="@Icons.Material.Filled.PhoneIphone">
+            Mobile
+        </MudButton>
+        <MudButton OnClick="@(() => SetDeviceMode("tablet"))"
+                   Variant="@(deviceMode == "tablet" ? Variant.Filled : Variant.Outlined)"
+                   StartIcon="@Icons.Material.Filled.Tablet">
+            Tablet
+        </MudButton>
+        <MudButton OnClick="@(() => SetDeviceMode("desktop"))"
+                   Variant="@(deviceMode == "desktop" ? Variant.Filled : Variant.Outlined)"
+                   StartIcon="@Icons.Material.Filled.Computer">
+            Desktop
+        </MudButton>
+    </MudButtonGroup>
+
+    <MudSpacer />
+
+    <MudIconButton Icon="@Icons.Material.Filled.Print"
+                   Color="Color.Default"
+                   OnClick="PrintPreview"
+                   Title="Print Preview" />
+
+    <MudButton Variant="Variant.Filled"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.Close"
+               OnClick="ClosePreview">
+        Close Preview
+    </MudButton>
+</div>
+
+<!-- Preview Container -->
+<div style="margin-top: 64px; background-color: #e0e0e0; min-height: calc(100vh - 64px); padding: 24px; display: flex; justify-content: center; align-items: flex-start; overflow: auto;">
+    <div class="preview-frame @GetDeviceClass()"
+         style="background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); width: @GetDeviceWidth(); max-width: 100%; margin: 0 auto; padding: 24px; position: relative; overflow-x: auto;">
+
+        <!-- Form Preview -->
+        <div class="form-preview" style="width: @(GetScaledWidth())px; height: @(GetScaledHeight())px; background-color: @CurrentTemplate.BackgroundColor; position: relative; margin: 0 auto;">
+
+            <!-- Render all elements as functional inputs -->
+            @foreach (var element in GetCurrentPageElements().OrderBy(e => e.Properties.ZIndex))
+            {
+                var scaleFactor = GetScaleFactor();
+                <div style="position: absolute;
+                            left: @((int)(element.X * scaleFactor))px;
+                            top: @((int)(element.Y * scaleFactor))px;
+                            width: @((int)(element.Width * scaleFactor))px;
+                            height: @((int)(element.Height * scaleFactor))px;
+                            z-index: @(element.Properties.ZIndex);">
+                    @RenderPreviewElement(element)
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public FormTemplate CurrentTemplate { get; set; } = new FormTemplate();
+
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+
+    private string deviceMode = "desktop";
+    private Dictionary<Guid, string> fieldValues = new();
+
+    private void SetDeviceMode(string mode)
+    {
+        deviceMode = mode;
+    }
+
+    private string GetDeviceClass()
+    {
+        return deviceMode switch
+        {
+            "mobile" => "preview-mobile",
+            "tablet" => "preview-tablet",
+            _ => "preview-desktop"
+        };
+    }
+
+    private string GetDeviceWidth()
+    {
+        return deviceMode switch
+        {
+            "mobile" => "375px",
+            "tablet" => "768px",
+            _ => "100%"
+        };
+    }
+
+    private double GetScaleFactor()
+    {
+        if (deviceMode == "mobile")
+        {
+            // Scale down to fit mobile view (accounting for padding)
+            return Math.Min(1.0, (375.0 - 48) / CurrentTemplate.WidthInPixels);
+        }
+        else if (deviceMode == "tablet")
+        {
+            // Scale down to fit tablet view (accounting for padding)
+            return Math.Min(1.0, (768.0 - 48) / CurrentTemplate.WidthInPixels);
+        }
+        return 1.0; // Desktop - no scaling
+    }
+
+    private int GetScaledWidth()
+    {
+        return (int)(CurrentTemplate.WidthInPixels * GetScaleFactor());
+    }
+
+    private int GetScaledHeight()
+    {
+        return (int)(CurrentTemplate.HeightInPixels * GetScaleFactor());
+    }
+
+    private async Task ClosePreview()
+    {
+        await OnClose.InvokeAsync();
+    }
+
+    private void PrintPreview()
+    {
+        // TODO: Implement print preview
+    }
+
+    private string GetFieldValue(Guid elementId)
+    {
+        return fieldValues.TryGetValue(elementId, out var value) ? value : "";
+    }
+
+    private void SetFieldValue(Guid elementId, string value)
+    {
+        fieldValues[elementId] = value;
+    }
+
+    private List<FormElement> GetCurrentPageElements()
+    {
+        // Ensure multi-page is initialized if needed
+        if (CurrentTemplate != null)
+        {
+            CurrentTemplate.EnsureMultiPageInitialized();
+        }
+
+        // If multi-page mode is enabled and we have pages, use current page
+        if (CurrentTemplate?.IsMultiPage == true &&
+            CurrentTemplate.Pages != null &&
+            CurrentTemplate.Pages.Count > 0)
+        {
+            int pageIndex = Math.Max(0, Math.Min(CurrentTemplate.CurrentPageIndex, CurrentTemplate.Pages.Count - 1));
+            var currentPage = CurrentTemplate.Pages[pageIndex];
+            if (currentPage?.Elements != null)
+            {
+                return currentPage.Elements;
+            }
+        }
+
+        // Fallback to legacy Elements list for backward compatibility
+        return CurrentTemplate?.Elements ?? new List<FormElement>();
+    }
+}

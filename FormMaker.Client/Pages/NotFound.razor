@@ -1,0 +1,69 @@
+@using FormMaker.Client.Components
+@inject NavigationManager Navigation
+
+<PageTitle>Page Not Found - Form Maker</PageTitle>
+
+<SharedAppBar />
+
+<!-- Spacer for fixed header -->
+<div style="height: 64px;"></div>
+
+<MudContainer MaxWidth="MaxWidth.Medium" Style="padding-top: 64px; padding-bottom: 80px;">
+    <MudPaper Elevation="2" Style="padding: 64px 32px; text-align: center;">
+        <!-- 404 Icon -->
+        <div style="font-size: 120px; font-weight: 700; color: #e0e0e0; margin-bottom: 24px;">
+            404
+        </div>
+
+        <!-- Error Message -->
+        <MudText Typo="Typo.h4" Style="font-weight: 600; margin-bottom: 16px;">
+            Page Not Found
+        </MudText>
+
+        <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 48px; font-size: 20px; line-height: 1.7;">
+            Sorry, we couldn't find the page you're looking for.
+            It might have been moved or doesn't exist.
+        </MudText>
+
+        <!-- Navigation Buttons -->
+        <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Size="Size.Large"
+                       StartIcon="@Icons.Material.Filled.Home"
+                       OnClick='@(() => Navigation.NavigateTo(""))'
+                       Style="height: 56px; min-width: 160px; font-size: 18px;">
+                Go Home
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       Size="Size.Large"
+                       StartIcon="@Icons.Material.Filled.Edit"
+                       OnClick='@(() => Navigation.NavigateTo("editor"))'
+                       Style="height: 56px; min-width: 160px; font-size: 18px;">
+                Editor
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       Size="Size.Large"
+                       StartIcon="@Icons.Material.Filled.Folder"
+                       OnClick='@(() => Navigation.NavigateTo("forms"))'
+                       Style="height: 56px; min-width: 160px; font-size: 18px;">
+                My Forms
+            </MudButton>
+        </div>
+
+        <!-- Help Link -->
+        <div style="margin-top: 48px;">
+            <MudText Typo="Typo.body2" Style="color: #999;">
+                Need help? Visit our <MudLink OnClick='@(() => Navigation.NavigateTo("help"))' Style="color: #005fcc; font-weight: 500; cursor: pointer;">Help Center</MudLink>
+            </MudText>
+        </div>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    // No code needed for 404 page
+}

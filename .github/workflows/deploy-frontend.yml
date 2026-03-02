@@ -1,0 +1,41 @@
+name: Deploy Frontend to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Publish Client
+        run: dotnet publish FormMaker.Client/FormMaker.Client.csproj -c Release -o release
+
+      - name: Fix Service Worker and Assets
+        run: |
+          # Copy index.html to 404.html for SPA routing on GitHub Pages
+          cp release/wwwroot/index.html release/wwwroot/404.html
+          # (Optional) Touch .nojekyll to prevent Jekyll from processing assets
+          touch release/wwwroot/.nojekyll
+
+      - name: Upload Artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: release/wwwroot
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

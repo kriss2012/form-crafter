@@ -1,0 +1,249 @@
+@page "/help"
+@using FormMaker.Client.Components
+@inject NavigationManager Navigation
+
+<PageTitle>Help & Documentation - Form Maker</PageTitle>
+
+<SharedAppBar />
+
+<!-- Spacer for fixed header -->
+<div style="height: 64px;"></div>
+
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 32px; padding-bottom: 64px;">
+    <!-- Page Header -->
+    <div style="margin-bottom: 48px; text-align: center;">
+        <MudText Typo="Typo.h3" Style="font-weight: 600; margin-bottom: 16px;">Help & Documentation</MudText>
+        <MudText Typo="Typo.body1" Color="Color.Secondary" Style="font-size: 20px;">
+            Learn how to use Form Maker and discover helpful tips
+        </MudText>
+    </div>
+
+    <MudGrid>
+        <!-- Getting Started -->
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Style="padding: 32px; margin-bottom: 24px;">
+                <MudText Typo="Typo.h4" Style="font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                    <MudIcon Icon="@Icons.Material.Filled.PlayCircle" Size="Size.Large" Color="Color.Primary" />
+                    Getting Started
+                </MudText>
+
+                <MudTimeline TimelinePosition="TimelinePosition.Start">
+                    <MudTimelineItem Color="Color.Primary" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">1. Create a New Form</MudText>
+                            <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 12px;">
+                                Click "Create New Form" from the home page or navigate to the Editor.
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Primary" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">2. Add Elements</MudText>
+                            <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 12px;">
+                                Click or drag elements from the left sidebar onto the canvas. Available elements: Labels, Text Inputs, Checkboxes, and Images.
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Primary" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">3. Position Elements</MudText>
+                            <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 12px;">
+                                Drag elements to move them. They will snap to a 10px grid for precise alignment. Watch for pink alignment guides when centering.
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Primary" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">4. Edit Properties</MudText>
+                            <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 12px;">
+                                Click an element to select it. Use the properties panel on the right to change text, size, position, and styling.
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Primary" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">5. Save Your Form</MudText>
+                            <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 12px;">
+                                Click the "Save" button in the toolbar. Your form auto-saves every 30 seconds too!
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+                </MudTimeline>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Keyboard Shortcuts -->
+        <MudItem xs="12" md="6">
+            <MudPaper Elevation="2" Style="padding: 32px; height: 100%;">
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Keyboard" Size="Size.Large" Color="Color.Primary" />
+                    Keyboard Shortcuts
+                </MudText>
+
+                <MudAlert Severity="Severity.Info" Style="margin-bottom: 24px;">
+                    <strong>Coming in Phase 2!</strong> Keyboard shortcuts will be added soon for power users.
+                </MudAlert>
+
+                <MudSimpleTable Dense="false" Style="font-size: 18px;">
+                    <thead>
+                        <tr>
+                            <th style="font-weight: 600; padding: 12px;">Shortcut</th>
+                            <th style="font-weight: 600; padding: 12px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px;"><MudChip T="string">Ctrl + S</MudChip></td>
+                            <td style="padding: 12px; color: #999;">Save form (planned)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px;"><MudChip T="string">Ctrl + Z</MudChip></td>
+                            <td style="padding: 12px; color: #999;">Undo (planned)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px;"><MudChip T="string">Ctrl + Y</MudChip></td>
+                            <td style="padding: 12px; color: #999;">Redo (planned)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px;"><MudChip T="string">Delete</MudChip></td>
+                            <td style="padding: 12px; color: #999;">Delete selected element (planned)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px;"><MudChip T="string">Ctrl + D</MudChip></td>
+                            <td style="padding: 12px; color: #999;">Duplicate element (planned)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px;"><MudChip T="string">Escape</MudChip></td>
+                            <td style="padding: 12px; color: #999;">Deselect element (planned)</td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Common Questions -->
+        <MudItem xs="12" md="6">
+            <MudPaper Elevation="2" Style="padding: 32px; height: 100%;">
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                    <MudIcon Icon="@Icons.Material.Filled.QuestionAnswer" Size="Size.Large" Color="Color.Primary" />
+                    Common Questions
+                </MudText>
+
+                <MudExpansionPanels MultiExpansion="true">
+                    <MudExpansionPanel Text="How do I save my form?" Style="font-size: 18px;">
+                        <MudText Style="padding: 16px;">
+                            Click the "Save" button in the top toolbar. Your form will also auto-save every 30 seconds while you're working on it.
+                            Saved forms are stored in your browser's local storage.
+                        </MudText>
+                    </MudExpansionPanel>
+
+                    <MudExpansionPanel Text="Where are my saved forms?" Style="font-size: 18px;">
+                        <MudText Style="padding: 16px;">
+                            Click "My Forms" in the navigation bar to see all your saved forms. You can open, duplicate, or delete them from there.
+                        </MudText>
+                    </MudExpansionPanel>
+
+                    <MudExpansionPanel Text="Can I change the page size?" Style="font-size: 18px;">
+                        <MudText Style="padding: 16px;">
+                            Currently forms default to Letter size (8.5" x 11"). Page size selection in the editor UI is coming soon!
+                            The app supports A4, Letter, Legal, and A3 sizes.
+                        </MudText>
+                    </MudExpansionPanel>
+
+                    <MudExpansionPanel Text="How do I delete an element?" Style="font-size: 18px;">
+                        <MudText Style="padding: 16px;">
+                            Click on the element to select it, then click the red "Delete Element" button in the properties panel on the right.
+                        </MudText>
+                    </MudExpansionPanel>
+
+                    <MudExpansionPanel Text="Can I undo changes?" Style="font-size: 18px;">
+                        <MudText Style="padding: 16px;">
+                            Undo/Redo functionality is coming in Phase 2! For now, use the auto-save feature to protect your work.
+                        </MudText>
+                    </MudExpansionPanel>
+
+                    <MudExpansionPanel Text="Is my data stored in the cloud?" Style="font-size: 18px;">
+                        <MudText Style="padding: 16px;">
+                            Currently, all forms are saved locally in your browser. Cloud storage and form sharing will be added in Phase 3-4.
+                            Your data stays on your computer.
+                        </MudText>
+                    </MudExpansionPanel>
+                </MudExpansionPanels>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Accessibility Features -->
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Style="padding: 32px;">
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Accessibility" Size="Size.Large" Color="Color.Primary" />
+                    Accessibility Features
+                </MudText>
+
+                <MudText Typo="Typo.body1" Style="margin-bottom: 24px; font-size: 18px; line-height: 1.7;">
+                    Form Maker is designed with accessibility in mind, especially for elderly and visually impaired users:
+                </MudText>
+
+                <MudGrid>
+                    <MudItem xs="12" sm="6" md="3">
+                        <div style="text-align: center; padding: 16px;">
+                            <div style="font-size: 48px; margin-bottom: 12px;">📏</div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">Large Text</MudText>
+                            <MudText Style="color: #666;">Minimum 18px font size throughout the app</MudText>
+                        </div>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6" md="3">
+                        <div style="text-align: center; padding: 16px;">
+                            <div style="font-size: 48px; margin-bottom: 12px;">🎯</div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">Big Buttons</MudText>
+                            <MudText Style="color: #666;">Minimum 48px touch targets for easy clicking</MudText>
+                        </div>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6" md="3">
+                        <div style="text-align: center; padding: 16px;">
+                            <div style="font-size: 48px; margin-bottom: 12px;">🌓</div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">High Contrast</MudText>
+                            <MudText Style="color: #666;">4.5:1 contrast ratio for better readability</MudText>
+                        </div>
+                    </MudItem>
+
+                    <MudItem xs="12" sm="6" md="3">
+                        <div style="text-align: center; padding: 16px;">
+                            <div style="font-size: 48px; margin-bottom: 12px;">⌨️</div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">Keyboard Nav</MudText>
+                            <MudText Style="color: #666;">Full keyboard navigation with visible focus</MudText>
+                        </div>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Need More Help? -->
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Style="padding: 48px; text-align: center; background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);">
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 16px;">Need More Help?</MudText>
+                <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 24px; font-size: 18px;">
+                    Visit our About page to learn more about the project or provide feedback.
+                </MudText>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Size="Size.Large"
+                           StartIcon="@Icons.Material.Filled.Info"
+                           OnClick='@(() => Navigation.NavigateTo("about"))'
+                           Style="height: 56px; min-width: 180px; font-size: 18px;">
+                    About Form Maker
+                </MudButton>
+            </MudPaper>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    // No code needed for help page
+}

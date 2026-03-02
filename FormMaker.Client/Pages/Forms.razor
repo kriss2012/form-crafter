@@ -1,0 +1,331 @@
+@page "/forms"
+@using FormMaker.Client.Services
+@using FormMaker.Client.Components
+@using FormMaker.Shared.Models
+
+<PageTitle>My Forms - Form Maker</PageTitle>
+
+<!-- Global Navigation -->
+<SharedAppBar />
+
+<!-- Spacer for fixed header -->
+<div style="height: 64px;"></div>
+
+<main aria-label="My forms page">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 32px; padding-bottom: 32px;">
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+        <div>
+            <MudText Typo="Typo.h3" Style="font-weight: 600; margin-bottom: 8px;">My Forms</MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary">
+                Manage your saved form templates
+            </MudText>
+        </div>
+
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Add"
+                   OnClick='@(() => Navigation.NavigateTo("editor"))'
+                   Size="Size.Large"
+                   aria-label="Create new form">
+            New Form
+        </MudButton>
+    </div>
+
+    <!-- Forms List -->
+    @if (isLoading)
+    {
+        <div style="text-align: center; padding: 64px 0;">
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" aria-label="Loading your forms" />
+            <MudText Typo="Typo.body1" Style="margin-top: 16px;">Loading your forms...</MudText>
+        </div>
+    }
+    else if (forms == null || forms.Count == 0)
+    {
+        <!-- Empty State -->
+        <MudPaper Elevation="0" Style="text-align: center; padding: 64px 32px; background-color: #fafafa;">
+            <MudIcon Icon="@Icons.Material.Filled.Description" Size="Size.Large" Style="font-size: 96px; color: #757575; margin-bottom: 16px;" aria-hidden="true" />
+            <MudText Typo="Typo.h5" Style="margin-bottom: 16px; color: #666;">No Forms Yet</MudText>
+            <MudText Typo="Typo.body1" Style="margin-bottom: 32px; color: #757575;">
+                Create your first form to get started!
+            </MudText>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Add"
+                       OnClick='@(() => Navigation.NavigateTo("editor"))'
+                       Size="Size.Large"
+                       aria-label="Create your first form">
+                Create Your First Form
+            </MudButton>
+        </MudPaper>
+    }
+    else
+    {
+        <!-- Forms Grid -->
+        <MudGrid>
+            @foreach (var form in forms)
+            {
+                <MudItem xs="12" sm="6" md="4">
+                    <MudCard Elevation="2" Style="height: 100%;">
+                        <MudCardContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">
+                                @form.Name
+                            </MudText>
+
+                            @if (!string.IsNullOrEmpty(form.Description))
+                            {
+                                <MudText Typo="Typo.body2" Color="Color.Secondary" Style="margin-bottom: 12px;">
+                                    @form.Description
+                                </MudText>
+                            }
+
+                            @if (!string.IsNullOrEmpty(form.Category))
+                            {
+                                <MudText Typo="Typo.body2" Style="margin-bottom: 4px;">
+                                    <MudIcon Icon="@Icons.Material.Filled.Category" Size="Size.Small" />
+                                    @form.Category
+                                </MudText>
+                            }
+
+                            <MudText Typo="Typo.caption" Color="Color.Secondary" Style="margin-top: 8px;">
+                                Updated @GetRelativeTime(form.UpdatedAt)
+                            </MudText>
+
+                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                Created @GetRelativeTime(form.CreatedAt)
+                            </MudText>
+                        </MudCardContent>
+
+                        <MudCardActions>
+                            <MudButton StartIcon="@Icons.Material.Filled.Edit"
+                                       Color="Color.Primary"
+                                       OnClick="() => OpenForm(form.Id)">
+                                Open
+                            </MudButton>
+
+                            <MudButton StartIcon="@Icons.Material.Filled.Share"
+                                       Color="Color.Secondary"
+                                       OnClick="() => ShareForm(form.Id)">
+                                Share
+                            </MudButton>
+
+                            <MudButton StartIcon="@Icons.Material.Filled.ContentCopy"
+                                       Color="Color.Default"
+                                       OnClick="() => DuplicateForm(form.Id)">
+                                Duplicate
+                            </MudButton>
+
+                            <MudSpacer />
+
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                           Color="Color.Error"
+                                           OnClick="@(async () => await DeleteForm(form.Id, form.Name))"
+                                           aria-label="@($"Delete {form.Name}")"
+                                           Title="@($"Delete {form.Name}")" />
+                        </MudCardActions>
+                    </MudCard>
+                </MudItem>
+            }
+        </MudGrid>
+    }
+</MudContainer>
+</main>
+
+
+@code {
+    private List<FormMaker.Shared.Models.TemplateResponse>? forms;
+    private bool isLoading = true;
+
+    [Inject]
+    private LocalStorageService LocalStorage { get; set; } = default!;
+
+    [Inject]
+    private NavigationManager Navigation { get; set; } = default!;
+
+    [Inject]
+    private ISnackbar Snackbar { get; set; } = default!;
+
+    [Inject]
+    private IDialogService DialogService { get; set; } = default!;
+
+    [Inject]
+    private ApiService ApiService { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadForms();
+    }
+
+    private async Task LoadForms()
+    {
+        isLoading = true;
+        try
+        {
+            // Load from API instead of localStorage
+            var response = await ApiService.GetAsync<FormMaker.Shared.Models.TemplateListResponse>("templates");
+            forms = response?.Templates ?? new List<FormMaker.Shared.Models.TemplateResponse>();
+        }
+        catch (HttpRequestException ex)
+        {
+            Snackbar.Add($"Error loading forms from server: {ex.Message}", Severity.Error);
+            forms = new List<FormMaker.Shared.Models.TemplateResponse>();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error loading forms: {ex.Message}", Severity.Error);
+            forms = new List<FormMaker.Shared.Models.TemplateResponse>();
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private void OpenForm(Guid formId)
+    {
+        Navigation.NavigateTo($"/editor?id={formId}");
+    }
+
+    private async Task ShareForm(Guid formId)
+    {
+        try
+        {
+            // Load the form template from API
+            var templateResponse = await ApiService.GetAsync<FormMaker.Shared.Models.TemplateResponse>($"templates/{formId}");
+            if (templateResponse == null)
+            {
+                Snackbar.Add("Form not found", Severity.Error);
+                return;
+            }
+
+            // Parse the JsonData to get FormTemplate
+            var template = System.Text.Json.JsonSerializer.Deserialize<FormMaker.Shared.Models.FormTemplate>(templateResponse.JsonData);
+            if (template == null)
+            {
+                Snackbar.Add("Error parsing form data", Severity.Error);
+                return;
+            }
+
+            // Open share dialog
+            var parameters = new DialogParameters
+            {
+                ["Template"] = template
+            };
+
+            var options = new DialogOptions
+            {
+                MaxWidth = MaxWidth.Small,
+                CloseButton = true,
+                CloseOnEscapeKey = true
+            };
+
+            await DialogService.ShowAsync<ShareFormDialog>("Share Form", parameters, options);
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error sharing form: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task DuplicateForm(Guid formId)
+    {
+        try
+        {
+            // Get the original template from API
+            var originalTemplate = await ApiService.GetAsync<FormMaker.Shared.Models.TemplateResponse>($"templates/{formId}");
+            if (originalTemplate != null)
+            {
+                // Create a new template request with copied data
+                var duplicateRequest = new FormMaker.Shared.Models.CreateTemplateRequest
+                {
+                    Name = $"{originalTemplate.Name} (Copy)",
+                    Description = originalTemplate.Description,
+                    JsonData = originalTemplate.JsonData,
+                    Category = originalTemplate.Category,
+                    Tags = originalTemplate.Tags,
+                    IsPublic = false
+                };
+
+                // POST to API to create duplicate
+                await ApiService.PostAsync<FormMaker.Shared.Models.CreateTemplateRequest, FormMaker.Shared.Models.TemplateResponse>("templates", duplicateRequest);
+                Snackbar.Add("Form duplicated successfully!", Severity.Success);
+
+                // Reload the forms list
+                await LoadForms();
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error duplicating form: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task DeleteForm(Guid formId, string formName)
+    {
+        var parameters = new DialogParameters
+        {
+            ["Content"] = $"Are you sure you want to delete '{formName}'? This action cannot be undone.",
+            ["ConfirmText"] = "Delete",
+            ["ConfirmColor"] = Color.Error
+        };
+
+        var options = new DialogOptions
+        {
+            MaxWidth = MaxWidth.Small,
+            CloseButton = false,
+            CloseOnEscapeKey = true
+        };
+
+        var dialog = await DialogService.ShowAsync<ConfirmDialog>("Delete Form", parameters, options);
+        var result = await dialog.Result;
+
+        // Check if user canceled or didn't confirm
+        if (result == null || result.Canceled)
+        {
+            return;
+        }
+
+        // Verify the user actually confirmed (Data should be true)
+        if (result.Data is not bool confirmed || !confirmed)
+        {
+            return;
+        }
+
+        try
+        {
+            // DELETE from API
+            var success = await ApiService.DeleteAsync($"templates/{formId}");
+            if (success)
+            {
+                Snackbar.Add($"'{formName}' deleted", Severity.Info);
+                await LoadForms();
+            }
+            else
+            {
+                Snackbar.Add($"Failed to delete '{formName}'", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error deleting form: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private string GetRelativeTime(DateTime dateTime)
+    {
+        var timeSpan = DateTime.UtcNow - dateTime;
+
+        if (timeSpan.TotalMinutes < 1)
+            return "just now";
+        if (timeSpan.TotalMinutes < 60)
+            return $"{(int)timeSpan.TotalMinutes} min ago";
+        if (timeSpan.TotalHours < 24)
+            return $"{(int)timeSpan.TotalHours} hours ago";
+        if (timeSpan.TotalDays < 7)
+            return $"{(int)timeSpan.TotalDays} days ago";
+        if (timeSpan.TotalDays < 30)
+            return $"{(int)(timeSpan.TotalDays / 7)} weeks ago";
+
+        return dateTime.ToString("MMM d, yyyy");
+    }
+}

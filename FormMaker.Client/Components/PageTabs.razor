@@ -1,0 +1,165 @@
+@using FormMaker.Shared.Models
+
+<div class="page-tabs-container" role="tablist" aria-label="Form pages">
+    @foreach (var page in Pages)
+    {
+        var pageName = page.Name;
+        var isActive = IsCurrentPage(page);
+
+        <div class="page-tab @(isActive ? "active" : "")"
+             role="tab"
+             tabindex="0"
+             aria-selected="@isActive"
+             aria-label="@pageName"
+             @onclick="() => OnPageClick(page)"
+             @onkeydown="@(e => HandleKeyDown(e, page))">
+
+            <span class="page-tab-name">@pageName</span>
+
+            @if (Pages.Count > 1)
+            {
+                <MudIconButton Icon="@Icons.Material.Filled.Close"
+                               Size="Size.Small"
+                               Class="page-tab-delete"
+                               OnClick="@(() => OnDeleteClick(page))"
+                               Title="Delete page"
+                               aria-label="@($"Delete {pageName}")" />
+            }
+        </div>
+    }
+
+    <button class="page-tab page-tab-add"
+            aria-label="Add new page"
+            @onclick="OnAddPageClick"
+            @onkeydown="HandleAddPageKeyDown">
+        <MudIcon Icon="@Icons.Material.Filled.Add" Size="Size.Small" />
+        <span>Add Page</span>
+    </button>
+</div>
+
+<style>
+    .page-tabs-container {
+        display: flex;
+        gap: 4px;
+        padding: 8px;
+        background-color: #f5f5f5;
+        border-bottom: 2px solid #e0e0e0;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .page-tab {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background-color: #fff;
+        border: 2px solid #e0e0e0;
+        border-radius: 6px 6px 0 0;
+        cursor: pointer;
+        user-select: none;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        min-width: 120px;
+    }
+
+    .page-tab:hover {
+        background-color: #f9f9f9;
+        border-color: #bdbdbd;
+    }
+
+    .page-tab:focus {
+        outline: 2px solid #1976d2;
+        outline-offset: 2px;
+    }
+
+    .page-tab.active {
+        background-color: #fff;
+        border-color: #1976d2;
+        border-bottom: 2px solid #fff;
+        margin-bottom: -2px;
+        font-weight: 600;
+        color: #1976d2;
+    }
+
+    .page-tab-name {
+        flex: 1;
+        font-size: 14px;
+    }
+
+    .page-tab-delete {
+        opacity: 0.6;
+        margin: -4px;
+    }
+
+    .page-tab-delete:hover {
+        opacity: 1;
+        background-color: #ffebee;
+    }
+
+    .page-tab-add {
+        background-color: transparent;
+        border-color: transparent;
+        color: #1976d2;
+        min-width: auto;
+    }
+
+    .page-tab-add:hover {
+        background-color: #e3f2fd;
+        border-color: #90caf9;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public List<FormPage> Pages { get; set; } = new();
+
+    [Parameter]
+    public int CurrentPageIndex { get; set; } = 0;
+
+    [Parameter]
+    public EventCallback<FormPage> OnPageSelected { get; set; }
+
+    [Parameter]
+    public EventCallback OnAddPage { get; set; }
+
+    [Parameter]
+    public EventCallback<FormPage> OnDeletePage { get; set; }
+
+    private bool IsCurrentPage(FormPage page)
+    {
+        var index = Pages.IndexOf(page);
+        return index == CurrentPageIndex;
+    }
+
+    private async Task OnPageClick(FormPage page)
+    {
+        await OnPageSelected.InvokeAsync(page);
+    }
+
+    private async Task OnAddPageClick()
+    {
+        await OnAddPage.InvokeAsync();
+    }
+
+    private async Task OnDeleteClick(FormPage page)
+    {
+        await OnDeletePage.InvokeAsync(page);
+    }
+
+    private async Task HandleKeyDown(KeyboardEventArgs e, FormPage page)
+    {
+        if (e.Code == "Enter" || e.Code == "Space")
+        {
+            await OnPageClick(page);
+        }
+    }
+
+    private async Task HandleAddPageKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Code == "Enter" || e.Code == "Space")
+        {
+            await OnAddPageClick();
+        }
+    }
+}

@@ -1,0 +1,301 @@
+/* Layout Polish & Smooth Transitions */
+
+/* Smooth transitions for all interactive elements */
+* {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Disable transitions for motion-sensitive users */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        transition: none !important;
+        animation-duration: 0.01ms !important;
+    }
+}
+
+/* Fixed header shadows */
+.mud-appbar {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Smooth hover effects for buttons */
+.mud-button-root:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 95, 204, 0.2) !important;
+}
+
+.mud-button-root:active {
+    transform: translateY(0);
+}
+
+/* Card hover effects */
+.mud-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
+}
+
+/* Better spacing for containers */
+.mud-container {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+}
+
+/* Responsive spacing */
+@media (min-width: 960px) {
+    .mud-container {
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+    }
+}
+
+/* Smooth paper elevation transitions */
+.mud-paper {
+    transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+/* Better focus states */
+.mud-input-root:focus-within {
+    transform: scale(1.01);
+}
+
+/* Smooth link transitions */
+a, .mud-link {
+    transition: color 0.2s ease, text-decoration 0.2s ease;
+}
+
+/* Chip animations */
+.mud-chip {
+    transition: all 0.2s ease;
+}
+
+.mud-chip:hover {
+    transform: scale(1.05);
+}
+
+/* Timeline smooth animations */
+.mud-timeline-item {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Better scrollbar styling */
+::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Smooth expansion panel transitions */
+.mud-expand-panel {
+    transition: all 0.3s ease;
+}
+
+/* Better divider spacing */
+.mud-divider {
+    margin: 16px 0 !important;
+}
+
+/* Icon button smooth interactions */
+.mud-icon-button:hover {
+    transform: scale(1.1);
+    background-color: rgba(0, 95, 204, 0.08) !important;
+}
+
+/* Text field focus effects */
+.mud-input-outlined:focus-within {
+    box-shadow: 0 0 0 2px rgba(0, 95, 204, 0.2);
+}
+
+/* Better spacing between grid items */
+.mud-grid-item {
+    padding: 12px !important;
+}
+
+/* Smooth alert transitions */
+.mud-alert {
+    transition: all 0.3s ease;
+}
+
+/* Better tab transitions */
+.mud-tabs .mud-tab {
+    transition: all 0.2s ease;
+}
+
+.mud-tabs .mud-tab:hover {
+    background-color: rgba(0, 95, 204, 0.04);
+}
+
+/* Smooth dialog animations */
+.mud-dialog {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Better snackbar positioning */
+.mud-snackbar {
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Smooth table row hover */
+.mud-table-row:hover {
+    background-color: rgba(0, 95, 204, 0.04) !important;
+}
+
+/* Better select transitions */
+.mud-select:hover {
+    background-color: rgba(0, 95, 204, 0.02);
+}
+
+/* Smooth checkbox/radio animations */
+.mud-checkbox:hover,
+.mud-radio:hover {
+    background-color: rgba(0, 95, 204, 0.04);
+    border-radius: 50%;
+}
+
+/* Canvas element smooth selections */
+.canvas-element {
+    transition: outline 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+}
+
+.canvas-element:hover {
+    outline: 1px dashed rgba(0, 95, 204, 0.3);
+}
+
+/* Better element library hover */
+.element-library-item {
+    transition: all 0.2s ease;
+}
+
+.element-library-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 95, 204, 0.15) !important;
+}
+
+/* Smooth navigation transitions */
+.mud-appbar .mud-button-root {
+    position: relative;
+    overflow: hidden;
+}
+
+.mud-appbar .mud-button-root::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background-color: currentColor;
+    transition: width 0.3s ease, left 0.3s ease;
+}
+
+.mud-appbar .mud-button-root:hover::after,
+.mud-appbar .mud-button-filled::after {
+    width: 80%;
+    left: 10%;
+}
+
+/* Smooth page transitions */
+body {
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Better spacing for headers */
+h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 0.75em;
+    line-height: 1.3;
+}
+
+/* Consistent padding for papers */
+.mud-paper {
+    padding: 24px;
+}
+
+@media (min-width: 960px) {
+    .mud-paper {
+        padding: 32px;
+    }
+}
+
+/* Better visual hierarchy */
+.mud-typography-h3 {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+}
+
+.mud-typography-h4 {
+    font-weight: 600;
+    letter-spacing: -0.3px;
+}
+
+.mud-typography-h5 {
+    font-weight: 600;
+}
+
+/* Smooth loading states */
+.mud-progress-circular {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Better mobile spacing */
+@media (max-width: 600px) {
+    .mud-container {
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+
+    h1, h2, h3 {
+        font-size: 1.5rem !important;
+    }
+}

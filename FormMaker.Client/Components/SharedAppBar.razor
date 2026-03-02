@@ -1,0 +1,129 @@
+@using FormMaker.Client.Services
+@inject NavigationManager Navigation
+@inject CustomAuthStateProvider AuthStateProvider
+@inject ISnackbar Snackbar
+
+<MudAppBar Elevation="2" Dense="false" Fixed="true" Style="height: 64px; z-index: 1300;" role="navigation" aria-label="Main navigation">
+    <MudButton Variant="Variant.Text"
+               Color="Color.Inherit"
+               OnClick='@(() => Navigation.NavigateTo(""))'
+               Style="font-size: 1.5rem; font-weight: 600; text-transform: none;"
+               aria-label="Form Maker home">
+        Form Maker
+    </MudButton>
+
+    <MudSpacer />
+
+    <!-- Main Navigation Links -->
+    <MudButton Variant="@GetVariant("/")"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.Home"
+               OnClick='@(() => Navigation.NavigateTo(""))'
+               Size="Size.Large"
+               Style="margin-left: 8px;">
+        Home
+    </MudButton>
+
+    <MudButton Variant="@GetVariant("/editor")"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.Edit"
+               OnClick='@(() => Navigation.NavigateTo("editor"))'
+               Size="Size.Large"
+               Style="margin-left: 8px;">
+        Editor
+    </MudButton>
+
+    <MudButton Variant="@GetVariant("/forms")"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.Folder"
+               OnClick='@(() => Navigation.NavigateTo("forms"))'
+               Size="Size.Large"
+               Style="margin-left: 8px;">
+        My Forms
+    </MudButton>
+
+    <MudButton Variant="@GetVariant("/templates")"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.Description"
+               OnClick='@(() => Navigation.NavigateTo("templates"))'
+               Size="Size.Large"
+               Style="margin-left: 8px;">
+        Templates
+    </MudButton>
+
+    <MudButton Variant="@GetVariant("/help")"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.Help"
+               OnClick='@(() => Navigation.NavigateTo("help"))'
+               Size="Size.Large"
+               Style="margin-left: 8px;">
+        Help
+    </MudButton>
+
+    <MudButton Variant="@GetVariant("/about")"
+               Color="Color.Primary"
+               StartIcon="@Icons.Material.Filled.Info"
+               OnClick='@(() => Navigation.NavigateTo("about"))'
+               Size="Size.Large"
+               Style="margin-left: 8px;">
+        About
+    </MudButton>
+
+    <MudSpacer />
+
+    <!-- Authentication UI -->
+    <AuthorizeView>
+        <Authorized>
+            <MudText Typo="Typo.body2" Class="mr-4">
+                Welcome, @context.User.Identity?.Name
+            </MudText>
+            <MudButton Variant="Variant.Outlined"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Logout"
+                       OnClick="HandleLogout"
+                       Size="Size.Large">
+                Logout
+            </MudButton>
+        </Authorized>
+        <NotAuthorized>
+            <MudButton Variant="Variant.Text"
+                       Color="Color.Inherit"
+                       OnClick='@(() => Navigation.NavigateTo("login"))'
+                       Size="Size.Large"
+                       Style="margin-left: 8px;">
+                Login
+            </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       OnClick='@(() => Navigation.NavigateTo("register"))'
+                       Size="Size.Large"
+                       Style="margin-left: 8px;">
+                Sign Up
+            </MudButton>
+        </NotAuthorized>
+    </AuthorizeView>
+</MudAppBar>
+
+@code {
+    private Variant GetVariant(string href)
+    {
+        var currentPath = new Uri(Navigation.Uri).LocalPath;
+
+        // Special handling for home page
+        if (href == "/" && currentPath == "/")
+            return Variant.Filled;
+
+        // For other pages, check if current path starts with href
+        if (href != "/" && currentPath.StartsWith(href, StringComparison.OrdinalIgnoreCase))
+            return Variant.Filled;
+
+        return Variant.Text;
+    }
+
+    private async Task HandleLogout()
+    {
+        await AuthStateProvider.MarkUserAsLoggedOut();
+        Snackbar.Add("You've been logged out successfully", Severity.Info);
+        Navigation.NavigateTo("login");
+    }
+}

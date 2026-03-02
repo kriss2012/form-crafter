@@ -1,0 +1,437 @@
+/*
+ * Form Maker - Accessibility-Focused Custom Theme
+ * Designed for elderly and non-technical users
+ * WCAG 2.1 AA Compliant
+ */
+
+:root {
+    /* Minimum font sizes for readability */
+    --base-font-size: 18px;
+    --large-font-size: 20px;
+    --heading-font-size: 24px;
+
+    /* Minimum touch target sizes */
+    --min-touch-target: 48px;
+    --button-height: 48px;
+    --input-height: 56px;
+
+    /* High contrast colors (4.5:1 minimum) */
+    --primary-color: #005fcc;
+    --primary-hover: #004399;
+    --text-primary: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --background: #ffffff;
+    --border-color: #cccccc;
+    --focus-outline: #005fcc;
+
+    /* Spacing */
+    --element-spacing: 12px;
+}
+
+/* Global font size increase */
+html {
+    font-size: var(--base-font-size);
+}
+
+body {
+    font-size: var(--base-font-size);
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+/* Large, clear buttons */
+.mud-button-root,
+.mud-fab,
+.mud-icon-button {
+    min-height: var(--button-height) !important;
+    min-width: var(--button-height) !important;
+    font-size: var(--base-font-size) !important;
+    font-weight: 500 !important;
+}
+
+/* Button text with icon spacing */
+.mud-button-root .mud-button-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Large form inputs */
+.mud-input-root,
+.mud-select,
+.mud-input-control {
+    min-height: var(--input-height) !important;
+}
+
+.mud-input-root input,
+.mud-input-root textarea {
+    font-size: var(--base-font-size) !important;
+    padding: 12px 16px !important;
+}
+
+/* Large checkboxes and radio buttons */
+.mud-checkbox-root,
+.mud-radio {
+    min-height: var(--min-touch-target) !important;
+    min-width: var(--min-touch-target) !important;
+}
+
+.mud-checkbox .mud-icon-root,
+.mud-radio .mud-icon-root {
+    font-size: 32px !important;
+}
+
+/* Spacing between interactive elements */
+.mud-button-root + .mud-button-root,
+.mud-input-control + .mud-input-control {
+    margin-left: var(--element-spacing);
+}
+
+/* Clear focus indicators for keyboard navigation */
+*:focus,
+*:focus-visible {
+    outline: 3px solid var(--focus-outline) !important;
+    outline-offset: 2px !important;
+}
+
+/* Remove default MudBlazor focus outline in favor of custom */
+.mud-button-root:focus,
+.mud-input-root:focus-within {
+    outline: 3px solid var(--focus-outline) !important;
+    outline-offset: 2px !important;
+}
+
+/* High contrast for links */
+a {
+    color: var(--primary-color);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+a:hover {
+    color: var(--primary-hover);
+}
+
+/* Larger tooltips */
+.mud-tooltip {
+    font-size: var(--base-font-size) !important;
+    padding: 12px 16px !important;
+    max-width: 300px;
+}
+
+/* Clear visual feedback for draggable elements */
+.draggable {
+    cursor: grab;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.draggable:active {
+    cursor: grabbing;
+}
+
+.draggable:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Element being dragged */
+.element-dragging {
+    opacity: 0.7;
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    cursor: grabbing !important;
+}
+
+/* Selected element on canvas */
+.element-selected {
+    outline: 3px solid var(--primary-color) !important;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+/* Canvas grid background */
+.canvas-grid {
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px);
+    background-size: 10px 10px;
+}
+
+/* Alignment guides */
+.alignment-guide {
+    position: absolute;
+    background-color: #ff4081;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.alignment-guide.vertical {
+    width: 2px;
+    height: 100%;
+}
+
+.alignment-guide.horizontal {
+    height: 2px;
+    width: 100%;
+}
+
+/* Smart spacing guides */
+.spacing-guide {
+    position: absolute;
+    background-color: #4CAF50;
+    z-index: 999;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.spacing-guide.vertical {
+    width: 2px;
+    height: 100%;
+}
+
+.spacing-guide.horizontal {
+    height: 2px;
+    width: 100%;
+}
+
+/* Position indicator tooltip */
+.position-indicator {
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: monospace;
+    pointer-events: none;
+    z-index: 10000;
+    white-space: nowrap;
+}
+
+/* Toolbar spacing */
+.toolbar {
+    display: flex;
+    gap: var(--element-spacing);
+    padding: 16px;
+    background-color: #f5f5f5;
+    border-bottom: 2px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+/* Element library sidebar */
+.element-library {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background-color: #fafafa;
+    border-right: 2px solid var(--border-color);
+    min-width: 280px;
+}
+
+.element-library-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    background-color: white;
+    cursor: grab;
+    transition: all 0.2s ease;
+    min-height: var(--min-touch-target);
+}
+
+.element-library-item:hover {
+    border-color: var(--primary-color);
+    background-color: #f0f7ff;
+    transform: translateX(4px);
+}
+
+.element-library-item .mud-icon-root {
+    font-size: 32px;
+    color: var(--primary-color);
+}
+
+.element-library-item span {
+    font-size: var(--base-font-size);
+    font-weight: 500;
+}
+
+/* Properties panel */
+.properties-panel {
+    padding: 16px;
+    background-color: #fafafa;
+    border-left: 2px solid var(--border-color);
+    min-width: 320px;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.properties-panel .mud-input-control {
+    margin-bottom: 16px;
+}
+
+/* Canvas container */
+.canvas-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 32px;
+    background-color: #e8e8e8;
+    overflow: auto;
+}
+
+.canvas {
+    background-color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    position: relative;
+    min-height: 800px;
+}
+
+/* A4 page size (for print) */
+.canvas.a4 {
+    width: 210mm;
+    height: 297mm;
+}
+
+/* US Letter page size */
+.canvas.letter {
+    width: 8.5in;
+    height: 11in;
+}
+
+/* Safe area margins indicator */
+.canvas-margins {
+    position: absolute;
+    top: 0.5in;
+    left: 0.5in;
+    right: 0.5in;
+    bottom: 0.5in;
+    border: 1px dashed #999;
+    pointer-events: none;
+}
+
+/* Snackbar (toast notifications) */
+.mud-snackbar {
+    font-size: var(--base-font-size) !important;
+    padding: 16px 20px !important;
+}
+
+/* Dialog boxes */
+.mud-dialog {
+    min-width: 400px;
+}
+
+.mud-dialog-title {
+    font-size: var(--heading-font-size) !important;
+    font-weight: 600;
+}
+
+.mud-dialog-content {
+    font-size: var(--base-font-size) !important;
+    line-height: 1.6;
+}
+
+/* Loading spinner */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Accessibility: Screen reader only text */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* Print styles */
+@media print {
+    .toolbar,
+    .element-library,
+    .properties-panel {
+        display: none !important;
+    }
+
+    .canvas {
+        box-shadow: none;
+        margin: 0;
+        page-break-after: always;
+    }
+
+    .canvas-margins {
+        display: none;
+    }
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+    :root {
+        --base-font-size: 16px;
+        --button-height: 44px;
+        --input-height: 52px;
+    }
+
+    .element-library {
+        min-width: 100%;
+        border-right: none;
+        border-bottom: 2px solid var(--border-color);
+    }
+
+    .properties-panel {
+        min-width: 100%;
+        border-left: none;
+        border-top: 2px solid var(--border-color);
+    }
+
+    .toolbar {
+        justify-content: center;
+    }
+
+    .canvas-container {
+        padding: 16px;
+    }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    :root {
+        --primary-color: #0000ff;
+        --text-primary: #000000;
+        --background: #ffffff;
+        --border-color: #000000;
+    }
+
+    .element-library-item,
+    .mud-button-root,
+    .canvas {
+        border-width: 3px !important;
+    }
+}
+
+/* Reduced motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "FormMaker.Api": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7032",
+      "launchBrowser": false
+    }
+  }
+}

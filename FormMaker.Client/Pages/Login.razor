@@ -1,0 +1,130 @@
+@page "/login"
+@using FormMaker.Client.Services
+@inject ApiService ApiService
+@inject CustomAuthStateProvider AuthStateProvider
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+
+<PageTitle>Login - Form Maker</PageTitle>
+
+<MudContainer MaxWidth="MaxWidth.Small" Class="mt-8">
+    <MudPaper Class="pa-8" Elevation="3">
+        <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true">
+            Welcome Back
+        </MudText>
+        <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Secondary" Class="mb-6">
+            Sign in to your Form Maker account
+        </MudText>
+
+        <EditForm Model="@loginModel" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+
+            <MudTextField @bind-Value="loginModel.Email"
+                          Label="Email"
+                          Variant="Variant.Outlined"
+                          InputType="InputType.Email"
+                          Required="true"
+                          Disabled="@isLoading"
+                          Class="mb-4"
+                          HelperText="Enter your email address" />
+
+            <MudTextField @bind-Value="loginModel.Password"
+                          Label="Password"
+                          Variant="Variant.Outlined"
+                          InputType="InputType.Password"
+                          Required="true"
+                          Disabled="@isLoading"
+                          Class="mb-6"
+                          HelperText="Enter your password" />
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <MudAlert Severity="Severity.Error" Class="mb-4">@errorMessage</MudAlert>
+            }
+
+            <MudButton ButtonType="ButtonType.Submit"
+                       Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       FullWidth="true"
+                       Size="Size.Large"
+                       Disabled="@isLoading"
+                       Class="mb-4">
+                @if (isLoading)
+                {
+                    <MudProgressCircular Class="mr-2" Size="Size.Small" Indeterminate="true" />
+                    <span>Signing In...</span>
+                }
+                else
+                {
+                    <span>Sign In</span>
+                }
+            </MudButton>
+        </EditForm>
+
+        <MudDivider Class="my-4" />
+
+        <MudText Typo="Typo.body2" Align="Align.Center">
+            Don't have an account?
+            <MudLink OnClick='@(() => Navigation.NavigateTo("register"))' Color="Color.Primary" Style="cursor: pointer;">Sign Up</MudLink>
+        </MudText>
+    </MudPaper>
+</MudContainer>
+
+@code {
+    private LoginModel loginModel = new();
+    private bool isLoading = false;
+    private string? errorMessage;
+
+    private class LoginModel
+    {
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
+    }
+
+    private async Task HandleLogin()
+    {
+        isLoading = true;
+        errorMessage = null;
+
+        try
+        {
+            var request = new LoginRequest
+            {
+                Email = loginModel.Email,
+                Password = loginModel.Password
+            };
+
+            var response = await ApiService.PostUnauthenticatedAsync<LoginRequest, AuthResponse>(
+                "auth/login",
+                request
+            );
+
+            if (response != null)
+            {
+                await AuthStateProvider.MarkUserAsAuthenticated(response.Token, response.User);
+                Snackbar.Add("Welcome back!", Severity.Success);
+                Navigation.NavigateTo("forms");
+            }
+        }
+        catch (HttpRequestException ex)
+        {
+            if (ex.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+            {
+                errorMessage = "Invalid email or password";
+            }
+            else
+            {
+                errorMessage = "Unable to connect to server. Please try again.";
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = "An error occurred. Please try again.";
+            Console.WriteLine($"Login error: {ex.Message}");
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+}

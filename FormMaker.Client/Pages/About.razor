@@ -1,0 +1,268 @@
+@page "/about"
+@using FormMaker.Client.Components
+
+<PageTitle>About - Form Maker</PageTitle>
+
+<SharedAppBar />
+
+<!-- Spacer for fixed header -->
+<div style="height: 64px;"></div>
+
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 32px; padding-bottom: 64px;">
+    <!-- Page Header -->
+    <div style="margin-bottom: 48px; text-align: center;">
+        <MudText Typo="Typo.h3" Style="font-weight: 600; margin-bottom: 16px;">About Form Maker</MudText>
+        <MudText Typo="Typo.body1" Color="Color.Secondary" Style="font-size: 20px;">
+            Building accessible forms for everyone
+        </MudText>
+    </div>
+
+    <MudGrid>
+        <!-- Mission Statement -->
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Style="padding: 48px; background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%); text-align: center;">
+                <div style="font-size: 64px; margin-bottom: 24px;">🎯</div>
+                <MudText Typo="Typo.h4" Style="font-weight: 600; margin-bottom: 24px;">Our Mission</MudText>
+                <MudText Typo="Typo.body1" Style="font-size: 20px; line-height: 1.8; max-width: 800px; margin: 0 auto; color: #4a4a4a;">
+                    Form Maker bridges the gap between powerful form creation tools and users who need simplicity.
+                    Whether it's creating a job application, authorization letter, or attendance sheet,
+                    Form Maker makes it accessible to everyone—especially those who find traditional software overwhelming.
+                </MudText>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Target Users -->
+        <MudItem xs="12" md="6">
+            <MudPaper Elevation="2" Style="padding: 32px; height: 100%;">
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                    <MudIcon Icon="@Icons.Material.Filled.People" Size="Size.Large" Color="Color.Primary" />
+                    Who We Serve
+                </MudText>
+
+                <MudList T="string" Dense="false" Style="font-size: 18px;">
+                    <MudListItem T="string" Icon="@Icons.Material.Filled.Accessibility">
+                        <MudText Typo="Typo.body1" Style="font-weight: 500;">Elderly Users</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Who need to create professional documents</MudText>
+                    </MudListItem>
+                    <MudDivider />
+                    <MudListItem T="string" Icon="@Icons.Material.Filled.Business">
+                        <MudText Typo="Typo.body1" Style="font-weight: 500;">Small Business Owners</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Without technical expertise</MudText>
+                    </MudListItem>
+                    <MudDivider />
+                    <MudListItem T="string" Icon="@Icons.Material.Filled.Work">
+                        <MudText Typo="Typo.body1" Style="font-weight: 500;">HR Departments</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Creating repetitive forms</MudText>
+                    </MudListItem>
+                    <MudDivider />
+                    <MudListItem T="string" Icon="@Icons.Material.Filled.Groups">
+                        <MudText Typo="Typo.body1" Style="font-weight: 500;">Community Organizations</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Needing printable and digital forms</MudText>
+                    </MudListItem>
+                </MudList>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Tech Stack -->
+        <MudItem xs="12" md="6">
+            <MudPaper Elevation="2" Style="padding: 32px; height: 100%;">
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Code" Size="Size.Large" Color="Color.Primary" />
+                    Technology Stack
+                </MudText>
+
+                <MudList T="string" Dense="false" Style="font-size: 18px;">
+                    <MudListItem T="string" Icon="@Icons.Material.Filled.Language">
+                        <MudText Typo="Typo.body1"><strong>Frontend:</strong> Blazor WebAssembly .NET 8</MudText>
+                    </MudListItem>
+                    <MudListItem T="string" Icon="@Icons.Material.Filled.Palette">
+                        <MudText Typo="Typo.body1"><strong>UI Framework:</strong> MudBlazor v8.13.0</MudText>
+                    </MudListItem>
+                    <MudListItem T="string" Icon="@Icons.Material.Filled.Cloud">
+                        <MudText Typo="Typo.body1"><strong>Hosting:</strong> Azure Static Web Apps</MudText>
+                    </MudListItem>
+                    <MudListItem T="string" Icon="@Icons.Material.Filled.Storage">
+                        <MudText Typo="Typo.body1"><strong>Storage:</strong> Browser LocalStorage (Phase 1)</MudText>
+                    </MudListItem>
+                    <MudListItem T="string" Icon="@Icons.Material.Filled.Api">
+                        <MudText Typo="Typo.body1"><strong>Backend:</strong> Azure Functions (Planned - Phase 3)</MudText>
+                    </MudListItem>
+                </MudList>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Design Principles -->
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Style="padding: 32px;">
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                    <MudIcon Icon="@Icons.Material.Filled.DesignServices" Size="Size.Large" Color="Color.Primary" />
+                    Design Principles
+                </MudText>
+
+                <MudGrid>
+                    <MudItem xs="12" md="4">
+                        <div style="padding: 24px; text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 16px;">♿</div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 12px;">Accessibility First</MudText>
+                            <MudText Style="color: #666; line-height: 1.7;">
+                                Large text and buttons, clear visual feedback, keyboard-friendly, and high contrast options.
+                            </MudText>
+                        </div>
+                    </MudItem>
+
+                    <MudItem xs="12" md="4">
+                        <div style="padding: 24px; text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 16px;">📚</div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 12px;">Progressive Disclosure</MudText>
+                            <MudText Style="color: #666; line-height: 1.7;">
+                                Complex features are hidden initially, revealed only when needed. Simple language in tooltips.
+                            </MudText>
+                        </div>
+                    </MudItem>
+
+                    <MudItem xs="12" md="4">
+                        <div style="padding: 24px; text-align: center;">
+                            <div style="font-size: 48px; margin-bottom: 16px;">🔄</div>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 12px;">Forgiving Design</MudText>
+                            <MudText Style="color: #666; line-height: 1.7;">
+                                Undo/redo for all actions, confirmation prompts for destructive actions, and auto-save to prevent data loss.
+                            </MudText>
+                        </div>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Development Roadmap -->
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Style="padding: 32px;">
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                    <MudIcon Icon="@Icons.Material.Filled.Map" Size="Size.Large" Color="Color.Primary" />
+                    Development Roadmap
+                </MudText>
+
+                <MudTimeline TimelinePosition="TimelinePosition.Start">
+                    <MudTimelineItem Color="Color.Success" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600;">Phase 1: MVP Foundation ✅</MudText>
+                            <MudText Style="color: #666; margin-top: 8px;">
+                                <strong>Status:</strong> 100% Complete<br/>
+                                Core editor, drag & drop, 4 element types, local storage, accessibility features
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Info" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600;">Phase 2: Enhanced Editor 🚧</MudText>
+                            <MudText Style="color: #666; margin-top: 8px;">
+                                <strong>Status:</strong> Planned<br/>
+                                More elements, undo/redo, resize handles, advanced styling, preview modes
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Default" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600;">Phase 3: Backend & Database</MudText>
+                            <MudText Style="color: #666; margin-top: 8px;">
+                                <strong>Status:</strong> Planned<br/>
+                                Azure Functions API, cloud storage, user authentication
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Default" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600;">Phase 4: Form Sharing & Submissions</MudText>
+                            <MudText Style="color: #666; margin-top: 8px;">
+                                <strong>Status:</strong> Planned<br/>
+                                Shareable links, public form filling, submission management, CSV/Excel export
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Default" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600;">Phase 5: PDF Generation</MudText>
+                            <MudText Style="color: #666; margin-top: 8px;">
+                                <strong>Status:</strong> Planned<br/>
+                                Export blank forms and filled submissions to professional PDFs
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+
+                    <MudTimelineItem Color="Color.Default" Size="Size.Large">
+                        <ItemContent>
+                            <MudText Typo="Typo.h6" Style="font-weight: 600;">Phase 6: UX Polish & Templates</MudText>
+                            <MudText Style="color: #666; margin-top: 8px;">
+                                <strong>Status:</strong> Planned<br/>
+                                Template gallery, interactive tutorial, pre-built form templates
+                            </MudText>
+                        </ItemContent>
+                    </MudTimelineItem>
+                </MudTimeline>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Open Source & Feedback -->
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Style="padding: 48px; text-align: center; background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);">
+                <div style="font-size: 64px; margin-bottom: 24px;">💚</div>
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 16px;">Open Source & Community</MudText>
+                <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 32px; font-size: 18px; line-height: 1.7; max-width: 700px; margin-left: auto; margin-right: auto;">
+                    Form Maker is an open-source project built with accessibility and user needs at its core.
+                    We welcome feedback, suggestions, and contributions from the community.
+                </MudText>
+
+                <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               Size="Size.Large"
+                               StartIcon="@Icons.Material.Filled.Code"
+                               Href="https://github.com/yourusername/form-maker"
+                               Target="_blank"
+                               Style="height: 56px; font-size: 18px;">
+                        View on GitHub
+                    </MudButton>
+
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Primary"
+                               Size="Size.Large"
+                               StartIcon="@Icons.Material.Filled.BugReport"
+                               Href="https://github.com/yourusername/form-maker/issues"
+                               Target="_blank"
+                               Style="height: 56px; font-size: 18px;">
+                        Report Issues
+                    </MudButton>
+
+                    <MudButton Variant="Variant.Outlined"
+                               Color="Color.Primary"
+                               Size="Size.Large"
+                               StartIcon="@Icons.Material.Filled.Chat"
+                               Href="https://github.com/yourusername/form-maker/discussions"
+                               Target="_blank"
+                               Style="height: 56px; font-size: 18px;">
+                        Discussions
+                    </MudButton>
+                </div>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Built With Love -->
+        <MudItem xs="12">
+            <div style="text-align: center; padding: 32px;">
+                <MudText Typo="Typo.body1" Style="color: #999; font-size: 18px;">
+                    Made with ❤️ for users who deserve accessible, user-friendly software
+                </MudText>
+                <MudText Typo="Typo.body2" Style="color: #ccc; margin-top: 8px;">
+                    Built with Claude Code
+                </MudText>
+            </div>
+        </MudItem>
+    </MudGrid>
+</MudContainer>
+
+@code {
+    // No code needed for about page
+}

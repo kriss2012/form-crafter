@@ -1,0 +1,262 @@
+@page "/accessibility-audit"
+@using FormMaker.Client.Services
+@inject AccessibilityAuditService AuditService
+@inject NavigationManager Navigation
+
+<MudContainer MaxWidth="MaxWidth.Large" Class="mt-4">
+    <MudText Typo="Typo.h3" Class="mb-4">Accessibility Audit Runner</MudText>
+
+    <MudPaper Class="pa-4 mb-4">
+        <MudText Typo="Typo.h6" Class="mb-2">WCAG 2.1 AA Compliance Testing</MudText>
+        <MudText Typo="Typo.body2" Class="mb-4">
+            This page allows you to run automated accessibility audits using axe-core.
+            Navigate to a page, then click "Run Audit" to test the current page.
+        </MudText>
+
+        <MudStack Row="true" Spacing="2">
+            <MudButton Variant="Variant.Filled" Color="Color.Primary"
+                       OnClick="RunAudit" Disabled="isRunning"
+                       aria-label="@(isRunning ? "Running accessibility audit" : "Run accessibility audit on current page")">
+                @if (isRunning)
+                {
+                    <MudProgressCircular Size="Size.Small" Indeterminate="true" Class="mr-2" aria-label="Loading audit results" />
+                    <span>Running Audit...</span>
+                }
+                else
+                {
+                    <span>Run Audit on Current Page</span>
+                }
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Secondary"
+                       OnClick="@(() => Navigation.NavigateTo(""))">
+                Go to Forms Page
+            </MudButton>
+
+            <MudButton Variant="Variant.Outlined" Color="Color.Secondary"
+                       OnClick="@(() => Navigation.NavigateTo("editor"))">
+                Go to Editor Page
+            </MudButton>
+        </MudStack>
+    </MudPaper>
+
+    @if (auditResult != null)
+    {
+        <MudPaper Class="pa-4 mb-4">
+            <MudText Typo="Typo.h5" Class="mb-3">Audit Results</MudText>
+
+            @if (!auditResult.Success)
+            {
+                <MudAlert Severity="Severity.Error">
+                    @auditResult.Error
+                </MudAlert>
+            }
+            else
+            {
+                <MudStack Spacing="2">
+                    <MudText Typo="Typo.body1">
+                        <strong>Timestamp:</strong> @auditResult.Timestamp
+                    </MudText>
+                    <MudText Typo="Typo.body1">
+                        <strong>URL:</strong> @auditResult.Url
+                    </MudText>
+
+                    <MudDivider Class="my-2" />
+
+                    <MudGrid>
+                        <MudItem xs="3">
+                            <MudPaper Class="pa-3" Style="background-color: #ffebee;">
+                                <MudText Typo="Typo.h4" Color="Color.Error">@(auditResult.Violations?.Count ?? 0)</MudText>
+                                <MudText Typo="Typo.body2">Violations</MudText>
+                            </MudPaper>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudPaper Class="pa-3" Style="background-color: #e8f5e9;">
+                                <MudText Typo="Typo.h4" Color="Color.Success">@auditResult.Passes</MudText>
+                                <MudText Typo="Typo.body2">Passes</MudText>
+                            </MudPaper>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudPaper Class="pa-3" Style="background-color: #fff3e0;">
+                                <MudText Typo="Typo.h4" Color="Color.Warning">@(auditResult.Incomplete?.Count ?? 0)</MudText>
+                                <MudText Typo="Typo.body2">Incomplete</MudText>
+                            </MudPaper>
+                        </MudItem>
+                        <MudItem xs="3">
+                            <MudPaper Class="pa-3" Style="background-color: #f5f5f5;">
+                                <MudText Typo="Typo.h4">@auditResult.Inapplicable</MudText>
+                                <MudText Typo="Typo.body2">Inapplicable</MudText>
+                            </MudPaper>
+                        </MudItem>
+                    </MudGrid>
+
+                    @if (auditResult.Violations != null && auditResult.Violations.Count > 0)
+                    {
+                        <MudDivider Class="my-3" />
+                        <MudText Typo="Typo.h6" Class="mb-2">Violations by Impact</MudText>
+
+                        <MudStack Row="true" Spacing="2">
+                            <MudChip T="string" Color="Color.Error" Size="Size.Small">
+                                Critical: @auditResult.Violations.Count(v => v.Impact == "critical")
+                            </MudChip>
+                            <MudChip T="string" Color="Color.Error" Size="Size.Small" Variant="Variant.Outlined">
+                                Serious: @auditResult.Violations.Count(v => v.Impact == "serious")
+                            </MudChip>
+                            <MudChip T="string" Color="Color.Warning" Size="Size.Small">
+                                Moderate: @auditResult.Violations.Count(v => v.Impact == "moderate")
+                            </MudChip>
+                            <MudChip T="string" Color="Color.Info" Size="Size.Small">
+                                Minor: @auditResult.Violations.Count(v => v.Impact == "minor")
+                            </MudChip>
+                        </MudStack>
+                    }
+                </MudStack>
+            }
+        </MudPaper>
+
+        @if (auditResult.Success && auditResult.Violations != null && auditResult.Violations.Count > 0)
+        {
+            <MudPaper Class="pa-4 mb-4">
+                <MudText Typo="Typo.h6" Class="mb-3">Violation Details</MudText>
+
+                @foreach (var violation in auditResult.Violations.OrderByDescending(v => GetImpactPriority(v.Impact)))
+                {
+                    <MudExpansionPanels Class="mb-2">
+                        <MudExpansionPanel>
+                            <TitleContent>
+                                <MudStack Row="true" AlignItems="AlignItems.Center" Spacing="2">
+                                    <MudChip T="string" Size="Size.Small" Color="@GetImpactColor(violation.Impact)">
+                                        @violation.Impact?.ToUpper()
+                                    </MudChip>
+                                    <MudText Typo="Typo.body1">@violation.Help</MudText>
+                                </MudStack>
+                            </TitleContent>
+                            <ChildContent>
+                                <MudStack Spacing="2">
+                                    <MudText Typo="Typo.body2">
+                                        <strong>ID:</strong> @violation.Id
+                                    </MudText>
+                                    <MudText Typo="Typo.body2">
+                                        <strong>Description:</strong> @violation.Description
+                                    </MudText>
+                                    <MudText Typo="Typo.body2">
+                                        <strong>WCAG Tags:</strong> @string.Join(", ", violation.Tags ?? new List<string>())
+                                    </MudText>
+                                    <MudText Typo="Typo.body2">
+                                        <strong>Affected Elements:</strong> @(violation.Nodes?.Count ?? 0)
+                                    </MudText>
+                                    <MudLink Href="@violation.HelpUrl" Target="_blank" Typo="Typo.body2">
+                                        Learn more about this violation
+                                    </MudLink>
+
+                                    @if (violation.Nodes != null && violation.Nodes.Count > 0)
+                                    {
+                                        <MudDivider Class="my-2" />
+                                        <MudText Typo="Typo.subtitle2" Class="mb-2">Affected HTML Elements:</MudText>
+                                        @foreach (var node in violation.Nodes.Take(3))
+                                        {
+                                            <MudPaper Class="pa-2 mb-2" Style="background-color: #f5f5f5;">
+                                                <MudText Typo="Typo.caption" Style="font-family: monospace; word-break: break-all;">
+                                                    @node.Html
+                                                </MudText>
+                                                @if (node.Target != null && node.Target.Count > 0)
+                                                {
+                                                    <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                                        Selector: @string.Join(" > ", node.Target)
+                                                    </MudText>
+                                                }
+                                            </MudPaper>
+                                        }
+                                        @if (violation.Nodes.Count > 3)
+                                        {
+                                            <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                                ... and @(violation.Nodes.Count - 3) more elements
+                                            </MudText>
+                                        }
+                                    }
+                                </MudStack>
+                            </ChildContent>
+                        </MudExpansionPanel>
+                    </MudExpansionPanels>
+                }
+            </MudPaper>
+        }
+
+        @if (auditResult.Success && auditResult.Incomplete != null && auditResult.Incomplete.Count > 0)
+        {
+            <MudPaper Class="pa-4 mb-4">
+                <MudText Typo="Typo.h6" Class="mb-3">Incomplete Checks (Require Manual Review)</MudText>
+                <MudText Typo="Typo.body2" Class="mb-3">
+                    These checks require manual verification to determine if they are violations.
+                </MudText>
+
+                @foreach (var item in auditResult.Incomplete)
+                {
+                    <MudAlert Severity="Severity.Warning" Class="mb-2">
+                        <MudText Typo="Typo.body2">
+                            <strong>[@(item.Impact?.ToUpper())]</strong> @item.Help
+                        </MudText>
+                        <MudText Typo="Typo.caption">
+                            ID: @item.Id | Elements: @item.Nodes
+                        </MudText>
+                    </MudAlert>
+                }
+            </MudPaper>
+        }
+
+        <MudPaper Class="pa-4">
+            <MudText Typo="Typo.h6" Class="mb-2">Full Report (Console Format)</MudText>
+            <MudTextField T="string"
+                          Value="@reportText"
+                          Lines="20"
+                          Variant="Variant.Outlined"
+                          ReadOnly="true"
+                          Style="font-family: monospace; font-size: 12px;" />
+        </MudPaper>
+    }
+</MudContainer>
+
+@code {
+    private bool isRunning = false;
+    private AuditResult? auditResult;
+    private string reportText = "";
+
+    private async Task RunAudit()
+    {
+        isRunning = true;
+        auditResult = null;
+        reportText = "";
+
+        // Small delay to let UI update
+        await Task.Delay(100);
+
+        auditResult = await AuditService.RunAuditAsync();
+        reportText = AuditService.GenerateReport(auditResult);
+
+        isRunning = false;
+    }
+
+    private Color GetImpactColor(string? impact)
+    {
+        return impact?.ToLower() switch
+        {
+            "critical" => Color.Error,
+            "serious" => Color.Error,
+            "moderate" => Color.Warning,
+            "minor" => Color.Info,
+            _ => Color.Default
+        };
+    }
+
+    private int GetImpactPriority(string? impact)
+    {
+        return impact?.ToLower() switch
+        {
+            "critical" => 4,
+            "serious" => 3,
+            "moderate" => 2,
+            "minor" => 1,
+            _ => 0
+        };
+    }
+}

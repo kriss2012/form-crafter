@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: formmaker-api
+    runtime: docker
+    repo: https://github.com/zyonify/form-crafter
+    region: oregon
+    branch: main
+    dockerfilePath: ./Dockerfile
+    dockerCommand: /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost
+    envVars:
+      - key: AzureWebJobsStorage
+        value: UseDevelopmentStorage=false
+      - key: FUNCTIONS_WORKER_RUNTIME
+        value: dotnet-isolated
+      - key: JwtSecret
+        generateValue: true
+      - key: JwtIssuer
+        value: FormMaker
+      - key: JwtAudience
+        value: FormMakerClient
+      - key: ConnectionStrings__FormMakerDb
+        value: Data Source=/app/data/formmaker.db
+    plan: free
+    healthCheckPath: /

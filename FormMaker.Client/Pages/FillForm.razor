@@ -1,0 +1,349 @@
+@page "/fill/{ShareLink}"
+@using FormMaker.Client.Services
+@using FormMaker.Shared.Models
+@using FormMaker.Shared.Models.Elements
+@using System.Text.Json
+@inject ApiService ApiService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<PageTitle>@(formData?.Title ?? "Loading...") - Form Maker</PageTitle>
+
+<!-- Header -->
+<MudAppBar Elevation="1" Dense="false" Style="background-color: #2196F3;">
+    <MudText Typo="Typo.h6" Style="color: white; font-weight: 600;">Form Maker</MudText>
+</MudAppBar>
+
+<!-- Spacer for fixed header -->
+<div style="height: 64px;"></div>
+
+<main aria-label="Fill form page">
+<MudContainer MaxWidth="MaxWidth.Medium" Style="padding-top: 32px; padding-bottom: 64px;">
+    @if (isLoading)
+    {
+        <!-- Loading State -->
+        <div style="text-align: center; padding: 64px 0;">
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+            <MudText Typo="Typo.body1" Style="margin-top: 16px;">Loading form...</MudText>
+        </div>
+    }
+    else if (errorMessage != null)
+    {
+        <!-- Error State -->
+        <MudAlert Severity="Severity.Error">
+            @errorMessage
+        </MudAlert>
+    }
+    else if (formData != null && template != null)
+    {
+        <!-- Form Header -->
+        <MudPaper Elevation="0" Style="padding: 24px; margin-bottom: 24px; background-color: #f5f5f5;">
+            <MudText Typo="Typo.h4" Style="font-weight: 600; margin-bottom: 8px;">
+                @formData.Title
+            </MudText>
+            @if (!string.IsNullOrEmpty(formData.Description))
+            {
+                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                    @formData.Description
+                </MudText>
+            }
+        </MudPaper>
+
+        <!-- Form Container -->
+        <MudPaper Elevation="2" Style="padding: 32px;">
+            <!-- Render form elements -->
+            <div style="position: relative; width: 100%; min-height: 400px;">
+                @foreach (var element in template.Elements)
+                {
+                    <div style="margin-bottom: 24px;">
+                        @RenderFormElement(element)
+                    </div>
+                }
+            </div>
+
+            <!-- Submit Button -->
+            <div style="margin-top: 32px; text-align: center;">
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Size="Size.Large"
+                           OnClick="SubmitForm"
+                           Disabled="@isSubmitting"
+                           StartIcon="@(isSubmitting ? null : Icons.Material.Filled.Send)">
+                    @if (isSubmitting)
+                    {
+                        <MudProgressCircular Size="Size.Small" Indeterminate="true" />
+                        <span style="margin-left: 8px;">Submitting...</span>
+                    }
+                    else
+                    {
+                        <span>Submit Form</span>
+                    }
+                </MudButton>
+            </div>
+        </MudPaper>
+
+        <!-- Success Message -->
+        @if (isSubmitted)
+        {
+            <MudAlert Severity="Severity.Success" Class="mt-4">
+                <MudText Typo="Typo.h6">Thank you!</MudText>
+                <MudText Typo="Typo.body1">Your form has been submitted successfully.</MudText>
+            </MudAlert>
+        }
+    }
+</MudContainer>
+</main>
+
+@code {
+    [Parameter]
+    public string? ShareLink { get; set; }
+
+    private bool isLoading = true;
+    private bool isSubmitting = false;
+    private bool isSubmitted = false;
+    private string? errorMessage;
+    private PublicFormResponse? formData;
+    private FormTemplate? template;
+    private Dictionary<string, object> formValues = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadForm();
+    }
+
+    private async Task LoadForm()
+    {
+        if (string.IsNullOrEmpty(ShareLink))
+        {
+            errorMessage = "Invalid share link";
+            isLoading = false;
+            return;
+        }
+
+        try
+        {
+            formData = await ApiService.GetFormByShareLinkAsync(ShareLink);
+
+            if (formData == null)
+            {
+                errorMessage = "Form not found or has expired";
+                isLoading = false;
+                return;
+            }
+
+            // Deserialize template data
+            template = JsonSerializer.Deserialize<FormTemplate>(formData.TemplateJsonData);
+
+            if (template == null)
+            {
+                errorMessage = "Invalid form template";
+                isLoading = false;
+                return;
+            }
+
+            // Initialize form values
+            foreach (var element in template.Elements)
+            {
+                formValues[element.Id.ToString()] = GetDefaultValue(element);
+            }
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading form: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private object GetDefaultValue(FormElement element)
+    {
+        return element switch
+        {
+            CheckboxElement checkbox => checkbox.DefaultChecked,
+            TextInputElement => "",
+            TextAreaElement => "",
+            DropdownElement => "",
+            RadioGroupElement => "",
+            DatePickerElement => (DateTime?)null,
+            _ => ""
+        };
+    }
+
+    private RenderFragment RenderFormElement(FormElement element)
+    {
+        return builder =>
+        {
+            var elementId = element.Id.ToString();
+
+            switch (element)
+            {
+                case LabelElement label:
+                    builder.OpenComponent<MudText>(0);
+                    builder.AddAttribute(1, "Typo", Typo.h6);
+                    builder.AddAttribute(2, "ChildContent", (RenderFragment)(b => b.AddContent(3, label.Text)));
+                    builder.CloseComponent();
+                    break;
+
+                case TextInputElement textInput:
+                    builder.OpenComponent<MudTextField<string>>(0);
+                    builder.AddAttribute(1, "Label", textInput.Label ?? "Text Input");
+                    builder.AddAttribute(2, "Placeholder", textInput.Placeholder);
+                    builder.AddAttribute(3, "Required", textInput.IsRequired);
+                    builder.AddAttribute(4, "Variant", Variant.Outlined);
+                    builder.AddAttribute(5, "Value", formValues.ContainsKey(elementId) ? formValues[elementId] as string : "");
+                    builder.AddAttribute(6, "ValueChanged", EventCallback.Factory.Create<string>(this, value => formValues[elementId] = value));
+                    builder.CloseComponent();
+                    break;
+
+                case TextAreaElement textArea:
+                    builder.OpenComponent<MudTextField<string>>(0);
+                    builder.AddAttribute(1, "Label", textArea.Label ?? "Text Area");
+                    builder.AddAttribute(2, "Placeholder", textArea.Placeholder);
+                    builder.AddAttribute(3, "Required", textArea.IsRequired);
+                    builder.AddAttribute(4, "Variant", Variant.Outlined);
+                    builder.AddAttribute(5, "Lines", textArea.Rows);
+                    builder.AddAttribute(6, "Value", formValues.ContainsKey(elementId) ? formValues[elementId] as string : "");
+                    builder.AddAttribute(7, "ValueChanged", EventCallback.Factory.Create<string>(this, value => formValues[elementId] = value));
+                    builder.CloseComponent();
+                    break;
+
+                case CheckboxElement checkbox:
+                    builder.OpenComponent<MudCheckBox<bool>>(0);
+                    builder.AddAttribute(1, "Label", checkbox.Label ?? "Checkbox");
+                    builder.AddAttribute(2, "Required", checkbox.IsRequired);
+                    builder.AddAttribute(3, "Color", Color.Primary);
+                    builder.AddAttribute(4, "Checked", formValues.ContainsKey(elementId) && (bool)formValues[elementId]);
+                    builder.AddAttribute(5, "CheckedChanged", EventCallback.Factory.Create<bool>(this, value => formValues[elementId] = value));
+                    builder.CloseComponent();
+                    break;
+
+                case DropdownElement dropdown:
+                    builder.OpenComponent<MudSelect<string>>(0);
+                    builder.AddAttribute(1, "Label", dropdown.Label ?? "Select");
+                    builder.AddAttribute(2, "Required", dropdown.IsRequired);
+                    builder.AddAttribute(3, "Variant", Variant.Outlined);
+                    builder.AddAttribute(4, "Value", formValues.ContainsKey(elementId) ? formValues[elementId] as string : "");
+                    builder.AddAttribute(5, "ValueChanged", EventCallback.Factory.Create<string>(this, value => formValues[elementId] = value));
+                    builder.AddAttribute(6, "ChildContent", (RenderFragment)(b2 =>
+                    {
+                        foreach (var option in dropdown.Options)
+                        {
+                            b2.OpenComponent<MudSelectItem<string>>(0);
+                            b2.AddAttribute(1, "Value", option);
+                            b2.AddAttribute(2, "ChildContent", (RenderFragment)(b3 => b3.AddContent(3, option)));
+                            b2.CloseComponent();
+                        }
+                    }));
+                    builder.CloseComponent();
+                    break;
+
+                case RadioGroupElement radioGroup:
+                    builder.OpenComponent<MudRadioGroup<string>>(0);
+                    builder.AddAttribute(1, "T", typeof(string));
+                    builder.AddAttribute(2, "Required", radioGroup.IsRequired);
+                    builder.AddAttribute(3, "SelectedOption", formValues.ContainsKey(elementId) ? formValues[elementId] as string : "");
+                    builder.AddAttribute(4, "SelectedOptionChanged", EventCallback.Factory.Create<string>(this, value => formValues[elementId] = value));
+                    builder.AddAttribute(5, "ChildContent", (RenderFragment)(b2 =>
+                    {
+                        b2.OpenElement(0, "div");
+                        b2.AddContent(1, (RenderFragment)(b3 =>
+                        {
+                            b3.OpenComponent<MudText>(0);
+                            b3.AddAttribute(1, "Typo", Typo.body2);
+                            b3.AddAttribute(2, "ChildContent", (RenderFragment)(b4 => b4.AddContent(3, radioGroup.Label ?? "Radio Group")));
+                            b3.CloseComponent();
+                        }));
+                        foreach (var option in radioGroup.Options)
+                        {
+                            b2.OpenComponent<MudRadio<string>>(0);
+                            b2.AddAttribute(1, "Option", option);
+                            b2.AddAttribute(2, "Color", Color.Primary);
+                            b2.AddAttribute(3, "ChildContent", (RenderFragment)(b3 => b3.AddContent(4, option)));
+                            b2.CloseComponent();
+                        }
+                        b2.CloseElement();
+                    }));
+                    builder.CloseComponent();
+                    break;
+
+                case DatePickerElement datePicker:
+                    builder.OpenComponent<MudDatePicker>(0);
+                    builder.AddAttribute(1, "Label", datePicker.Label ?? "Date");
+                    builder.AddAttribute(2, "Required", datePicker.IsRequired);
+                    builder.AddAttribute(3, "Variant", Variant.Outlined);
+                    builder.AddAttribute(4, "Date", formValues.ContainsKey(elementId) ? formValues[elementId] as DateTime? : null);
+                    builder.AddAttribute(5, "DateChanged", EventCallback.Factory.Create<DateTime?>(this, value => formValues[elementId] = value));
+                    builder.CloseComponent();
+                    break;
+
+                case ImageElement image:
+                    if (!string.IsNullOrEmpty(image.ImageUrl))
+                    {
+                        builder.OpenElement(0, "img");
+                        builder.AddAttribute(1, "src", image.ImageUrl);
+                        builder.AddAttribute(2, "alt", image.AltText ?? "Image");
+                        builder.AddAttribute(3, "style", $"max-width: 100%; height: auto;");
+                        builder.CloseElement();
+                    }
+                    break;
+
+                case DividerElement:
+                    builder.OpenComponent<MudDivider>(0);
+                    builder.CloseComponent();
+                    break;
+
+                default:
+                    builder.OpenComponent<MudAlert>(0);
+                    builder.AddAttribute(1, "Severity", Severity.Info);
+                    builder.AddAttribute(2, "ChildContent", (RenderFragment)(b => b.AddContent(3, $"Element type '{element.Type}' not supported in form fill mode")));
+                    builder.CloseComponent();
+                    break;
+            }
+        };
+    }
+
+    private async Task SubmitForm()
+    {
+        if (isSubmitting || isSubmitted || ShareLink == null)
+            return;
+
+        isSubmitting = true;
+
+        try
+        {
+            // Serialize form values to JSON
+            var jsonData = System.Text.Json.JsonSerializer.Serialize(formValues);
+
+            // Create submission request
+            var request = new SubmitFormRequest
+            {
+                JsonData = jsonData,
+                SubmitterEmail = null // Could add email field to form if needed
+            };
+
+            // Submit to API
+            var result = await ApiService.SubmitFormAsync(ShareLink, request);
+
+            if (result != null)
+            {
+                isSubmitted = true;
+                Snackbar.Add("Form submitted successfully!", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("Failed to submit form. Please try again.", Severity.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error submitting form: {ex.Message}", Severity.Error);
+        }
+        finally
+        {
+            isSubmitting = false;
+        }
+    }
+}

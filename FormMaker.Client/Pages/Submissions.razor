@@ -1,0 +1,453 @@
+@page "/submissions/{FormId}"
+@using FormMaker.Client.Services
+@using FormMaker.Client.Components
+@using System.Text.Json
+@inject ApiService ApiService
+@inject ISnackbar Snackbar
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<PageTitle>Submissions - Form Maker</PageTitle>
+
+<!-- Global Navigation -->
+<SharedAppBar />
+
+<!-- Spacer for fixed header -->
+<div style="height: 64px;"></div>
+
+<main aria-label="Form submissions page">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 32px; padding-bottom: 32px;">
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <div>
+            <MudButton StartIcon="@Icons.Material.Filled.ArrowBack"
+                       Variant="Variant.Text"
+                       OnClick='@(() => Navigation.NavigateTo("/forms"))'>
+                Back to My Forms
+            </MudButton>
+            <MudText Typo="Typo.h3" Style="font-weight: 600; margin-top: 16px;">
+                Form Submissions
+            </MudText>
+            @if (submissionsData != null)
+            {
+                <MudText Typo="Typo.body1" Color="Color.Secondary">
+                    @submissionsData.TotalCount total submissions
+                </MudText>
+            }
+        </div>
+
+        <div>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       StartIcon="@Icons.Material.Filled.Download"
+                       OnClick="ExportToCsv"
+                       Disabled="@isLoading">
+                Export CSV
+            </MudButton>
+        </div>
+    </div>
+
+    <!-- Analytics Summary -->
+    @if (submissionsData != null && submissionsData.TotalCount > 0)
+    {
+        <MudPaper Elevation="1" Style="padding: 24px; margin-bottom: 24px;">
+            <MudText Typo="Typo.h6" Style="margin-bottom: 16px;">Analytics</MudText>
+            <MudGrid>
+                <MudItem xs="12" sm="6" md="3">
+                    <div style="text-align: center;">
+                        <MudIcon Icon="@Icons.Material.Filled.Assignment" Color="Color.Primary" Size="Size.Large" />
+                        <MudText Typo="Typo.h4" Style="margin-top: 8px;">@submissionsData.TotalCount</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Total Submissions</MudText>
+                    </div>
+                </MudItem>
+                <MudItem xs="12" sm="6" md="3">
+                    <div style="text-align: center;">
+                        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" Size="Size.Large" />
+                        <MudText Typo="Typo.h4" Style="margin-top: 8px;">@reviewedCount</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Reviewed</MudText>
+                    </div>
+                </MudItem>
+                <MudItem xs="12" sm="6" md="3">
+                    <div style="text-align: center;">
+                        <MudIcon Icon="@Icons.Material.Filled.PendingActions" Color="Color.Warning" Size="Size.Large" />
+                        <MudText Typo="Typo.h4" Style="margin-top: 8px;">@pendingCount</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Pending</MudText>
+                    </div>
+                </MudItem>
+                <MudItem xs="12" sm="6" md="3">
+                    <div style="text-align: center;">
+                        <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Info" Size="Size.Large" />
+                        <MudText Typo="Typo.h4" Style="margin-top: 8px;">@recentCount</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">Last 7 Days</MudText>
+                    </div>
+                </MudItem>
+            </MudGrid>
+        </MudPaper>
+    }
+
+    <!-- Filters -->
+    <MudPaper Elevation="1" Style="padding: 16px; margin-bottom: 24px;">
+        <MudText Typo="Typo.h6" Style="margin-bottom: 16px;">Filters</MudText>
+        <MudGrid>
+            <MudItem xs="12" sm="6" md="3">
+                <MudDatePicker Label="Start Date"
+                               @bind-Date="startDate"
+                               Variant="Variant.Outlined"
+                               Clearable="true" />
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudDatePicker Label="End Date"
+                               @bind-Date="endDate"
+                               Variant="Variant.Outlined"
+                               Clearable="true" />
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudSelect T="string"
+                           Label="Status"
+                           @bind-Value="reviewStatusFilter"
+                           Variant="Variant.Outlined"
+                           Clearable="true">
+                    <MudSelectItem T="string" Value="@("all")">All</MudSelectItem>
+                    <MudSelectItem T="string" Value="@("reviewed")">Reviewed</MudSelectItem>
+                    <MudSelectItem T="string" Value="@("pending")">Pending</MudSelectItem>
+                </MudSelect>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudTextField T="string"
+                              Label="Search Email"
+                              @bind-Value="emailSearch"
+                              Variant="Variant.Outlined"
+                              Clearable="true"
+                              Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Search" />
+            </MudItem>
+        </MudGrid>
+        <div style="margin-top: 16px; text-align: right;">
+            <MudButton Variant="Variant.Text"
+                       OnClick="ClearFilters"
+                       StartIcon="@Icons.Material.Filled.Clear">
+                Clear Filters
+            </MudButton>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       OnClick="ApplyFilters"
+                       StartIcon="@Icons.Material.Filled.FilterList">
+                Apply Filters
+            </MudButton>
+        </div>
+    </MudPaper>
+
+    @if (isLoading)
+    {
+        <!-- Loading State -->
+        <div style="text-align: center; padding: 64px 0;">
+            <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" />
+            <MudText Typo="Typo.body1" Style="margin-top: 16px;">Loading submissions...</MudText>
+        </div>
+    }
+    else if (errorMessage != null)
+    {
+        <!-- Error State -->
+        <MudAlert Severity="Severity.Error">
+            @errorMessage
+        </MudAlert>
+    }
+    else if (submissionsData == null || submissionsData.Submissions.Count == 0)
+    {
+        <!-- Empty State -->
+        <MudPaper Elevation="0" Style="text-align: center; padding: 64px 32px; background-color: #fafafa;">
+            <MudIcon Icon="@Icons.Material.Filled.Inbox" Size="Size.Large" Style="font-size: 96px; color: #757575; margin-bottom: 16px;" />
+            <MudText Typo="Typo.h5" Style="margin-bottom: 16px; color: #666;">No Submissions Yet</MudText>
+            <MudText Typo="Typo.body1" Style="margin-bottom: 32px; color: #757575;">
+                Share your form to start receiving submissions.
+            </MudText>
+        </MudPaper>
+    }
+    else
+    {
+        <!-- Submissions Table -->
+        <MudTable Items="@submissionsData.Submissions" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@isLoading">
+            <HeaderContent>
+                <MudTh>Submitted</MudTh>
+                <MudTh>Email</MudTh>
+                <MudTh>IP Address</MudTh>
+                <MudTh>Status</MudTh>
+                <MudTh>Actions</MudTh>
+            </HeaderContent>
+            <RowTemplate>
+                <MudTd DataLabel="Submitted">
+                    <MudText Typo="Typo.body2">
+                        @context.SubmittedAt.ToLocalTime().ToString("MMM d, yyyy")
+                    </MudText>
+                    <MudText Typo="Typo.caption" Color="Color.Secondary">
+                        @context.SubmittedAt.ToLocalTime().ToString("h:mm tt")
+                    </MudText>
+                </MudTd>
+                <MudTd DataLabel="Email">
+                    @(context.SubmitterEmail ?? "Anonymous")
+                </MudTd>
+                <MudTd DataLabel="IP Address">
+                    @(context.IpAddress ?? "N/A")
+                </MudTd>
+                <MudTd DataLabel="Status">
+                    @if (context.IsReviewed)
+                    {
+                        <MudChip T="string" Size="Size.Small" Color="Color.Success">Reviewed</MudChip>
+                    }
+                    else
+                    {
+                        <MudChip T="string" Size="Size.Small" Color="Color.Default">Pending</MudChip>
+                    }
+                </MudTd>
+                <MudTd DataLabel="Actions">
+                    <MudButtonGroup Variant="Variant.Outlined" Size="Size.Small">
+                        <MudButton OnClick="@(() => ViewSubmission(context))">
+                            View
+                        </MudButton>
+                        @if (!context.IsReviewed)
+                        {
+                            <MudButton OnClick="@(() => MarkAsReviewed(context.Id))">
+                                Mark Reviewed
+                            </MudButton>
+                        }
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                       Color="Color.Error"
+                                       Size="Size.Small"
+                                       OnClick="@(() => DeleteSubmission(context.Id))" />
+                    </MudButtonGroup>
+                </MudTd>
+            </RowTemplate>
+        </MudTable>
+
+        <!-- Pagination -->
+        @if (submissionsData.TotalPages > 1)
+        {
+            <div style="display: flex; justify-content: center; margin-top: 24px;">
+                <MudPagination Count="@submissionsData.TotalPages"
+                               Selected="@currentPage"
+                               SelectedChanged="@((int page) => OnPageChanged(page))"
+                               ShowFirstButton="true"
+                               ShowLastButton="true" />
+            </div>
+        }
+    }
+</MudContainer>
+</main>
+
+<!-- Submission Detail Dialog -->
+@if (selectedSubmission != null)
+{
+    <MudDialog @bind-IsVisible="showDetailDialog" Options="dialogOptions">
+        <TitleContent>
+            <MudText Typo="Typo.h6">Submission Details</MudText>
+        </TitleContent>
+        <DialogContent>
+            <MudText Typo="Typo.body2" Style="margin-bottom: 8px;">
+                <strong>Submitted:</strong> @selectedSubmission.SubmittedAt.ToLocalTime().ToString("MMMM d, yyyy h:mm tt")
+            </MudText>
+            <MudText Typo="Typo.body2" Style="margin-bottom: 8px;">
+                <strong>Email:</strong> @(selectedSubmission.SubmitterEmail ?? "Anonymous")
+            </MudText>
+            <MudText Typo="Typo.body2" Style="margin-bottom: 16px;">
+                <strong>IP:</strong> @(selectedSubmission.IpAddress ?? "N/A")
+            </MudText>
+
+            <MudDivider Class="my-4" />
+
+            <MudText Typo="Typo.h6" Style="margin-bottom: 16px;">Form Data</MudText>
+
+            @if (submissionFormData != null)
+            {
+                <div style="background-color: #f5f5f5; padding: 16px; border-radius: 4px; max-height: 400px; overflow-y: auto;">
+                    @foreach (var item in submissionFormData)
+                    {
+                        <MudText Typo="Typo.body2" Style="margin-bottom: 8px;">
+                            <strong>@item.Key:</strong> @item.Value
+                        </MudText>
+                    }
+                </div>
+            }
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="@(() => showDetailDialog = false)">Close</MudButton>
+        </DialogActions>
+    </MudDialog>
+}
+
+@code {
+    [Parameter]
+    public string? FormId { get; set; }
+
+    private SubmissionListResponse? submissionsData;
+    private bool isLoading = true;
+    private string? errorMessage;
+    private int currentPage = 1;
+    private const int PageSize = 20;
+
+    private SubmissionResponse? selectedSubmission;
+    private Dictionary<string, object>? submissionFormData;
+    private bool showDetailDialog = false;
+    private DialogOptions dialogOptions = new() { MaxWidth = MaxWidth.Medium, FullWidth = true };
+
+    // Filter variables
+    private DateTime? startDate;
+    private DateTime? endDate;
+    private string? reviewStatusFilter = "all";
+    private string? emailSearch;
+
+    // Analytics variables
+    private int reviewedCount => submissionsData?.Submissions.Count(s => s.IsReviewed) ?? 0;
+    private int pendingCount => submissionsData?.Submissions.Count(s => !s.IsReviewed) ?? 0;
+    private int recentCount => submissionsData?.Submissions.Count(s => s.SubmittedAt >= DateTime.UtcNow.AddDays(-7)) ?? 0;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadSubmissions();
+    }
+
+    private async Task LoadSubmissions()
+    {
+        if (string.IsNullOrEmpty(FormId) || !Guid.TryParse(FormId, out var formGuid))
+        {
+            errorMessage = "Invalid form ID";
+            isLoading = false;
+            return;
+        }
+
+        isLoading = true;
+        errorMessage = null;
+
+        try
+        {
+            // Determine review status filter
+            bool? isReviewedFilter = reviewStatusFilter switch
+            {
+                "reviewed" => true,
+                "pending" => false,
+                _ => null
+            };
+
+            submissionsData = await ApiService.GetSubmissionsByFormAsync(
+                formGuid,
+                currentPage,
+                PageSize,
+                startDate,
+                endDate,
+                isReviewedFilter,
+                emailSearch);
+        }
+        catch (Exception ex)
+        {
+            errorMessage = $"Error loading submissions: {ex.Message}";
+        }
+        finally
+        {
+            isLoading = false;
+        }
+    }
+
+    private async Task OnPageChanged(int page)
+    {
+        currentPage = page;
+        await LoadSubmissions();
+    }
+
+    private void ViewSubmission(SubmissionResponse submission)
+    {
+        selectedSubmission = submission;
+
+        try
+        {
+            // Deserialize JSON data
+            submissionFormData = JsonSerializer.Deserialize<Dictionary<string, object>>(submission.JsonData);
+        }
+        catch
+        {
+            submissionFormData = new Dictionary<string, object>
+            {
+                { "Raw Data", submission.JsonData }
+            };
+        }
+
+        showDetailDialog = true;
+    }
+
+    private async Task MarkAsReviewed(Guid submissionId)
+    {
+        try
+        {
+            var result = await ApiService.ReviewSubmissionAsync(submissionId);
+            if (result != null)
+            {
+                Snackbar.Add("Submission marked as reviewed", Severity.Success);
+                await LoadSubmissions(); // Reload to update status
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task DeleteSubmission(Guid submissionId)
+    {
+        try
+        {
+            var success = await ApiService.DeleteSubmissionAsync(submissionId);
+            if (success)
+            {
+                Snackbar.Add("Submission deleted", Severity.Info);
+                await LoadSubmissions(); // Reload list
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task ExportToCsv()
+    {
+        if (string.IsNullOrEmpty(FormId) || !Guid.TryParse(FormId, out var formGuid))
+        {
+            Snackbar.Add("Invalid form ID", Severity.Error);
+            return;
+        }
+
+        try
+        {
+            var csv = await ApiService.ExportSubmissionsToCsvAsync(formGuid);
+            if (!string.IsNullOrEmpty(csv))
+            {
+                // Trigger download via JS Interop
+                var fileName = $"submissions-{formGuid}.csv";
+                await JSRuntime.InvokeVoidAsync("downloadFile", fileName, csv, "text/csv");
+                Snackbar.Add("CSV exported successfully", Severity.Success);
+            }
+            else
+            {
+                Snackbar.Add("No data to export", Severity.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add($"Error exporting: {ex.Message}", Severity.Error);
+        }
+    }
+
+    private async Task ApplyFilters()
+    {
+        currentPage = 1; // Reset to first page when filtering
+        await LoadSubmissions();
+    }
+
+    private async Task ClearFilters()
+    {
+        startDate = null;
+        endDate = null;
+        reviewStatusFilter = "all";
+        emailSearch = null;
+        currentPage = 1;
+        await LoadSubmissions();
+    }
+}

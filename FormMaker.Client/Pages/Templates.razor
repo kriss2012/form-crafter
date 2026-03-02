@@ -1,0 +1,148 @@
+@page "/templates"
+@using FormMaker.Client.Components
+@inject NavigationManager Navigation
+
+<PageTitle>Template Gallery - Form Maker</PageTitle>
+
+<SharedAppBar />
+
+<!-- Spacer for fixed header -->
+<div style="height: 64px;"></div>
+
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 32px; padding-bottom: 64px;">
+    <!-- Page Header -->
+    <div style="margin-bottom: 48px;">
+        <MudText Typo="Typo.h3" Style="font-weight: 600; margin-bottom: 16px;">Template Gallery</MudText>
+        <MudText Typo="Typo.body1" Color="Color.Secondary" Style="font-size: 20px;">
+            Choose from pre-built templates to get started quickly
+        </MudText>
+    </div>
+
+    <!-- Category Tabs (for future use) -->
+    <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" Style="margin-bottom: 32px;">
+        <MudTabPanel Text="All" Icon="@Icons.Material.Filled.Apps" />
+        <MudTabPanel Text="Business" Icon="@Icons.Material.Filled.Business" />
+        <MudTabPanel Text="Legal" Icon="@Icons.Material.Filled.Gavel" />
+        <MudTabPanel Text="HR" Icon="@Icons.Material.Filled.People" />
+        <MudTabPanel Text="Events" Icon="@Icons.Material.Filled.Event" />
+        <MudTabPanel Text="General" Icon="@Icons.Material.Filled.Description" />
+    </MudTabs>
+
+    <!-- Coming Soon State (Phase 6) -->
+    <MudPaper Elevation="2" Style="padding: 80px 32px; text-align: center; background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);">
+        <div style="font-size: 96px; margin-bottom: 24px;">📄</div>
+        <MudText Typo="Typo.h4" Style="font-weight: 600; margin-bottom: 16px;">
+            Templates Coming Soon!
+        </MudText>
+        <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 32px; font-size: 18px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.7;">
+            We're working on creating a collection of professional templates including job applications,
+            authorization letters, consent forms, event registrations, and more.
+        </MudText>
+        <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 32px; font-size: 18px;">
+            <strong>Planned for Phase 6 (Story 6.5)</strong>
+        </MudText>
+
+        <!-- Preview of planned templates -->
+        <div style="margin-top: 48px;">
+            <MudText Typo="Typo.h6" Style="margin-bottom: 24px; color: #666;">
+                Planned Templates:
+            </MudText>
+            <MudGrid Justify="Justify.Center">
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Job Application</MudChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Authorization Letter</MudChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Consent Form</MudChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Event Registration</MudChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Leave Request</MudChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Purchase Order</MudChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Feedback Form</MudChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Attendance Sheet</MudChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Quotation</MudChip>
+                </MudItem>
+                <MudItem xs="6" sm="4" md="3">
+                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Timesheet</MudChip>
+                </MudItem>
+            </MudGrid>
+        </div>
+
+        <!-- CTA to create from scratch -->
+        <div style="margin-top: 48px;">
+            <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 24px; font-size: 18px;">
+                In the meantime, start creating your own form from scratch:
+            </MudText>
+            <MudButton Variant="Variant.Filled"
+                       Color="Color.Primary"
+                       Size="Size.Large"
+                       StartIcon="@Icons.Material.Filled.Add"
+                       OnClick='@(() => Navigation.NavigateTo("editor"))'
+                       Style="height: 56px; min-width: 200px; font-size: 18px;">
+                Create New Form
+            </MudButton>
+        </div>
+    </MudPaper>
+
+    <!-- Future Template Grid Structure (ready for Phase 6) -->
+    @*
+    <MudGrid>
+        @foreach (var template in templates)
+        {
+            <MudItem xs="12" sm="6" md="4">
+                <MudCard Elevation="3" Style="height: 100%;">
+                    <MudCardMedia Image="@template.ThumbnailUrl" Height="200" />
+                    <MudCardContent>
+                        <MudText Typo="Typo.h6" Style="font-weight: 600;">@template.Name</MudText>
+                        <MudText Typo="Typo.body2" Color="Color.Secondary">@template.Description</MudText>
+                        <MudChip T="string" Size="Size.Small" Style="margin-top: 8px;">@template.Category</MudChip>
+                    </MudCardContent>
+                    <MudCardActions>
+                        <MudButton Variant="Variant.Filled"
+                                   Color="Color.Primary"
+                                   OnClick="() => UseTemplate(template.Id)">
+                            Use Template
+                        </MudButton>
+                        <MudButton Variant="Variant.Text" Color="Color.Default">Preview</MudButton>
+                    </MudCardActions>
+                </MudCard>
+            </MudItem>
+        }
+    </MudGrid>
+    *@
+</MudContainer>
+
+@code {
+    // Placeholder for future template data
+    // Phase 6, Story 6.5 will implement template seeding and loading
+
+    /*
+    private List<FormTemplate> templates = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Load templates from TemplateService
+        // templates = await TemplateService.GetPublicTemplatesAsync();
+    }
+
+    private async Task UseTemplate(Guid templateId)
+    {
+        // Copy template to user's forms and navigate to editor
+        // var newForm = await TemplateService.CreateFromTemplateAsync(templateId);
+        // Navigation.NavigateTo($"/editor?id={newForm.Id}");
+    }
+    */
+}

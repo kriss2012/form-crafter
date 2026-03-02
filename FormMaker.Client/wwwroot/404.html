@@ -7,8 +7,10 @@
     <script>
         // GitHub Pages SPA redirect solution
         // Store the current path and redirect to index.html
-        sessionStorage.setItem('redirect', location.pathname);
-        location.replace('/');
+        sessionStorage.setItem('redirect', location.pathname.slice(0, -1) === '/form-crafter'
+            ? '/'
+            : location.pathname.replace('/form-crafter', ''));
+        location.replace('/form-crafter/');
     </script>
 </head>
 

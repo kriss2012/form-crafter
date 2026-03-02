@@ -211,7 +211,9 @@
                 <MudGrid>
                     <MudItem xs="12" md="4" Class="d-flex justify-center mb-6 mb-md-0">
                         <div class="relative">
-                            <MudAvatar Src="https://github.com/kriss2012.png" Style="width: 220px; height: 220px;" Elevation="4" />
+                            <MudAvatar Style="width: 220px; height: 220px;" Elevation="4">
+                                <MudImage Src="https://github.com/kriss2012.png" Alt="Krishna Chandrakant Patil" />
+                            </MudAvatar>
                             <div class="absolute" style="bottom: 10px; right: 10px; background: #4caf50; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white;" title="Available for projects"></div>
                         </div>
                     </MudItem>
@@ -231,11 +233,11 @@
                         </MudText>
 
                         <div class="d-flex flex-wrap gap-4">
-                            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Primary" Variant="Variant.Filled" Href="https://github.com/kriss2012" Target="_blank" Size="Size.Large" Class="rounded-lg" />
-                            <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Primary" Variant="Variant.Filled" Href="https://www.linkedin.com/in/krishna-patil-33969536b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" Target="_blank" Size="Size.Large" Class="rounded-lg" />
-                            <MudIconButton Icon="@Icons.Custom.Brands.YouTube" Color="Color.Error" Variant="Variant.Filled" Href="https://youtube.com/@@pbakrish?si=jGClRutQlIS7ZvlD" Target="_blank" Size="Size.Large" Class="rounded-lg" />
-                            <MudIconButton Icon="@Icons.Custom.Brands.Instagram" Color="Color.Secondary" Variant="Variant.Filled" Href="https://www.instagram.com/mr_krishna_yt____?igsh=MWhqbW03dWoxbjA2dA==" Target="_blank" Size="Size.Large" Class="rounded-lg" />
-                            <MudButton StartIcon="@Icons.Material.Filled.Language" Variant="Variant.Outlined" Color="Color.Primary" Href="https://tgkrish-portfolio.netlify.app/" Target="_blank" Size="Size.Large" Class="rounded-lg px-6">Portfolio</MudButton>
+                            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Primary" Variant="Variant.Filled" Href="@GithubUrl" Target="_blank" Size="Size.Large" Class="rounded-lg" />
+                            <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Primary" Variant="Variant.Filled" Href="@LinkedinUrl" Target="_blank" Size="Size.Large" Class="rounded-lg" />
+                            <MudIconButton Icon="@Icons.Custom.Brands.YouTube" Color="Color.Error" Variant="Variant.Filled" Href="@YoutubeUrl" Target="_blank" Size="Size.Large" Class="rounded-lg" />
+                            <MudIconButton Icon="@Icons.Custom.Brands.Instagram" Color="Color.Secondary" Variant="Variant.Filled" Href="@InstagramUrl" Target="_blank" Size="Size.Large" Class="rounded-lg" />
+                            <MudButton StartIcon="@Icons.Material.Filled.Language" Variant="Variant.Outlined" Color="Color.Primary" Href="@PortfolioUrl" Target="_blank" Size="Size.Large" Class="rounded-lg px-6">Portfolio</MudButton>
                         </div>
                     </MudItem>
                 </MudGrid>
@@ -282,5 +284,9 @@
 </MudContainer>
 
 @code {
-    // No code needed for about page
+    private const string GithubUrl = "https://github.com/kriss2012";
+    private const string LinkedinUrl = "https://www.linkedin.com/in/krishna-patil-33969536b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app";
+    private const string YoutubeUrl = "https://youtube.com/@pbakrish?si=jGClRutQlIS7ZvlD";
+    private const string InstagramUrl = "https://www.instagram.com/mr_krishna_yt____?igsh=MWhqbW03dWoxbjA2dA==";
+    private const string PortfolioUrl = "https://tgkrish-portfolio.netlify.app/";
 }

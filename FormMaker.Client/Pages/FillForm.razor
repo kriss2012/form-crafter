@@ -215,7 +215,7 @@
                     builder.AddAttribute(1, "Label", checkbox.Label ?? "Checkbox");
                     builder.AddAttribute(2, "Required", checkbox.IsRequired);
                     builder.AddAttribute(3, "Color", Color.Primary);
-                    builder.AddAttribute(4, "Checked", formValues.ContainsKey(elementId) && (bool)formValues[elementId]);
+                    builder.AddAttribute(4, "Checked", (bool?)(formValues.ContainsKey(elementId) ? formValues[elementId] : false) ?? false);
                     builder.AddAttribute(5, "CheckedChanged", EventCallback.Factory.Create<bool>(this, value => formValues[elementId] = value));
                     builder.CloseComponent();
                     break;

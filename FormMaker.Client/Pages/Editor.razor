@@ -255,362 +255,633 @@ else
     private bool _libraryOpen;
     private bool _propertiesOpen;
 
-    private RenderFragment PropertiesPanelContent() => __builder => {
-            // prepare local values before rendering markup
-            var currentElements = currentTemplate.IsMultiPage && currentTemplate.CurrentPage != null
-                ? currentTemplate.CurrentPage.Elements
-                : currentTemplate.Elements;
-            var selectedElements = currentElements.Where(e => e.IsSelected).ToList();
-            var multipleSelected = selectedElements.Count > 1;
-            var displayElement = selectedElement ?? selectedElements.FirstOrDefault();
+    private RenderFragment PropertiesPanelContent() => __builder =>
+    {
+        // prepare local values before rendering markup
+        var currentElements = currentTemplate.IsMultiPage && currentTemplate.CurrentPage != null
+            ? currentTemplate.CurrentPage.Elements
+            : currentTemplate.Elements;
+        var selectedElements = currentElements.Where(e => e.IsSelected).ToList();
+        var multipleSelected = selectedElements.Count > 1;
+        var displayElement = selectedElement ?? selectedElements.FirstOrDefault();
 
-            <MudText Typo="Typo.h6" Class="premium-header-text mb-6 d-none d-md-block">Inspector</MudText>
-            @if (selectedElement != null || selectedElements.Count > 0)
-            {
-                <MudPaper Elevation="0" Style="padding: 16px; background-color: white; margin-bottom: 16px;">
-                    @if (multipleSelected)
+        __builder.OpenComponent<MudBlazor.MudText>(0);
+        __builder.AddAttribute(1, "Typo", Typo.h6);
+        __builder.AddAttribute(2, "Class", "premium-header-text mb-6 d-none d-md-block");
+        __builder.AddAttribute(3, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder2) => {
+            __builder2.AddContent(4, "Inspector");
+        }));
+        __builder.CloseComponent();
+
+        if (selectedElement != null || selectedElements.Count > 0)
+        {
+            __builder.OpenComponent<MudBlazor.MudPaper>(5);
+            __builder.AddAttribute(6, "Elevation", 0);
+            __builder.AddAttribute(7, "Style", "padding: 16px; background-color: white; margin-bottom: 16px;");
+            __builder.AddAttribute(8, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder2) => {
+                if (multipleSelected)
+                {
+                    __builder2.OpenComponent<MudBlazor.MudText>(9);
+                    __builder2.AddAttribute(10, "Typo", Typo.subtitle1);
+                    __builder2.AddAttribute(11, "Style", "font-weight: 600; margin-bottom: 12px;");
+                    __builder2.AddAttribute(12, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder3) => {
+                        __builder3.AddContent(13, selectedElements.Count);
+                        __builder3.AddContent(14, " Elements Selected");
+                    }));
+                    __builder2.CloseComponent();
+                }
+                else if (displayElement != null)
+                {
+                    __builder2.OpenComponent<MudBlazor.MudText>(15);
+                    __builder2.AddAttribute(16, "Typo", Typo.subtitle1);
+                    __builder2.AddAttribute(17, "Style", "font-weight: 600; margin-bottom: 12px;");
+                    __builder2.AddAttribute(18, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder3) => {
+                        __builder3.AddContent(19, displayElement.GetDisplayName());
+                    }));
+                    __builder2.CloseComponent();
+                }
+
+                if (!multipleSelected && displayElement != null)
+                {
+                    __builder2.AddMarkupContent(20, @"<!-- Position & Size -->
+                    ");
+                    __builder2.OpenElement(21, "div");
+                    __builder2.AddAttribute(22, "style", "display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;");
+                    __builder2.OpenComponent<MudBlazor.MudNumericField<double>>(23);
+                    __builder2.AddAttribute(24, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<double>(
+#nullable restore
+#line 320 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                             displayElement.X
+
+#line default
+#line hidden
+#nullable disable
+                    ));
+                    __builder2.AddAttribute(25, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<double>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<double>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => displayElement.X = __value, displayElement.X))));
+                    __builder2.AddAttribute(26, "Label", "X");
+                    __builder2.AddAttribute(27, "Variant", Variant.Outlined);
+                    __builder2.AddAttribute(28, "Margin", Margin.Dense);
+                    __builder2.CloseComponent();
+                    __builder2.OpenComponent<MudBlazor.MudNumericField<double>>(29);
+                    __builder2.AddAttribute(30, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<double>(
+#nullable restore
+#line 321 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                             displayElement.Y
+
+#line default
+#line hidden
+#nullable disable
+                    ));
+                    __builder2.AddAttribute(31, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<double>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<double>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => displayElement.Y = __value, displayElement.Y))));
+                    __builder2.AddAttribute(32, "Label", "Y");
+                    __builder2.AddAttribute(33, "Variant", Variant.Outlined);
+                    __builder2.AddAttribute(34, "Margin", Margin.Dense);
+                    __builder2.CloseComponent();
+                    __builder2.OpenComponent<MudBlazor.MudNumericField<double>>(35);
+                    __builder2.AddAttribute(36, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<double>(
+#nullable restore
+#line 322 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                               displayElement.Width
+
+#line default
+#line hidden
+#nullable disable
+                    ));
+                    __builder2.AddAttribute(37, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<double>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<double>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => displayElement.Width = __value, displayElement.Width))));
+                    __builder2.AddAttribute(38, "Label", "Width");
+                    __builder2.AddAttribute(39, "Variant", Variant.Outlined);
+                    __builder2.AddAttribute(40, "Margin", Margin.Dense);
+                    __builder2.CloseComponent();
+                    __builder2.OpenComponent<MudBlazor.MudNumericField<double>>(41);
+                    __builder2.AddAttribute(42, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<double>(
+#nullable restore
+#line 323 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                                displayElement.Height
+
+#line default
+#line hidden
+#nullable disable
+                    ));
+                    __builder2.AddAttribute(43, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<double>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<double>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => displayElement.Height = __value, displayElement.Height))));
+                    __builder2.AddAttribute(44, "Label", "Height");
+                    __builder2.AddAttribute(45, "Variant", Variant.Outlined);
+                    __builder2.AddAttribute(46, "Margin", Margin.Dense);
+                    __builder2.CloseComponent();
+                    __builder2.CloseElement();
+
+                    __builder2.AddMarkupContent(47, @"<!-- Element-specific properties -->
+                    ");
+                    if (displayElement is LabelElement label)
                     {
-                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; margin-bottom: 12px;">
-                            @selectedElements.Count Elements Selected
-                        </MudText>
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(48);
+                        __builder2.AddAttribute(49, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 328 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                         label.Text
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(50, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => label.Text = __value, label.Text))));
+                        __builder2.AddAttribute(51, "Label", "Text Content");
+                        __builder2.AddAttribute(52, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(53, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(54, "Lines", 3);
+                        __builder2.AddAttribute(55, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudSelect<string>>(56);
+                        __builder2.AddAttribute(57, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 329 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                        label.HeadingLevel
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(58, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => label.HeadingLevel = __value, label.HeadingLevel))));
+                        __builder2.AddAttribute(59, "Label", "Heading Level");
+                        __builder2.AddAttribute(60, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(61, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(62, "Style", "margin-bottom: 12px;");
+                        __builder2.AddAttribute(63, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder3) => {
+                            __builder3.OpenComponent<MudBlazor.MudSelectItem<string>>(64);
+                            __builder3.AddAttribute(65, "Value", "H1");
+                            __builder3.AddAttribute(66, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder4) => {
+                                __builder4.AddContent(67, "Heading 1");
+                            }));
+                            __builder3.CloseComponent();
+                            __builder3.OpenComponent<MudBlazor.MudSelectItem<string>>(68);
+                            __builder3.AddAttribute(69, "Value", "H2");
+                            __builder3.AddAttribute(70, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder4) => {
+                                __builder4.AddContent(71, "Heading 2");
+                            }));
+                            __builder3.CloseComponent();
+                            __builder3.OpenComponent<MudBlazor.MudSelectItem<string>>(72);
+                            __builder3.AddAttribute(73, "Value", "H3");
+                            __builder3.AddAttribute(74, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder4) => {
+                                __builder4.AddContent(75, "Heading 3");
+                            }));
+                            __builder3.CloseComponent();
+                            __builder3.OpenComponent<MudBlazor.MudSelectItem<string>>(76);
+                            __builder3.AddAttribute(77, "Value", "H4");
+                            __builder3.AddAttribute(78, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder4) => {
+                                __builder4.AddContent(79, "Heading 4");
+                            }));
+                            __builder3.CloseComponent();
+                            __builder3.OpenComponent<MudBlazor.MudSelectItem<string>>(80);
+                            __builder3.AddAttribute(81, "Value", "H5");
+                            __builder3.AddAttribute(82, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder4) => {
+                                __builder4.AddContent(83, "Heading 5");
+                            }));
+                            __builder3.CloseComponent();
+                            __builder3.OpenComponent<MudBlazor.MudSelectItem<string>>(84);
+                            __builder3.AddAttribute(85, "Value", "H6");
+                            __builder3.AddAttribute(86, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder4) => {
+                                __builder4.AddContent(87, "Heading 6");
+                            }));
+                            __builder3.CloseComponent();
+                            __builder3.OpenComponent<MudBlazor.MudSelectItem<string>>(88);
+                            __builder3.AddAttribute(89, "Value", "P");
+                            __builder3.AddAttribute(90, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder4) => {
+                                __builder4.AddContent(91, "Paragraph");
+                            }));
+                            __builder3.CloseComponent();
+                        }));
+                        __builder2.CloseComponent();
                     }
-                    else if (displayElement != null)
+                    else if (displayElement is TextInputElement textInput)
                     {
-                        <MudText Typo="Typo.subtitle1" Style="font-weight: 600; margin-bottom: 12px;">
-                            @displayElement.GetDisplayName()
-                        </MudText>
-                    }
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(92);
+                        __builder2.AddAttribute(93, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 342 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                              textInput.Placeholder
 
-                    @if (!multipleSelected && displayElement != null)
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(94, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => textInput.Placeholder = __value, textInput.Placeholder))));
+                        __builder2.AddAttribute(95, "Label", "Placeholder");
+                        __builder2.AddAttribute(96, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(97, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(98, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudCheckBox<bool>>(99);
+                        __builder2.AddAttribute(100, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(
+#nullable restore
+#line 343 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                         textInput.IsRequired
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(101, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<bool>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<bool>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => textInput.IsRequired = __value, textInput.IsRequired))));
+                        __builder2.AddAttribute(102, "Label", "Required Field");
+                        __builder2.AddAttribute(103, "Color", Color.Primary);
+                        __builder2.CloseComponent();
+                    }
+                    else if (displayElement is CheckboxElement checkbox)
                     {
-                        <!-- Position & Size -->
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 12px;">
-                             <MudNumericField @bind-Value="displayElement.X" Label="X" Variant="Variant.Outlined" Margin="Margin.Dense" />
-                             <MudNumericField @bind-Value="displayElement.Y" Label="Y" Variant="Variant.Outlined" Margin="Margin.Dense" />
-                             <MudNumericField @bind-Value="displayElement.Width" Label="Width" Variant="Variant.Outlined" Margin="Margin.Dense" />
-                             <MudNumericField @bind-Value="displayElement.Height" Label="Height" Variant="Variant.Outlined" Margin="Margin.Dense" />
-                        </div>
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(104);
+                        __builder2.AddAttribute(105, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 347 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                          checkbox.Label
 
-                        <!-- Element-specific properties -->
-                        @if (displayElement is LabelElement label)
-                        {
-                            <MudTextField @bind-Value="label.Text" Label="Text Content" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="3" Style="margin-bottom: 12px;" />
-                            <MudSelect @bind-Value="label.HeadingLevel" Label="Heading Level" Variant="Variant.Outlined" Margin="Margin.Dense" Style="margin-bottom: 12px;">
-                                <MudSelectItem Value="@("H1")">Heading 1</MudSelectItem>
-                                <MudSelectItem Value="@("H2")">Heading 2</MudSelectItem>
-                                <MudSelectItem Value="@("H3")">Heading 3</MudSelectItem>
-                                <MudSelectItem Value="@("H4")">Heading 4</MudSelectItem>
-                                <MudSelectItem Value="@("H5")">Heading 5</MudSelectItem>
-                                <MudSelectItem Value="@("H6")">Heading 6</MudSelectItem>
-                                <MudSelectItem Value="@("P")">Paragraph</MudSelectItem>
-                            </MudSelect>
-                        }
-                        else if (displayElement is TextInputElement textInput)
-                        {
-                            <MudTextField @bind-Value="textInput.Placeholder" Label="Placeholder" Variant="Variant.Outlined" Margin="Margin.Dense" Style="margin-bottom: 12px;" />
-                            <MudCheckBox @bind-Value="textInput.IsRequired" Label="Required Field" Color="Color.Primary" />
-                        }
-                        else if (displayElement is CheckboxElement checkbox)
-                        {
-                            <MudTextField @bind-Value="checkbox.Label" Label="Label Text" Variant="Variant.Outlined" Margin="Margin.Dense" Style="margin-bottom: 12px;" />
-                            <MudCheckBox @bind-Value="checkbox.DefaultChecked" Label="Checked by Default" Color="Color.Primary" />
-                        }
-                        else if (displayElement is ImageElement image)
-                        {
-                            <MudTextField @bind-Value="image.ImageUrl" Label="Image URL" Variant="Variant.Outlined" Margin="Margin.Dense" Style="margin-bottom: 12px;" />
-                            <MudFileUpload T="IBrowserFile" Accept=".png,.jpg,.jpeg,.gif,.svg,.webp" FilesChanged="@(async (file) => await HandleImageUpload(image, file))" MaximumFileCount="1">
-                                <ActivatorContent>
-                                    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.CloudUpload" FullWidth="true" Style="margin-bottom: 12px;">Upload Image</MudButton>
-                                </ActivatorContent>
-                            </MudFileUpload>
-                            <MudTextField @bind-Value="image.AltText" Label="Alt Text" Variant="Variant.Outlined" Margin="Margin.Dense" Style="margin-bottom: 12px;" />
-                        }
-                        else if (displayElement is TextAreaElement textArea)
-                        {
-                            <MudTextField @bind-Value="textArea.Placeholder" Label="Placeholder" Variant="Variant.Outlined" Margin="Margin.Dense" Style="margin-bottom: 12px;" />
-                            <MudNumericField @bind-Value="textArea.Rows" Label="Rows" Variant="Variant.Outlined" Margin="Margin.Dense" Min="1" Style="margin-bottom: 12px;" />
-                            <MudCheckBox @bind-Value="textArea.IsRequired" Label="Required Field" Color="Color.Primary" />
-                        }
-                        else if (displayElement is DropdownElement dropdown)
-                        {
-                            <MudTextField @bind-Value="dropdown.Placeholder" Label="Placeholder" Variant="Variant.Outlined" Margin="Margin.Dense" Style="margin-bottom: 12px;" />
-                            <MudTextField @bind-Value="optionsText" Label="Options (one per line)" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="5" Style="margin-bottom: 12px;" Immediate="true" @onblur="() => UpdateDropdownOptions(dropdown)" />
-                            <MudCheckBox @bind-Value="dropdown.IsRequired" Label="Required Field" Color="Color.Primary" />
-                        }
-                        else if (displayElement is DatePickerElement datePicker)
-                        {
-                            <MudTextField @bind-Value="datePicker.Placeholder" Label="Placeholder" Variant="Variant.Outlined" Margin="Margin.Dense" Style="margin-bottom: 12px;" />
-                            <MudCheckBox @bind-Value="datePicker.IsRequired" Label="Required Field" Color="Color.Primary" />
-                        }
-                        else if (displayElement is RadioGroupElement radio)
-                        {
-                            <MudTextField @bind-Value="radio.Label" Label="Group Label" Variant="Variant.Outlined" Margin="Margin.Dense" Style="margin-bottom: 12px;" />
-                            <MudTextField @bind-Value="radioOptionsText" Label="Options (one per line)" Variant="Variant.Outlined" Margin="Margin.Dense" Lines="5" Style="margin-bottom: 12px;" Immediate="true" @onblur="() => UpdateRadioOptions(radio)" />
-                            <MudCheckBox @bind-Value="radio.IsRequired" Label="Required Field" Color="Color.Primary" />
-                        }
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(106, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => checkbox.Label = __value, checkbox.Label))));
+                        __builder2.AddAttribute(107, "Label", "Label Text");
+                        __builder2.AddAttribute(108, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(109, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(110, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudCheckBox<bool>>(111);
+                        __builder2.AddAttribute(112, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(
+#nullable restore
+#line 348 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                             checkbox.DefaultChecked
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(113, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<bool>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<bool>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => checkbox.DefaultChecked = __value, checkbox.DefaultChecked))));
+                        __builder2.AddAttribute(114, "Label", "Checked by Default");
+                        __builder2.AddAttribute(115, "Color", Color.Primary);
+                        __builder2.CloseComponent();
                     }
+                    else if (displayElement is ImageElement image)
+                    {
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(116);
+                        __builder2.AddAttribute(117, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 352 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                        image.ImageUrl
 
-                    <!-- Layer Controls -->
-                    <MudText Typo="Typo.subtitle2" Style="margin-top: 16px; margin-bottom: 8px; font-weight: 600;">Layer Order</MudText>
-                    <div style="display: flex; gap: 8px;">
-                        <MudButton Variant="Variant.Outlined" Color="Color.Default" StartIcon="@Icons.Material.Filled.FlipToFront" OnClick="BringToFront" FullWidth="true" Size="Size.Small">Front</MudButton>
-                        <MudButton Variant="Variant.Outlined" Color="Color.Default" StartIcon="@Icons.Material.Filled.FlipToBack" OnClick="SendToBack" FullWidth="true" Size="Size.Small">Back</MudButton>
-                    </div>
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(118, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => image.ImageUrl = __value, image.ImageUrl))));
+                        __builder2.AddAttribute(119, "Label", "Image URL");
+                        __builder2.AddAttribute(120, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(121, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(122, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudFileUpload<Microsoft.AspNetCore.Components.Forms.IBrowserFile>>(123);
+                        __builder2.AddAttribute(124, "Accept", ".png,.jpg,.jpeg,.gif,.svg,.webp");
+                        __builder2.AddAttribute(125, "FilesChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<Microsoft.AspNetCore.Components.Forms.IBrowserFile>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Forms.IBrowserFile>(this, 
+#nullable restore
+#line 353 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                                                                     async (file) => await HandleImageUpload(image, file)
 
-                    <MudButton Variant="Variant.Filled" Color="Color.Error" StartIcon="@Icons.Material.Filled.Delete" OnClick="DeleteSelectedElement" FullWidth="true" Style="margin-top: 12px;">
-                        Delete @(multipleSelected ? $"({selectedElements.Count})" : "")
-                    </MudButton>
-                </MudPaper>
-            }
-            else
-            {
-                <div style="text-align: center; padding: 32px; color: #999;">
-                    <MudIcon Icon="@Icons.Material.Filled.TouchApp" Size="Size.Large" Style="margin-bottom: 16px; opacity: 0.5;" />
-                    <MudText Typo="Typo.body2">Select an element on the canvas to edit its properties.</MudText>
-                </div>
-            }
+#line default
+#line hidden
+#nullable disable
+                        )));
+                        __builder2.AddAttribute(126, "MaximumFileCount", 1);
+                        __builder2.AddAttribute(127, "ActivatorContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder3) => {
+                            __builder3.OpenComponent<MudBlazor.MudButton>(128);
+                            __builder3.AddAttribute(129, "Variant", Variant.Filled);
+                            __builder3.AddAttribute(130, "Color", Color.Primary);
+                            __builder3.AddAttribute(131, "StartIcon", Icons.Material.Filled.CloudUpload);
+                            __builder3.AddAttribute(132, "FullWidth", true);
+                            __builder3.AddAttribute(133, "Style", "margin-bottom: 12px;");
+                            __builder3.AddAttribute(134, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder4) => {
+                                __builder4.AddContent(135, "Upload Image");
+                            }));
+                            __builder3.CloseComponent();
+                        }));
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(136);
+                        __builder2.AddAttribute(137, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 358 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                       image.AltText
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(138, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => image.AltText = __value, image.AltText))));
+                        __builder2.AddAttribute(139, "Label", "Alt Text");
+                        __builder2.AddAttribute(140, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(141, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(142, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                    }
+                    else if (displayElement is TextAreaElement textArea)
+                    {
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(143);
+                        __builder2.AddAttribute(144, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 362 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                            textArea.Placeholder
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(145, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => textArea.Placeholder = __value, textArea.Placeholder))));
+                        __builder2.AddAttribute(146, "Label", "Placeholder");
+                        __builder2.AddAttribute(147, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(148, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(149, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudNumericField<int>>(150);
+                        __builder2.AddAttribute(151, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<int>(
+#nullable restore
+#line 363 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                           textArea.Rows
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(152, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<int>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<int>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => textArea.Rows = __value, textArea.Rows))));
+                        __builder2.AddAttribute(153, "Label", "Rows");
+                        __builder2.AddAttribute(154, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(155, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(156, "Min", 1);
+                        __builder2.AddAttribute(157, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudCheckBox<bool>>(158);
+                        __builder2.AddAttribute(159, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(
+#nullable restore
+#line 364 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                         textArea.IsRequired
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(160, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<bool>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<bool>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => textArea.IsRequired = __value, textArea.IsRequired))));
+                        __builder2.AddAttribute(161, "Label", "Required Field");
+                        __builder2.AddAttribute(162, "Color", Color.Primary);
+                        __builder2.CloseComponent();
+                    }
+                    else if (displayElement is DropdownElement dropdown)
+                    {
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(163);
+                        __builder2.AddAttribute(164, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 368 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                            dropdown.Placeholder
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(165, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => dropdown.Placeholder = __value, dropdown.Placeholder))));
+                        __builder2.AddAttribute(166, "Label", "Placeholder");
+                        __builder2.AddAttribute(167, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(168, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(169, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(170);
+                        __builder2.AddAttribute(171, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 369 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                         optionsText
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(172, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => optionsText = __value, optionsText))));
+                        __builder2.AddAttribute(173, "Label", "Options (one per line)");
+                        __builder2.AddAttribute(174, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(175, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(176, "Lines", 5);
+                        __builder2.AddAttribute(177, "Style", "margin-bottom: 12px;");
+                        __builder2.AddAttribute(178, "Immediate", true);
+                        __builder2.AddAttribute(179, "onblur", Microsoft.AspNetCore.Components.EventCallback.Factory.Create(this, 
+#nullable restore
+#line 369 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                                                                                                                                                                     () => UpdateDropdownOptions(dropdown)
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudCheckBox<bool>>(180);
+                        __builder2.AddAttribute(181, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(
+#nullable restore
+#line 370 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                           dropdown.IsRequired
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(182, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<bool>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<bool>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => dropdown.IsRequired = __value, dropdown.IsRequired))));
+                        __builder2.AddAttribute(183, "Label", "Required Field");
+                        __builder2.AddAttribute(184, "Color", Color.Primary);
+                        __builder2.CloseComponent();
+                    }
+                    else if (displayElement is DatePickerElement datePicker)
+                    {
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(185);
+                        __builder2.AddAttribute(186, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 374 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                              datePicker.Placeholder
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(187, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => datePicker.Placeholder = __value, datePicker.Placeholder))));
+                        __builder2.AddAttribute(188, "Label", "Placeholder");
+                        __builder2.AddAttribute(189, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(190, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(191, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudCheckBox<bool>>(192);
+                        __builder2.AddAttribute(193, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(
+#nullable restore
+#line 375 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                           datePicker.IsRequired
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(194, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<bool>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<bool>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => datePicker.IsRequired = __value, datePicker.IsRequired))));
+                        __builder2.AddAttribute(195, "Label", "Required Field");
+                        __builder2.AddAttribute(196, "Color", Color.Primary);
+                        __builder2.CloseComponent();
+                    }
+                    else if (displayElement is RadioGroupElement radio)
+                    {
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(197);
+                        __builder2.AddAttribute(198, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 379 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                         radio.Label
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(199, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => radio.Label = __value, radio.Label))));
+                        __builder2.AddAttribute(200, "Label", "Group Label");
+                        __builder2.AddAttribute(201, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(202, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(203, "Style", "margin-bottom: 12px;");
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudTextField<string>>(204);
+                        __builder2.AddAttribute(205, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<string>(
+#nullable restore
+#line 380 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                          radioOptionsText
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(206, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<string>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<string>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => radioOptionsText = __value, radioOptionsText))));
+                        __builder2.AddAttribute(207, "Label", "Options (one per line)");
+                        __builder2.AddAttribute(208, "Variant", Variant.Outlined);
+                        __builder2.AddAttribute(209, "Margin", Margin.Dense);
+                        __builder2.AddAttribute(210, "Lines", 5);
+                        __builder2.AddAttribute(211, "Style", "margin-bottom: 12px;");
+                        __builder2.AddAttribute(212, "Immediate", true);
+                        __builder2.AddAttribute(213, "onblur", Microsoft.AspNetCore.Components.EventCallback.Factory.Create(this, 
+#nullable restore
+#line 380 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                                                                                                                                                                           () => UpdateRadioOptions(radio)
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.CloseComponent();
+                        __builder2.OpenComponent<MudBlazor.MudCheckBox<bool>>(214);
+                        __builder2.AddAttribute(215, "Value", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<bool>(
+#nullable restore
+#line 381 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                        radio.IsRequired
+
+#line default
+#line hidden
+#nullable disable
+                        ));
+                        __builder2.AddAttribute(216, "ValueChanged", Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.TypeCheck<Microsoft.AspNetCore.Components.EventCallback<bool>>(Microsoft.AspNetCore.Components.EventCallback.Factory.Create<bool>(this, Microsoft.AspNetCore.Components.CompilerServices.RuntimeHelpers.CreateInferredEventCallback(this, __value => radio.IsRequired = __value, radio.IsRequired))));
+                        __builder2.AddAttribute(217, "Label", "Required Field");
+                        __builder2.AddAttribute(218, "Color", Color.Primary);
+                        __builder2.CloseComponent();
+                    }
+                }
+
+                __builder2.AddMarkupContent(219, @"<!-- Layer Controls -->
+                ");
+                __builder2.OpenComponent<MudBlazor.MudText>(220);
+                __builder2.AddAttribute(221, "Typo", Typo.subtitle2);
+                __builder2.AddAttribute(222, "Style", "margin-top: 16px; margin-bottom: 8px; font-weight: 600;");
+                __builder2.AddAttribute(223, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder3) => {
+                    __builder3.AddContent(224, "Layer Order");
+                }));
+                __builder2.CloseComponent();
+                __builder2.OpenElement(225, "div");
+                __builder2.AddAttribute(226, "style", "display: flex; gap: 8px;");
+                __builder2.OpenComponent<MudBlazor.MudButton>(227);
+                __builder2.AddAttribute(228, "Variant", Variant.Outlined);
+                __builder2.AddAttribute(229, "Color", Color.Default);
+                __builder2.AddAttribute(230, "StartIcon", Icons.Material.Filled.FlipToFront);
+                __builder2.AddAttribute(231, "OnClick", Microsoft.AspNetCore.Components.EventCallback.Factory.Create(this, 
+#nullable restore
+#line 388 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                                                      BringToFront
+
+#line default
+#line hidden
+#nullable disable
+                ));
+                __builder2.AddAttribute(232, "FullWidth", true);
+                __builder2.AddAttribute(233, "Size", Size.Small);
+                __builder2.AddAttribute(234, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder3) => {
+                    __builder3.AddContent(235, "Front");
+                }));
+                __builder2.CloseComponent();
+                __builder2.OpenComponent<MudBlazor.MudButton>(236);
+                __builder2.AddAttribute(237, "Variant", Variant.Outlined);
+                __builder2.AddAttribute(238, "Color", Color.Default);
+                __builder2.AddAttribute(239, "StartIcon", Icons.Material.Filled.FlipToBack);
+                __builder2.AddAttribute(240, "OnClick", Microsoft.AspNetCore.Components.EventCallback.Factory.Create(this, 
+#nullable restore
+#line 389 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                                                     SendToBack
+
+#line default
+#line hidden
+#nullable disable
+                ));
+                __builder2.AddAttribute(241, "FullWidth", true);
+                __builder2.AddAttribute(242, "Size", Size.Small);
+                __builder2.AddAttribute(243, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder3) => {
+                    __builder3.AddContent(244, "Back");
+                }));
+                __builder2.CloseComponent();
+                __builder2.CloseElement();
+
+                __builder2.OpenComponent<MudBlazor.MudButton>(245);
+                __builder2.AddAttribute(246, "Variant", Variant.Filled);
+                __builder2.AddAttribute(247, "Color", Color.Error);
+                __builder2.AddAttribute(248, "StartIcon", Icons.Material.Filled.Delete);
+                __builder2.AddAttribute(249, "OnClick", Microsoft.AspNetCore.Components.EventCallback.Factory.Create(this, 
+#nullable restore
+#line 392 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                                                                                                 DeleteSelectedElement
+
+#line default
+#line hidden
+#nullable disable
+                ));
+                __builder2.AddAttribute(250, "FullWidth", true);
+                __builder2.AddAttribute(251, "Style", "margin-top: 12px;");
+                __builder2.AddAttribute(252, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder3) => {
+                    __builder3.AddContent(253, "Delete ");
+                    __builder3.AddContent(254, 
+#nullable restore
+#line 393 "d:\\A\\projects\\11\\form-crafter\\FormMaker.Client\\Pages\\Editor.razor"
+                                  multipleSelected ? $"({selectedElements.Count})" : ""
+
+#line default
+#line hidden
+#nullable disable
+                    );
+                }));
+                __builder2.CloseComponent();
+            }));
+            __builder.CloseComponent();
+        }
+        else
+        {
+            __builder.OpenElement(255, "div");
+            __builder.AddAttribute(256, "style", "text-align: center; padding: 32px; color: #999;");
+            __builder.OpenComponent<MudBlazor.MudIcon>(257);
+            __builder.AddAttribute(258, "Icon", Icons.Material.Filled.TouchApp);
+            __builder.AddAttribute(259, "Size", Size.Large);
+            __builder.AddAttribute(260, "Style", "margin-bottom: 16px; opacity: 0.5;");
+            __builder.CloseComponent();
+            __builder.OpenComponent<MudBlazor.MudText>(261);
+            __builder.AddAttribute(262, "Typo", Typo.body2);
+            __builder.AddAttribute(263, "ChildContent", (Microsoft.AspNetCore.Components.RenderFragment)((__builder2) => {
+                __builder2.AddContent(264, "Select an element on the canvas to edit its properties.");
+            }));
+            __builder.CloseComponent();
+            __builder.CloseElement();
+        }
     };
-
-                <!-- Advanced Styling Properties -->
-                <MudPaper Elevation="0" Style="padding: 16px; background-color: white;">
-                    <MudText Typo="Typo.subtitle1" Style="font-weight: 600; margin-bottom: 12px;">
-                        Styling
-                    </MudText>
-
-                    <MudExpansionPanels MultiExpansion="true" Elevation="0" DisableBorders="true">
-                        <!-- Text Styling -->
-                        <MudExpansionPanel Text="Text" IsInitiallyExpanded="true">
-                            <MudNumericField @bind-Value="selectedElement.Properties.FontSize"
-                                             Label="Font Size"
-                                             Variant="Variant.Outlined"
-                                             Margin="Margin.Dense"
-                                             Min="12"
-                                             Max="72"
-                                             Style="margin-bottom: 12px;" />
-
-                            <MudTextField @bind-Value="selectedElement.Properties.Color"
-                                          Label="Text Color"
-                                          Variant="Variant.Outlined"
-                                          Margin="Margin.Dense"
-                                          Style="margin-bottom: 12px;"
-                                          HelperText="e.g., #1a1a1a, red, rgb(26,26,26)" />
-
-                            <MudSelect @bind-Value="selectedElement.Properties.Alignment"
-                                       Label="Text Alignment"
-                                       Variant="Variant.Outlined"
-                                       Margin="Margin.Dense"
-                                       Style="margin-bottom: 12px;">
-                                <MudSelectItem Value="FormMaker.Shared.Enums.TextAlignment.Left">Left</MudSelectItem>
-                                <MudSelectItem Value="FormMaker.Shared.Enums.TextAlignment.Center">Center</MudSelectItem>
-                                <MudSelectItem Value="FormMaker.Shared.Enums.TextAlignment.Right">Right</MudSelectItem>
-                            </MudSelect>
-
-                            <MudCheckBox @bind-Value="selectedElement.Properties.Bold"
-                                         Label="Bold"
-                                         Color="Color.Primary" />
-
-                            <MudCheckBox @bind-Value="selectedElement.Properties.Italic"
-                                         Label="Italic"
-                                         Color="Color.Primary" />
-
-                            <MudCheckBox @bind-Value="selectedElement.Properties.Underline"
-                                         Label="Underline"
-                                         Color="Color.Primary" />
-                        </MudExpansionPanel>
-
-                        <!-- Background Styling -->
-                        <MudExpansionPanel Text="Background">
-                            <MudTextField @bind-Value="selectedElement.Properties.BackgroundColor"
-                                          Label="Background Color"
-                                          Variant="Variant.Outlined"
-                                          Margin="Margin.Dense"
-                                          Style="margin-bottom: 12px;"
-                                          HelperText="e.g., #ffffff, transparent, rgba(255,255,255,0.5)" />
-
-                            <MudSlider @bind-Value="selectedElement.Properties.BackgroundOpacity"
-                                       Min="0.0"
-                                       Max="1.0"
-                                       Step="0.1"
-                                       ValueLabel="true"
-                                       Color="Color.Primary">
-                                Background Opacity: @selectedElement.Properties.BackgroundOpacity.ToString("0.0")
-                            </MudSlider>
-                        </MudExpansionPanel>
-
-                        <!-- Border Styling -->
-                        <MudExpansionPanel Text="Border">
-                            <MudSelect @bind-Value="selectedElement.Properties.BorderStyle"
-                                       Label="Border Style"
-                                       Variant="Variant.Outlined"
-                                       Margin="Margin.Dense"
-                                       Style="margin-bottom: 12px;">
-                                <MudSelectItem Value="@("none")">None</MudSelectItem>
-                                <MudSelectItem Value="@("solid")">Solid</MudSelectItem>
-                                <MudSelectItem Value="@("dashed")">Dashed</MudSelectItem>
-                                <MudSelectItem Value="@("dotted")">Dotted</MudSelectItem>
-                            </MudSelect>
-
-                            <MudNumericField @bind-Value="selectedElement.Properties.BorderWidth"
-                                             Label="Border Width (px)"
-                                             Variant="Variant.Outlined"
-                                             Margin="Margin.Dense"
-                                             Min="0"
-                                             Max="20"
-                                             Style="margin-bottom: 12px;" />
-
-                            <MudTextField @bind-Value="selectedElement.Properties.BorderColor"
-                                          Label="Border Color"
-                                          Variant="Variant.Outlined"
-                                          Margin="Margin.Dense"
-                                          Style="margin-bottom: 12px;"
-                                          HelperText="e.g., #cccccc, gray" />
-
-                            <MudNumericField @bind-Value="selectedElement.Properties.BorderRadius"
-                                             Label="Border Radius (px)"
-                                             Variant="Variant.Outlined"
-                                             Margin="Margin.Dense"
-                                             Min="0"
-                                             Max="50"
-                                             Style="margin-bottom: 12px;" />
-                        </MudExpansionPanel>
-
-                        <!-- Shadow Styling -->
-                        <MudExpansionPanel Text="Shadow">
-                            <MudSelect @bind-Value="selectedElement.Properties.BoxShadow"
-                                       Label="Shadow Preset"
-                                       Variant="Variant.Outlined"
-                                       Margin="Margin.Dense"
-                                       Style="margin-bottom: 12px;">
-                                <MudSelectItem Value="@("none")">None</MudSelectItem>
-                                <MudSelectItem Value="@("small")">Small</MudSelectItem>
-                                <MudSelectItem Value="@("medium")">Medium</MudSelectItem>
-                                <MudSelectItem Value="@("large")">Large</MudSelectItem>
-                            </MudSelect>
-
-                            <MudTextField @bind-Value="selectedElement.Properties.ShadowColor"
-                                          Label="Shadow Color"
-                                          Variant="Variant.Outlined"
-                                          Margin="Margin.Dense"
-                                          Style="margin-bottom: 12px;"
-                                          HelperText="e.g., #000000, rgba(0,0,0,0.3)" />
-                        </MudExpansionPanel>
-
-                        <!-- Spacing (Padding & Margin) -->
-                        <MudExpansionPanel Text="Spacing">
-                            <MudText Typo="Typo.subtitle2" Style="margin-bottom: 8px; font-weight: 600;">
-                                Padding
-                            </MudText>
-
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px;">
-                                <MudNumericField @bind-Value="selectedElement.Properties.PaddingTop"
-                                                 Label="Top (px)"
-                                                 Variant="Variant.Outlined"
-                                                 Margin="Margin.Dense"
-                                                 Min="0"
-                                                 Max="100" />
-
-                                <MudNumericField @bind-Value="selectedElement.Properties.PaddingRight"
-                                                 Label="Right (px)"
-                                                 Variant="Variant.Outlined"
-                                                 Margin="Margin.Dense"
-                                                 Min="0"
-                                                 Max="100" />
-
-                                <MudNumericField @bind-Value="selectedElement.Properties.PaddingBottom"
-                                                 Label="Bottom (px)"
-                                                 Variant="Variant.Outlined"
-                                                 Margin="Margin.Dense"
-                                                 Min="0"
-                                                 Max="100" />
-
-                                <MudNumericField @bind-Value="selectedElement.Properties.PaddingLeft"
-                                                 Label="Left (px)"
-                                                 Variant="Variant.Outlined"
-                                                 Margin="Margin.Dense"
-                                                 Min="0"
-                                                 Max="100" />
-                            </div>
-
-                            <MudText Typo="Typo.subtitle2" Style="margin-bottom: 8px; font-weight: 600;">
-                                Margin
-                            </MudText>
-
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                                <MudNumericField @bind-Value="selectedElement.Properties.MarginTop"
-                                                 Label="Top (px)"
-                                                 Variant="Variant.Outlined"
-                                                 Margin="Margin.Dense"
-                                                 Min="0"
-                                                 Max="100" />
-
-                                <MudNumericField @bind-Value="selectedElement.Properties.MarginRight"
-                                                 Label="Right (px)"
-                                                 Variant="Variant.Outlined"
-                                                 Margin="Margin.Dense"
-                                                 Min="0"
-                                                 Max="100" />
-
-                                <MudNumericField @bind-Value="selectedElement.Properties.MarginBottom"
-                                                 Label="Bottom (px)"
-                                                 Variant="Variant.Outlined"
-                                                 Margin="Margin.Dense"
-                                                 Min="0"
-                                                 Max="100" />
-
-                                <MudNumericField @bind-Value="selectedElement.Properties.MarginLeft"
-                                                 Label="Left (px)"
-                                                 Variant="Variant.Outlined"
-                                                 Margin="Margin.Dense"
-                                                 Min="0"
-                                                 Max="100" />
-                            </div>
-                        </MudExpansionPanel>
-
-                        <!-- Opacity & Transform -->
-                        <MudExpansionPanel Text="Effects">
-                            <MudSlider @bind-Value="selectedElement.Properties.Opacity"
-                                       Min="0.0"
-                                       Max="1.0"
-                                       Step="0.1"
-                                       ValueLabel="true"
-                                       Color="Color.Primary"
-                                       Style="margin-bottom: 16px;">
-                                Opacity: @((int)(selectedElement.Properties.Opacity * 100))%
-                            </MudSlider>
-
-                            <MudNumericField @bind-Value="selectedElement.Properties.Rotation"
-                                             Label="Rotation (degrees)"
-                                             Variant="Variant.Outlined"
-                                             Margin="Margin.Dense"
-                                             Min="-180"
-                                             Max="180"
-                                             Style="margin-bottom: 12px;" />
-
-                            <MudNumericField @bind-Value="selectedElement.Properties.ZIndex"
-                                             Label="Z-Index (Layer Order)"
-                                             Variant="Variant.Outlined"
-                                             Margin="Margin.Dense"
-                                             Min="-100"
-                                             Max="100" />
-                        </MudExpansionPanel>
-                    </MudExpansionPanels>
-                </MudPaper>
-            }
-            else
-            {
-                <MudAlert Severity="Severity.Info" Variant="Variant.Outlined">
-                    Select an element on the canvas to edit its properties
-                </MudAlert>
-            }
-
-            <!-- Element Count -->
-            <MudPaper Elevation="0" Style="padding: 16px; background-color: white; margin-top: 16px;">
-                <MudText Typo="Typo.body2" Style="color: #666;">
-                    <strong>Elements:</strong> @currentTemplate.Elements.Count<br />
-                    <strong>Page Size:</strong> @currentTemplate.PageSize
-                </MudText>
-            </MudPaper>
-
     private FormTemplate currentTemplate = new FormTemplate
     {
         Name = "Untitled Form",

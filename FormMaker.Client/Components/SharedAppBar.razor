@@ -115,14 +115,17 @@
     [Parameter] public EventCallback OnDrawerToggle { get; set; }
     private Variant GetVariant(string href)
     {
-        var currentPath = new Uri(Navigation.Uri).LocalPath;
+        var relativePath = Navigation.ToBaseRelativePath(Navigation.Uri);
+        var currentPath = relativePath.Split('?')[0].Trim('/');
 
         // Special handling for home page
-        if (href == "/" && currentPath == "/")
-            return Variant.Filled;
+        if (string.IsNullOrEmpty(href) || href == "/")
+        {
+            return string.IsNullOrEmpty(currentPath) ? Variant.Filled : Variant.Text;
+        }
 
         // For other pages, check if current path starts with href
-        if (href != "/" && currentPath.StartsWith(href, StringComparison.OrdinalIgnoreCase))
+        if (currentPath.StartsWith(href.Trim('/'), StringComparison.OrdinalIgnoreCase))
             return Variant.Filled;
 
         return Variant.Text;

@@ -5,7 +5,7 @@ services:
     repo: https://github.com/zyonify/form-crafter
     region: oregon
     branch: main
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: Dockerfile
     dockerCommand: /azure-functions-host/Microsoft.Azure.WebJobs.Script.WebHost
     envVars:
       - key: AzureWebJobsStorage

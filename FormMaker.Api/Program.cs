@@ -18,15 +18,38 @@ builder.ConfigureFunctionsWebApplication();
 builder.Services.AddSingleton<IFunctionsWorkerMiddleware, CorsMiddleware>();
 
 // Add DbContext with SQLite for local development or PostgreSQL for production
-var connectionString = builder.Configuration.GetValue<string>("Values:ConnectionStrings:FormMakerDb")
+var rawConnection = builder.Configuration.GetValue<string>("Values:ConnectionStrings:FormMakerDb")
     ?? builder.Configuration.GetValue<string>("ConnectionStrings:FormMakerDb")
     ?? builder.Configuration.GetValue<string>("DATABASE_URL")
     ?? builder.Configuration.GetValue<string>("POSTGRES_URL")
     ?? "Data Source=formmaker.db";
 
+string connectionString = rawConnection;
+
+// Convert URI format (postgres://user:pass@host:port/db) to Npgsql format
+if (rawConnection.StartsWith("postgres://") || rawConnection.StartsWith("postgresql://"))
+{
+    try
+    {
+        var uri = new Uri(rawConnection);
+        var userInfo = uri.UserInfo.Split(':');
+        var user = userInfo[0];
+        var password = userInfo.Length > 1 ? userInfo[1] : "";
+        var host = uri.Host;
+        var port = uri.Port > 0 ? uri.Port : 5432;
+        var database = uri.AbsolutePath.TrimStart('/');
+
+        connectionString = $"Host={host};Port={port};Database={database};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+    }
+    catch
+    {
+        // If URI parsing fails, fallback to raw string
+    }
+}
+
 builder.Services.AddDbContext<FormMakerDbContext>(options =>
 {
-    if (connectionString.StartsWith("postgresql://") || connectionString.StartsWith("postgres://") || connectionString.Contains("Host="))
+    if (connectionString.Contains("Host=") || connectionString.Contains("Server="))
     {
         options.UseNpgsql(connectionString);
     }

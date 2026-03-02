@@ -627,7 +627,7 @@
 
 - [x] **2.6.5.2** GitHub Pages deployment
   - File: `.github/workflows/deploy-pages.yml`
-  - ✅ **Done:** Auto-deploy to https://zyonify.github.io/form-crafter/ (2025-10-22)
+  - ✅ **Done:** Auto-deploy to https://kriss2012.github.io/form-crafter/ (2025-10-22)
   - Features: Base href change, .nojekyll file, 404.html fallback
 
 - [x] **2.6.5.3** Add tests to CI pipeline
@@ -1288,7 +1288,7 @@
 
 **Important Decisions:**
 - Chose GitHub Actions over Azure DevOps (no credit card required for deployment)
-- Deployed to GitHub Pages at https://zyonify.github.io/form-crafter/
+- Deployed to GitHub Pages at https://kriss2012.github.io/form-crafter/
 - Deferred color contrast fixes (16 SERIOUS violations) - requires design review
 - Deferred print preview mode - marked as optional feature
 - Used axe-core v4.10.2 for automated accessibility testing
@@ -1319,4 +1319,4 @@
 **Last Updated:** 2025-10-22
 **Started:** 2025-10-16
 **Current Phase:** Phase 2 & 2.6 COMPLETE! Ready for Phase 3 (Backend & Database)
-**Deployed:** https://zyonify.github.io/form-crafter/
+**Deployed:** https://kriss2012.github.io/form-crafter/

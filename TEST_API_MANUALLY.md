@@ -2,14 +2,14 @@
 
 ## 🧪 Test Your Template API with These Commands
 
-**API Base URL:** `https://form-crafter.onrender.com/api`
+**API Base URL:** `https://formmaker-api.onrender.com/api`
 
 ---
 
 ## Step 1: Register a Test User
 
 ```bash
-curl -X POST https://form-crafter.onrender.com/api/auth/register ^
+curl -X POST https://formmaker-api.onrender.com/api/auth/register ^
   -H "Content-Type: application/json" ^
   -d "{\"email\":\"testuser@example.com\",\"password\":\"Test123!\",\"displayName\":\"Test User\"}"
 ```
@@ -35,7 +35,7 @@ curl -X POST https://form-crafter.onrender.com/api/auth/register ^
 ## Step 2: Login (if user already exists)
 
 ```bash
-curl -X POST https://form-crafter.onrender.com/api/auth/login ^
+curl -X POST https://formmaker-api.onrender.com/api/auth/login ^
   -H "Content-Type: application/json" ^
   -d "{\"email\":\"testuser@example.com\",\"password\":\"Test123!\"}"
 ```
@@ -47,7 +47,7 @@ curl -X POST https://form-crafter.onrender.com/api/auth/login ^
 **Replace `YOUR_TOKEN_HERE` with your actual token from Step 1/2**
 
 ```bash
-curl -X POST https://form-crafter.onrender.com/api/templates ^
+curl -X POST https://formmaker-api.onrender.com/api/templates ^
   -H "Content-Type: application/json" ^
   -H "Authorization: Bearer YOUR_TOKEN_HERE" ^
   -d "{\"name\":\"My Test Form\",\"description\":\"Created via curl\",\"jsonData\":\"{\\\"id\\\":\\\"00000000-0000-0000-0000-000000000000\\\",\\\"name\\\":\\\"Test Form\\\",\\\"elements\\\":[]}\",\"category\":\"Test\",\"tags\":\"curl,test\",\"isPublic\":false}"
@@ -79,7 +79,7 @@ curl -X POST https://form-crafter.onrender.com/api/templates ^
 ## Step 4: Get All Your Templates
 
 ```bash
-curl -X GET https://form-crafter.onrender.com/api/templates ^
+curl -X GET https://formmaker-api.onrender.com/api/templates ^
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
 ```
 
@@ -104,7 +104,7 @@ curl -X GET https://form-crafter.onrender.com/api/templates ^
 **Replace `TEMPLATE_ID` with the id from Step 3**
 
 ```bash
-curl -X GET https://form-crafter.onrender.com/api/templates/TEMPLATE_ID ^
+curl -X GET https://formmaker-api.onrender.com/api/templates/TEMPLATE_ID ^
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
 ```
 
@@ -123,7 +123,7 @@ curl -X GET https://form-crafter.onrender.com/api/templates/TEMPLATE_ID ^
 ## Step 6: Update a Template
 
 ```bash
-curl -X PUT https://form-crafter.onrender.com/api/templates/TEMPLATE_ID ^
+curl -X PUT https://formmaker-api.onrender.com/api/templates/TEMPLATE_ID ^
   -H "Content-Type: application/json" ^
   -H "Authorization: Bearer YOUR_TOKEN_HERE" ^
   -d "{\"name\":\"Updated Test Form\",\"description\":\"Updated via curl\",\"category\":\"Updated\"}"
@@ -145,7 +145,7 @@ curl -X PUT https://form-crafter.onrender.com/api/templates/TEMPLATE_ID ^
 ## Step 7: Delete a Template
 
 ```bash
-curl -X DELETE https://form-crafter.onrender.com/api/templates/TEMPLATE_ID ^
+curl -X DELETE https://formmaker-api.onrender.com/api/templates/TEMPLATE_ID ^
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
 ```
 
@@ -190,7 +190,7 @@ Save this as `test-api.ps1`:
 
 ```powershell
 # Step 1: Register/Login
-$loginResponse = Invoke-RestMethod -Uri "https://form-crafter.onrender.com/api/auth/login" `
+$loginResponse = Invoke-RestMethod -Uri "https://formmaker-api.onrender.com/api/auth/login" `
     -Method Post `
     -Headers @{"Content-Type"="application/json"} `
     -Body '{"email":"testuser@example.com","password":"Test123!"}'
@@ -208,7 +208,7 @@ $createBody = @{
     isPublic = $false
 } | ConvertTo-Json
 
-$template = Invoke-RestMethod -Uri "https://form-crafter.onrender.com/api/templates" `
+$template = Invoke-RestMethod -Uri "https://formmaker-api.onrender.com/api/templates" `
     -Method Post `
     -Headers @{
         "Content-Type"="application/json"
@@ -219,14 +219,14 @@ $template = Invoke-RestMethod -Uri "https://form-crafter.onrender.com/api/templa
 Write-Host "✅ Template created! ID: $($template.id)"
 
 # Step 3: Get All Templates
-$templates = Invoke-RestMethod -Uri "https://form-crafter.onrender.com/api/templates" `
+$templates = Invoke-RestMethod -Uri "https://formmaker-api.onrender.com/api/templates" `
     -Method Get `
     -Headers @{"Authorization"="Bearer $token"}
 
 Write-Host "✅ Found $($templates.totalCount) templates"
 
 # Step 4: Delete Template
-Invoke-RestMethod -Uri "https://form-crafter.onrender.com/api/templates/$($template.id)" `
+Invoke-RestMethod -Uri "https://formmaker-api.onrender.com/api/templates/$($template.id)" `
     -Method Delete `
     -Headers @{"Authorization"="Bearer $token"}
 

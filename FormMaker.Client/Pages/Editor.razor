@@ -125,7 +125,7 @@ else
                     Preview
                 </MudButton>
 
-                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" Size="Size.Medium">
+                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" Size="Size.Medium" AriaLabel="More options">
                     <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default">
                         <MudMenuItem Icon="@Icons.Material.Filled.PictureAsPdf" OnClick="ExportToPdf">Export PDF</MudMenuItem>
                         <MudMenuItem Icon="@Icons.Material.Filled.Keyboard" OnClick="ShowKeyboardShortcuts">Shortcuts</MudMenuItem>
@@ -190,7 +190,7 @@ else
         overflow-x: auto;
     }
 
-    @media (max-width: 960px) {
+    @@media (max-width: 960px) {
         .editor-toolbar-container {
             position: sticky;
             top: 112px; /* Adjusted if mobile toggle bar is present */
@@ -367,9 +367,10 @@ else
                         Styling
                     </MudText>
 
-                    <MudExpansionPanels MultiExpansion="true" Elevation="0" DisableBorders="true">
+                    <MudExpansionPanels MultiExpansion="true" Elevation="0">
                         <!-- Text Styling -->
-                        <MudExpansionPanel Text="Text" IsInitiallyExpanded="true">
+                        <MudExpansionPanel Text="Text">
+                            @if (selectedElement != null) {
                             <MudNumericField @bind-Value="selectedElement.Properties.FontSize"
                                              Label="Font Size"
                                              Variant="Variant.Outlined"
@@ -406,10 +407,12 @@ else
                             <MudCheckBox @bind-Value="selectedElement.Properties.Underline"
                                          Label="Underline"
                                          Color="Color.Primary" />
+                            }
                         </MudExpansionPanel>
 
                         <!-- Background Styling -->
                         <MudExpansionPanel Text="Background">
+                            @if (selectedElement != null) {
                             <MudTextField @bind-Value="selectedElement.Properties.BackgroundColor"
                                           Label="Background Color"
                                           Variant="Variant.Outlined"
@@ -425,10 +428,12 @@ else
                                        Color="Color.Primary">
                                 Background Opacity: @selectedElement.Properties.BackgroundOpacity.ToString("0.0")
                             </MudSlider>
+                            }
                         </MudExpansionPanel>
 
                         <!-- Border Styling -->
                         <MudExpansionPanel Text="Border">
+                            @if (selectedElement != null) {
                             <MudSelect @bind-Value="selectedElement.Properties.BorderStyle"
                                        Label="Border Style"
                                        Variant="Variant.Outlined"
@@ -462,10 +467,12 @@ else
                                              Min="0"
                                              Max="50"
                                              Style="margin-bottom: 12px;" />
+                            }
                         </MudExpansionPanel>
 
                         <!-- Shadow Styling -->
                         <MudExpansionPanel Text="Shadow">
+                            @if (selectedElement != null) {
                             <MudSelect @bind-Value="selectedElement.Properties.BoxShadow"
                                        Label="Shadow Preset"
                                        Variant="Variant.Outlined"
@@ -483,10 +490,12 @@ else
                                           Margin="Margin.Dense"
                                           Style="margin-bottom: 12px;"
                                           HelperText="e.g., #000000, rgba(0,0,0,0.3)" />
+                            }
                         </MudExpansionPanel>
 
                         <!-- Spacing (Padding & Margin) -->
                         <MudExpansionPanel Text="Spacing">
+                            @if (selectedElement != null) {
                             <MudText Typo="Typo.subtitle2" Style="margin-bottom: 8px; font-weight: 600;">
                                 Padding
                             </MudText>
@@ -554,10 +563,12 @@ else
                                                  Min="0"
                                                  Max="100" />
                             </div>
+                            }
                         </MudExpansionPanel>
 
                         <!-- Opacity & Transform -->
                         <MudExpansionPanel Text="Effects">
+                            @if (selectedElement != null) {
                             <MudSlider @bind-Value="selectedElement.Properties.Opacity"
                                        Min="0.0"
                                        Max="1.0"
@@ -582,6 +593,7 @@ else
                                              Margin="Margin.Dense"
                                              Min="-100"
                                              Max="100" />
+                            }
                         </MudExpansionPanel>
                     </MudExpansionPanels>
                 </MudPaper>

@@ -259,7 +259,7 @@
                         foreach (var option in radioGroup.Options)
                         {
                             b2.OpenComponent<MudRadio<string>>(0);
-                            b2.AddAttribute(1, "Option", option);
+                            b2.AddAttribute(1, "option", option);
                             b2.AddAttribute(2, "Color", Color.Primary);
                             b2.AddAttribute(3, "ChildContent", (RenderFragment)(b3 => b3.AddContent(4, option)));
                             b2.CloseComponent();

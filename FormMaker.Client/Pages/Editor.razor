@@ -13,6 +13,8 @@
 @using MudBlazor
 @using FormMaker.Shared
 
+@implements IAsyncDisposable
+
 @if (isPreviewMode)
 {
     <PreviewMode CurrentTemplate="currentTemplate" OnClose="ClosePreview" />
@@ -248,6 +250,7 @@ else
         </div>
     </MudDrawer>
 </MudLayout>
+}
 
 @code {
     private bool _libraryOpen;
@@ -367,9 +370,6 @@ else
                     <MudText Typo="Typo.body2">Select an element on the canvas to edit its properties.</MudText>
                 </div>
             }
-    };
-
-                <!-- Advanced Styling Properties -->
                 <MudPaper Elevation="0" Style="padding: 16px; background-color: white;">
                     <MudText Typo="Typo.subtitle1" Style="font-weight: 600; margin-bottom: 12px;">
                         Styling
@@ -608,10 +608,9 @@ else
                     <strong>Page Size:</strong> @currentTemplate.PageSize
                 </MudText>
             </MudPaper>
-};
-@implements IAsyncDisposable
+        }
+    };
 
-@code {
     private FormTemplate currentTemplate = new FormTemplate
     {
         Name = "Untitled Form",

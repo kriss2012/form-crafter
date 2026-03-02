@@ -4,29 +4,28 @@
 
 <PageTitle>Form Maker - Build Professional Forms with Ease</PageTitle>
 
-<SharedAppBar />
-
 <!-- Spacer for fixed header -->
 <div style="height: 64px;"></div>
 
 <MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 48px; padding-bottom: 64px;">
     <!-- Hero Section -->
     <div style="text-align: center; margin-bottom: 64px;">
-        <MudText Typo="Typo.h2" Style="font-weight: 700; margin-bottom: 24px; font-size: 48px; color: #1a1a1a;">
+        <MudText Typo="Typo.h2" Class="hero-title" Style="font-weight: 700; margin-bottom: 24px; color: #1a1a1a;">
             Build Professional Forms with Ease
         </MudText>
-        <MudText Typo="Typo.h5" Style="color: #666; margin-bottom: 48px; font-weight: 400; line-height: 1.6;">
+        <MudText Typo="Typo.h5" Class="hero-subtitle" Style="color: #666; margin-bottom: 48px; font-weight: 400; line-height: 1.6;">
             Designed for everyone, especially elderly and non-technical users
         </MudText>
 
         <!-- Main CTA Buttons -->
-        <div style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 48px;">
+        <div class="cta-container" style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 48px;">
             <MudButton Variant="Variant.Filled"
                        Color="Color.Primary"
                        Size="Size.Large"
                        StartIcon="@Icons.Material.Filled.Add"
                        OnClick='@(() => Navigation.NavigateTo("editor"))'
-                       Style="height: 64px; min-width: 220px; font-size: 20px; font-weight: 600;">
+                       Class="cta-button"
+                       Style="height: 64px; font-size: 20px; font-weight: 600;">
                 Create New Form
             </MudButton>
 
@@ -35,7 +34,8 @@
                        Size="Size.Large"
                        StartIcon="@Icons.Material.Filled.Description"
                        OnClick='@(() => Navigation.NavigateTo("templates"))'
-                       Style="height: 64px; min-width: 220px; font-size: 20px; font-weight: 600;">
+                       Class="cta-button"
+                       Style="height: 64px; font-size: 20px; font-weight: 600;">
                 Browse Templates
             </MudButton>
 
@@ -44,11 +44,41 @@
                        Size="Size.Large"
                        StartIcon="@Icons.Material.Filled.Folder"
                        OnClick='@(() => Navigation.NavigateTo("forms"))'
-                       Style="height: 64px; min-width: 220px; font-size: 20px; font-weight: 600;">
+                       Class="cta-button"
+                       Style="height: 64px; font-size: 20px; font-weight: 600;">
                 View My Forms
             </MudButton>
         </div>
     </div>
+
+    <style>
+        .hero-title {
+            font-size: 3rem !important;
+        }
+        .hero-subtitle {
+            font-size: 1.5rem !important;
+        }
+        .cta-button {
+            min-width: 220px;
+            width: auto;
+        }
+
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 2rem !important;
+            }
+            .hero-subtitle {
+                font-size: 1.1rem !important;
+            }
+            .cta-button {
+                width: 100% !important;
+                min-width: 100% !important;
+            }
+            .cta-container {
+                gap: 12px !important;
+            }
+        }
+    </style>
 
     <!-- Feature Highlights -->
     <MudText Typo="Typo.h4" Style="text-align: center; font-weight: 600; margin-bottom: 48px;">

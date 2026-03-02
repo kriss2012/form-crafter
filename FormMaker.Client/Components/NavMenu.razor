@@ -1,0 +1,39 @@
+@inject NavigationManager Navigation
+
+<MudNavMenu>
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+    <MudNavLink Href="editor" Icon="@Icons.Material.Filled.Edit">Editor</MudNavLink>
+    <MudNavLink Href="forms" Icon="@Icons.Material.Filled.Folder">My Forms</MudNavLink>
+    <MudNavLink Href="templates" Icon="@Icons.Material.Filled.Description">Templates</MudNavLink>
+    <MudNavLink Href="help" Icon="@Icons.Material.Filled.Help">Help</MudNavLink>
+    <MudNavLink Href="about" Icon="@Icons.Material.Filled.Info">About</MudNavLink>
+    
+    <MudDivider Class="my-2" />
+    
+    <AuthorizeView>
+        <Authorized>
+            <MudNavLink Icon="@Icons.Material.Filled.Logout" OnClick="HandleLogout">Logout</MudNavLink>
+        </Authorized>
+        <NotAuthorized>
+            <MudNavLink Href="login" Icon="@Icons.Material.Filled.Login">Login</MudNavLink>
+            <MudNavLink Href="register" Icon="@Icons.Material.Filled.PersonAdd">Sign Up</MudNavLink>
+        </NotAuthorized>
+    </AuthorizeView>
+</MudNavMenu>
+
+@code {
+    [CascadingParameter]
+    private Task<AuthenticationState>? AuthState { get; set; }
+
+    [Inject]
+    private FormMaker.Client.Services.CustomAuthStateProvider? AuthStateProvider { get; set; }
+
+    private async Task HandleLogout()
+    {
+        if (AuthStateProvider != null)
+        {
+            await AuthStateProvider.MarkUserAsLoggedOut();
+            Navigation.NavigateTo("login");
+        }
+    }
+}

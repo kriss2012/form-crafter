@@ -1,3 +1,20 @@
 ﻿@inherits LayoutComponentBase
 
-@Body
+<MudLayout>
+    <SharedAppBar OnDrawerToggle="ToggleDrawer" />
+    <MudDrawer @bind-Open="_drawerOpen" Elevation="1" Anchor="Anchor.Left" Variant="@DrawerVariant.Temporary">
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent>
+        @Body
+    </MudMainContent>
+</MudLayout>
+
+@code {
+    private bool _drawerOpen;
+
+    private void ToggleDrawer()
+    {
+        _drawerOpen = !_drawerOpen;
+    }
+}

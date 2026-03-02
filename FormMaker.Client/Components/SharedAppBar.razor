@@ -4,107 +4,115 @@
 @inject ISnackbar Snackbar
 
 <MudAppBar Elevation="2" Dense="false" Fixed="true" Style="height: 64px; z-index: 1300;" role="navigation" aria-label="Main navigation">
+    <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="OnDrawerToggle" Class="d-flex d-md-none" aria-label="Open navigation menu" />
+    
     <MudButton Variant="Variant.Text"
                Color="Color.Inherit"
                OnClick='@(() => Navigation.NavigateTo(""))'
-               Style="font-size: 1.5rem; font-weight: 600; text-transform: none;"
-               aria-label="Form Maker home">
+               Style="font-size: 1.2rem; font-weight: 600; text-transform: none;"
+               aria-label="Form Maker home"
+               Class="ml-2">
         Form Maker
     </MudButton>
 
     <MudSpacer />
 
-    <!-- Main Navigation Links -->
-    <MudButton Variant="@GetVariant("/")"
-               Color="Color.Primary"
-               StartIcon="@Icons.Material.Filled.Home"
-               OnClick='@(() => Navigation.NavigateTo(""))'
-               Size="Size.Large"
-               Style="margin-left: 8px;">
-        Home
-    </MudButton>
+    <!-- Main Navigation Links - Hidden on mobile -->
+    <div class="d-none d-md-flex">
+        <MudButton Variant="@GetVariant("/")"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Home"
+                   OnClick='@(() => Navigation.NavigateTo(""))'
+                   Size="Size.Large"
+                   Style="margin-left: 8px;">
+            Home
+        </MudButton>
 
-    <MudButton Variant="@GetVariant("/editor")"
-               Color="Color.Primary"
-               StartIcon="@Icons.Material.Filled.Edit"
-               OnClick='@(() => Navigation.NavigateTo("editor"))'
-               Size="Size.Large"
-               Style="margin-left: 8px;">
-        Editor
-    </MudButton>
+        <MudButton Variant="@GetVariant("/editor")"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Edit"
+                   OnClick='@(() => Navigation.NavigateTo("editor"))'
+                   Size="Size.Large"
+                   Style="margin-left: 8px;">
+            Editor
+        </MudButton>
 
-    <MudButton Variant="@GetVariant("/forms")"
-               Color="Color.Primary"
-               StartIcon="@Icons.Material.Filled.Folder"
-               OnClick='@(() => Navigation.NavigateTo("forms"))'
-               Size="Size.Large"
-               Style="margin-left: 8px;">
-        My Forms
-    </MudButton>
+        <MudButton Variant="@GetVariant("/forms")"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Folder"
+                   OnClick='@(() => Navigation.NavigateTo("forms"))'
+                   Size="Size.Large"
+                   Style="margin-left: 8px;">
+            My Forms
+        </MudButton>
 
-    <MudButton Variant="@GetVariant("/templates")"
-               Color="Color.Primary"
-               StartIcon="@Icons.Material.Filled.Description"
-               OnClick='@(() => Navigation.NavigateTo("templates"))'
-               Size="Size.Large"
-               Style="margin-left: 8px;">
-        Templates
-    </MudButton>
+        <MudButton Variant="@GetVariant("/templates")"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Description"
+                   OnClick='@(() => Navigation.NavigateTo("templates"))'
+                   Size="Size.Large"
+                   Style="margin-left: 8px;">
+            Templates
+        </MudButton>
 
-    <MudButton Variant="@GetVariant("/help")"
-               Color="Color.Primary"
-               StartIcon="@Icons.Material.Filled.Help"
-               OnClick='@(() => Navigation.NavigateTo("help"))'
-               Size="Size.Large"
-               Style="margin-left: 8px;">
-        Help
-    </MudButton>
+        <MudButton Variant="@GetVariant("/help")"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Help"
+                   OnClick='@(() => Navigation.NavigateTo("help"))'
+                   Size="Size.Large"
+                   Style="margin-left: 8px;">
+            Help
+        </MudButton>
 
-    <MudButton Variant="@GetVariant("/about")"
-               Color="Color.Primary"
-               StartIcon="@Icons.Material.Filled.Info"
-               OnClick='@(() => Navigation.NavigateTo("about"))'
-               Size="Size.Large"
-               Style="margin-left: 8px;">
-        About
-    </MudButton>
+        <MudButton Variant="@GetVariant("/about")"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Info"
+                   OnClick='@(() => Navigation.NavigateTo("about"))'
+                   Size="Size.Large"
+                   Style="margin-left: 8px;">
+            About
+        </MudButton>
+    </div>
 
     <MudSpacer />
 
-    <!-- Authentication UI -->
-    <AuthorizeView>
-        <Authorized>
-            <MudText Typo="Typo.body2" Class="mr-4">
-                Welcome, @context.User.Identity?.Name
-            </MudText>
-            <MudButton Variant="Variant.Outlined"
-                       Color="Color.Primary"
-                       StartIcon="@Icons.Material.Filled.Logout"
-                       OnClick="HandleLogout"
-                       Size="Size.Large">
-                Logout
-            </MudButton>
-        </Authorized>
-        <NotAuthorized>
-            <MudButton Variant="Variant.Text"
-                       Color="Color.Inherit"
-                       OnClick='@(() => Navigation.NavigateTo("login"))'
-                       Size="Size.Large"
-                       Style="margin-left: 8px;">
-                Login
-            </MudButton>
-            <MudButton Variant="Variant.Filled"
-                       Color="Color.Primary"
-                       OnClick='@(() => Navigation.NavigateTo("register"))'
-                       Size="Size.Large"
-                       Style="margin-left: 8px;">
-                Sign Up
-            </MudButton>
-        </NotAuthorized>
-    </AuthorizeView>
+    <!-- Authentication UI - Hidden on small screens, shown as icons maybe? Keep simple for now -->
+    <div class="d-none d-sm-flex align-center">
+        <AuthorizeView>
+            <Authorized>
+                <MudText Typo="Typo.body2" Class="mr-4">
+                    @context.User.Identity?.Name
+                </MudText>
+                <MudButton Variant="Variant.Outlined"
+                           Color="Color.Primary"
+                           StartIcon="@Icons.Material.Filled.Logout"
+                           OnClick="HandleLogout"
+                           Size="Size.Large">
+                    Logout
+                </MudButton>
+            </Authorized>
+            <NotAuthorized>
+                <MudButton Variant="Variant.Text"
+                           Color="Color.Inherit"
+                           OnClick='@(() => Navigation.NavigateTo("login"))'
+                           Size="Size.Large"
+                           Style="margin-left: 8px;">
+                    Login
+                </MudButton>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           OnClick='@(() => Navigation.NavigateTo("register"))'
+                           Size="Size.Large"
+                           Style="margin-left: 8px;">
+                    Sign Up
+                </MudButton>
+            </NotAuthorized>
+        </AuthorizeView>
+    </div>
 </MudAppBar>
 
 @code {
+    [Parameter] public EventCallback OnDrawerToggle { get; set; }
     private Variant GetVariant(string href)
     {
         var currentPath = new Uri(Navigation.Uri).LocalPath;

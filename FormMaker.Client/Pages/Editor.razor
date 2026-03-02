@@ -13,6 +13,8 @@
 @using MudBlazor
 @using FormMaker.Shared
 
+@implements IAsyncDisposable
+
 @if (isPreviewMode)
 {
     <PreviewMode CurrentTemplate="currentTemplate" OnClose="ClosePreview" />
@@ -609,7 +611,6 @@ else
                 </MudText>
             </MudPaper>
 };
-@implements IAsyncDisposable
 
 @code {
     private FormTemplate currentTemplate = new FormTemplate

@@ -8,6 +8,12 @@
 
 <PageTitle>Form Maker - Editor</PageTitle>
 
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.JSInterop
+@using MudBlazor
+@using FormMaker.Shared
+
 @if (isPreviewMode)
 {
     <PreviewMode CurrentTemplate="currentTemplate" OnClose="ClosePreview" />
@@ -249,17 +255,15 @@ else
     private bool _propertiesOpen;
 
     private RenderFragment PropertiesPanelContent() => __builder => {
+            // prepare local values before rendering markup
+            var currentElements = currentTemplate.IsMultiPage && currentTemplate.CurrentPage != null
+                ? currentTemplate.CurrentPage.Elements
+                : currentTemplate.Elements;
+            var selectedElements = currentElements.Where(e => e.IsSelected).ToList();
+            var multipleSelected = selectedElements.Count > 1;
+            var displayElement = selectedElement ?? selectedElements.FirstOrDefault();
+
             <MudText Typo="Typo.h6" Class="premium-header-text mb-6 d-none d-md-block">Inspector</MudText>
-
-            @{
-                var currentElements = currentTemplate.IsMultiPage && currentTemplate.CurrentPage != null
-                    ? currentTemplate.CurrentPage.Elements
-                    : currentTemplate.Elements;
-                var selectedElements = currentElements.Where(e => e.IsSelected).ToList();
-                var multipleSelected = selectedElements.Count > 1;
-                var displayElement = selectedElement ?? selectedElements.FirstOrDefault();
-            }
-
             @if (selectedElement != null || selectedElements.Count > 0)
             {
                 <MudPaper Elevation="0" Style="padding: 16px; background-color: white; margin-bottom: 16px;">
@@ -607,8 +611,7 @@ else
             </MudPaper>
         </aside>
     </MudLayout>
-}
-
+};
 @implements IAsyncDisposable
 
 @code {

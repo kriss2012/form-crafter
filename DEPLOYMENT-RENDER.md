@@ -3,6 +3,7 @@
 Deploy your Form Maker app (Blazor WASM + API) completely **FREE** using:
 - **Frontend**: GitHub Pages (already set up!)
 - **Backend API**: Render.com (100% free!)
+- **Repo**: https://github.com/kriss2012/form-crafter
 
 ## ✅ What You Get (FREE)
 
@@ -220,7 +221,7 @@ Your app is now:
 - ✅ **Secured with HTTPS**
 
 **Live URLs:**
-- Frontend: https://zyonify.github.io/form-crafter/
+- Frontend: https://kriss2012.github.io/form-crafter/
 - Backend: https://your-service-name.onrender.com/api/
 
 **Congratulations!** 🎊 You now have a production full-stack application!

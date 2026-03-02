@@ -107,7 +107,7 @@ Visit: `https://your-api-url.onrender.com/api/auth/login`
 Should return: "Method Not Allowed" or similar (means it's working!)
 
 ### Test Full App:
-1. Go to https://zyonify.github.io/form-crafter/
+1. Go to https://kriss2012.github.io/form-crafter/
 2. Click **"Sign Up"**
 3. Create an account
 4. You should be automatically logged in!

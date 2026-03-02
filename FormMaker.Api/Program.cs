@@ -35,11 +35,11 @@ if (rawConnection.StartsWith("postgres://") || rawConnection.StartsWith("postgre
         var userInfo = uri.UserInfo.Split(':');
         var user = userInfo[0];
         var password = userInfo.Length > 1 ? userInfo[1] : "";
-        var host = uri.Host;
+        var dbHost = uri.Host;
         var port = uri.Port > 0 ? uri.Port : 5432;
         var database = uri.AbsolutePath.TrimStart('/');
 
-        connectionString = $"Host={host};Port={port};Database={database};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true";
+        connectionString = $"Host={dbHost};Port={port};Database={database};Username={user};Password={password};SSL Mode=Require;Trust Server Certificate=true";
     }
     catch
     {

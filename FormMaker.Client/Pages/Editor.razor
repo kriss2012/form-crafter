@@ -1600,10 +1600,4 @@ else
         Snackbar.Add($"{currentElements.Count} elements selected", Severity.Info);
         StateHasChanged();
     }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (autoSaveTimer != null) await autoSaveTimer.DisposeAsync();
-        if (dotNetHelper != null) dotNetHelper.Dispose();
-    }
 }

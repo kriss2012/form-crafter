@@ -2,7 +2,7 @@ services:
   - type: web
     name: formmaker-api
     runtime: docker
-    repo: https://github.com/zyonify/form-crafter
+    repo: https://github.com/kriss2012/form-crafter
     region: oregon
     branch: main
     dockerfilePath: Dockerfile

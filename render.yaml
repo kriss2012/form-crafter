@@ -5,7 +5,7 @@ services:
     repo: https://github.com/kriss2012/form-crafter
     region: oregon
     branch: main
-    dockerfilePath: Dockerfile
+    dockerfilePath: Render.Dockerfile
     dockerCommand: ""
     envVars:
       - key: AzureWebJobsStorage

@@ -46,8 +46,8 @@ Deploy your Form Maker app (Blazor WASM + API) completely **FREE** using:
    - **Instance Type**: `Free`
 
 4. **Build Settings**:
-   - Render will auto-detect the Dockerfile!
-   - Build Command: `dotnet publish -c Release`
+   - **Dockerfile Path**: `Render.Dockerfile`
+   - **Build Command**: `dotnet publish -c Release`
 
 5. **Environment Variables** (Click "Advanced"):
    Add these environment variables:

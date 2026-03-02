@@ -2,7 +2,6 @@
 @using FormMaker.Shared.Models
 @using FormMaker.Shared.Models.Elements
 @using FormMaker.Client.Components
-@using Microsoft.JSInterop
 @using Microsoft.AspNetCore.Components.Forms
 @using System.Text.Json
 
@@ -609,8 +608,6 @@ else
                     <strong>Page Size:</strong> @currentTemplate.PageSize
                 </MudText>
             </MudPaper>
-        </aside>
-    </MudLayout>
 };
 @implements IAsyncDisposable
 

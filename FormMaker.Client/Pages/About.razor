@@ -205,45 +205,63 @@
             </MudPaper>
         </MudItem>
 
-        <!-- Open Source & Feedback -->
+        <!-- Meet the Creator -->
         <MudItem xs="12">
-            <MudPaper Elevation="2" Style="padding: 48px; text-align: center; background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);">
-                <div style="font-size: 64px; margin-bottom: 24px;">💚</div>
-                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 16px;">Open Source & Community</MudText>
-                <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 32px; font-size: 18px; line-height: 1.7; max-width: 700px; margin-left: auto; margin-right: auto;">
-                    Form Maker is an open-source project built with accessibility and user needs at its core.
-                    We welcome feedback, suggestions, and contributions from the community.
-                </MudText>
+            <MudPaper Elevation="4" Class="pa-8 pa-md-12 rounded-xl overflow-hidden relative" Style="background: linear-gradient(135deg, #f8faff 0%, #ffffff 100%); border: 1px solid rgba(89, 74, 226, 0.1);">
+                <MudGrid AlignItems="AlignItems.Center">
+                    <MudItem xs="12" md="4" Class="d-flex justify-center mb-6 mb-md-0">
+                        <div class="relative">
+                            <MudAvatar Image="https://github.com/kriss2012.png" Style="width: 220px; height: 220px;" Elevation="4" />
+                            <div class="absolute" style="bottom: 10px; right: 10px; background: #4caf50; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white;" title="Available for projects"></div>
+                        </div>
+                    </MudItem>
+                    <MudItem xs="12" md="8">
+                        <MudText Typo="Typo.h3" Class="premium-header-text mb-2">Krishna Chandrakant Patil</MudText>
+                        <MudText Typo="Typo.h6" Color="Color.Primary" Class="mb-4">BCA 3rd Year Student • Full Stack Developer</MudText>
+                        
+                        <div class="d-flex align-center gap-2 mb-6" style="color: var(--mud-palette-text-secondary);">
+                            <MudIcon Icon="@Icons.Material.Filled.LocationOn" Size="Size.Small" />
+                            <MudText Typo="Typo.body1">Pachora, Maharashtra, India</MudText>
+                        </div>
 
+                        <MudText Typo="Typo.body1" Style="line-height: 1.8; color: #4a4a4a; margin-bottom: 32px; font-size: 1.1rem;">
+                            Passionate about building accessible, user-centric web applications and mobile solutions. 
+                            As the creator of Form Maker, my goal is to simplify document creation for everyone, 
+                            ensuring modern technology is inclusive and easy to use.
+                        </MudText>
+
+                        <div class="d-flex flex-wrap gap-4">
+                            <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Primary" Variant="Variant.Filled" Href="https://github.com/kriss2012" Target="_blank" Size="Size.Large" Class="rounded-lg" />
+                            <MudIconButton Icon="@Icons.Custom.Brands.LinkedIn" Color="Color.Primary" Variant="Variant.Filled" Href="https://www.linkedin.com/in/krishna-patil-33969536b?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" Target="_blank" Size="Size.Large" Class="rounded-lg" />
+                            <MudIconButton Icon="@Icons.Custom.Brands.YouTube" Color="Color.Error" Variant="Variant.Filled" Href="https://youtube.com/@pbakrish?si=jGClRutQlIS7ZvlD" Target="_blank" Size="Size.Large" Class="rounded-lg" />
+                            <MudIconButton Icon="@Icons.Custom.Brands.Instagram" Color="Color.Secondary" Variant="Variant.Filled" Href="https://www.instagram.com/mr_krishna_yt____?igsh=MWhqbW03dWoxbjA2dA==" Target="_blank" Size="Size.Large" Class="rounded-lg" />
+                            <MudButton StartIcon="@Icons.Material.Filled.Language" Variant="Variant.Outlined" Color="Color.Primary" Href="https://tgkrish-portfolio.netlify.app/" Target="_blank" Size="Size.Large" Class="rounded-lg px-6">Portfolio</MudButton>
+                        </div>
+                    </MudItem>
+                </MudGrid>
+            </MudPaper>
+        </MudItem>
+
+        <!-- Project Links -->
+        <MudItem xs="12">
+            <MudPaper Elevation="2" Style="padding: 48px; text-align: center; background: #fafafa; border-radius: 24px;">
+                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 24px;">Contribute to Form Maker</MudText>
                 <div style="display: flex; justify-content: center; gap: 16px; flex-wrap: wrap;">
-                    <MudButton Variant="Variant.Filled"
+                    <MudButton Variant="Variant.Text"
                                Color="Color.Primary"
                                Size="Size.Large"
-                               StartIcon="@Icons.Material.Filled.Code"
-                               Href="https://github.com/yourusername/form-maker"
-                               Target="_blank"
-                               Style="height: 56px; font-size: 18px;">
-                        View on GitHub
+                               StartIcon="@Icons.Custom.Brands.GitHub"
+                               Href="https://github.com/kriss2012/form-crafter"
+                               Target="_blank">
+                        Source Code
                     </MudButton>
-
-                    <MudButton Variant="Variant.Outlined"
+                    <MudButton Variant="Variant.Text"
                                Color="Color.Primary"
                                Size="Size.Large"
                                StartIcon="@Icons.Material.Filled.BugReport"
-                               Href="https://github.com/yourusername/form-maker/issues"
-                               Target="_blank"
-                               Style="height: 56px; font-size: 18px;">
-                        Report Issues
-                    </MudButton>
-
-                    <MudButton Variant="Variant.Outlined"
-                               Color="Color.Primary"
-                               Size="Size.Large"
-                               StartIcon="@Icons.Material.Filled.Chat"
-                               Href="https://github.com/yourusername/form-maker/discussions"
-                               Target="_blank"
-                               Style="height: 56px; font-size: 18px;">
-                        Discussions
+                               Href="https://github.com/kriss2012/form-crafter/issues"
+                               Target="_blank">
+                        Issues
                     </MudButton>
                 </div>
             </MudPaper>

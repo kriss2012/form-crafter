@@ -2,8 +2,12 @@
 
 <MudNavMenu>
     <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="editor" Icon="@Icons.Material.Filled.Edit">Editor</MudNavLink>
-    <MudNavLink Href="forms" Icon="@Icons.Material.Filled.Folder">My Forms</MudNavLink>
+    <AuthorizeView>
+        <Authorized>
+            <MudNavLink Href="editor" Icon="@Icons.Material.Filled.Edit">Editor</MudNavLink>
+            <MudNavLink Href="forms" Icon="@Icons.Material.Filled.Folder">My Forms</MudNavLink>
+        </Authorized>
+    </AuthorizeView>
     <MudNavLink Href="templates" Icon="@Icons.Material.Filled.Description">Templates</MudNavLink>
     <MudNavLink Href="help" Icon="@Icons.Material.Filled.Help">Help</MudNavLink>
     <MudNavLink Href="about" Icon="@Icons.Material.Filled.Info">About</MudNavLink>

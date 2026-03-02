@@ -7,84 +7,105 @@
 
 <PageTitle>Register - Form Maker</PageTitle>
 
-<MudContainer MaxWidth="MaxWidth.Small" Class="mt-8">
-    <MudPaper Class="pa-8" Elevation="3">
-        <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true">
-            Create Account
-        </MudText>
-        <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Secondary" Class="mb-6">
-            Get started with Form Maker today
-        </MudText>
+<link href="css/auth-styles.css" rel="stylesheet" />
 
-        <EditForm Model="@registerModel" OnValidSubmit="HandleRegister">
-            <DataAnnotationsValidator />
+<div class="auth-page-container">
+    <MudContainer MaxWidth="MaxWidth.ExtraSmall">
+        <div class="auth-glass-card pa-8 pa-sm-12">
+            <div class="text-center mb-8">
+                <MudIcon Icon="@Icons.Material.Filled.AppRegistration" Color="Color.Primary" Style="font-size: 3rem;" Class="mb-4" />
+                <MudText Typo="Typo.h4" Class="auth-header-gradient mb-2">Join Form Maker</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary">Create an account to start crafting forms</MudText>
+            </div>
 
-            <MudTextField @bind-Value="registerModel.DisplayName"
-                          Label="Display Name (Optional)"
-                          Variant="Variant.Outlined"
-                          Disabled="@isLoading"
-                          Class="mb-4"
-                          HelperText="How should we call you?" />
+            <EditForm Model="@registerModel" OnValidSubmit="HandleRegister">
+                <DataAnnotationsValidator />
 
-            <MudTextField @bind-Value="registerModel.Email"
-                          Label="Email"
-                          Variant="Variant.Outlined"
-                          InputType="InputType.Email"
-                          Required="true"
-                          Disabled="@isLoading"
-                          Class="mb-4"
-                          HelperText="Enter a valid email address" />
+                <MudTextField @bind-Value="registerModel.DisplayName"
+                              Label="Full Name"
+                              Variant="Variant.Outlined"
+                              Disabled="@isLoading"
+                              Class="auth-input-field mb-4"
+                              Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Person"
+                              AdornmentColor="Color.Primary" />
 
-            <MudTextField @bind-Value="registerModel.Password"
-                          Label="Password"
-                          Variant="Variant.Outlined"
-                          InputType="InputType.Password"
-                          Required="true"
-                          Disabled="@isLoading"
-                          Class="mb-4"
-                          HelperText="Minimum 8 characters" />
+                <MudTextField @bind-Value="registerModel.Email"
+                              Label="Email Address"
+                              Variant="Variant.Outlined"
+                              InputType="InputType.Email"
+                              Required="true"
+                              Disabled="@isLoading"
+                              Class="auth-input-field mb-4"
+                              Adornment="Adornment.Start"
+                              AdornmentIcon="@Icons.Material.Filled.Email"
+                              AdornmentColor="Color.Primary" />
 
-            <MudTextField @bind-Value="registerModel.ConfirmPassword"
-                          Label="Confirm Password"
-                          Variant="Variant.Outlined"
-                          InputType="InputType.Password"
-                          Required="true"
-                          Disabled="@isLoading"
-                          Class="mb-6"
-                          HelperText="Re-enter your password" />
+                <div class="d-flex gap-4 mb-4">
+                    <MudTextField @bind-Value="registerModel.Password"
+                                  Label="Password"
+                                  Variant="Variant.Outlined"
+                                  InputType="InputType.Password"
+                                  Required="true"
+                                  Disabled="@isLoading"
+                                  Class="auth-input-field"
+                                  Adornment="Adornment.Start"
+                                  AdornmentIcon="@Icons.Material.Filled.Lock"
+                                  AdornmentColor="Color.Primary" />
 
-            @if (!string.IsNullOrEmpty(errorMessage))
-            {
-                <MudAlert Severity="Severity.Error" Class="mb-4">@errorMessage</MudAlert>
-            }
+                    <MudTextField @bind-Value="registerModel.ConfirmPassword"
+                                  Label="Confirm"
+                                  Variant="Variant.Outlined"
+                                  InputType="InputType.Password"
+                                  Required="true"
+                                  Disabled="@isLoading"
+                                  Class="auth-input-field" />
+                </div>
 
-            <MudButton ButtonType="ButtonType.Submit"
-                       Variant="Variant.Filled"
-                       Color="Color.Primary"
-                       FullWidth="true"
-                       Size="Size.Large"
-                       Disabled="@isLoading"
-                       Class="mb-4">
-                @if (isLoading)
+                @if (!string.IsNullOrEmpty(errorMessage))
                 {
-                    <MudProgressCircular Class="mr-2" Size="Size.Small" Indeterminate="true" />
-                    <span>Creating Account...</span>
+                    <MudAlert Severity="Severity.Error" Variant="Variant.Filled" Class="mb-6 rounded-lg">@errorMessage</MudAlert>
                 }
-                else
-                {
-                    <span>Create Account</span>
-                }
-            </MudButton>
-        </EditForm>
 
-        <MudDivider Class="my-4" />
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           FullWidth="true"
+                           Size="Size.Large"
+                           Disabled="@isLoading"
+                           Class="auth-submit-btn py-3 mb-6">
+                    @if (isLoading)
+                    {
+                        <MudProgressCircular Class="mr-2" Size="Size.Small" Indeterminate="true" />
+                        <span>Creating...</span>
+                    }
+                    else
+                    {
+                        <span>Get Started</span>
+                    }
+                </MudButton>
 
-        <MudText Typo="Typo.body2" Align="Align.Center">
-            Already have an account?
-            <MudLink OnClick='@(() => Navigation.NavigateTo("login"))' Color="Color.Primary" Style="cursor: pointer;">Sign In</MudLink>
-        </MudText>
-    </MudPaper>
-</MudContainer>
+                <div class="d-flex align-center gap-4 mb-6">
+                    <MudDivider Class="flex-grow-1" />
+                    <MudText Typo="Typo.caption" Color="Color.Secondary">OR JOIN WITH</MudText>
+                    <MudDivider Class="flex-grow-1" />
+                </div>
+
+                <div class="d-grid gap-4 mb-8" style="display: grid; grid-template-columns: 1fr 1fr;">
+                    <MudButton StartIcon="@Icons.Custom.Brands.Google" Variant="Variant.Outlined" Class="auth-social-btn py-2">Google</MudButton>
+                    <MudButton StartIcon="@Icons.Custom.Brands.GitHub" Variant="Variant.Outlined" Class="auth-social-btn py-2">GitHub</MudButton>
+                </div>
+            </EditForm>
+
+            <div class="text-center mt-4">
+                <MudText Typo="Typo.body2">
+                    Already have an account? 
+                    <MudLink OnClick='@(() => Navigation.NavigateTo("login"))' Color="Color.Primary" Class="ml-1" Style="cursor: pointer; font-weight: 600;">Sign In</MudLink>
+                </MudText>
+            </div>
+        </div>
+    </MudContainer>
+</div>
 
 @code {
     private RegisterModel registerModel = new();

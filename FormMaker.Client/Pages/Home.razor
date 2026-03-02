@@ -7,196 +7,107 @@
 <!-- Spacer for fixed header -->
 <div style="height: 64px;"></div>
 
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 48px; padding-bottom: 64px;">
+<main class="page-fade-in">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 64px; padding-bottom: 80px;">
     <!-- Hero Section -->
-    <div style="text-align: center; margin-bottom: 64px;">
-        <MudText Typo="Typo.h2" Class="hero-title" Style="font-weight: 700; margin-bottom: 24px; color: #1a1a1a;">
-            Build Professional Forms with Ease
+    <div style="text-align: center; margin-bottom: 80px;">
+        <MudText Typo="Typo.h2" Class="premium-header-text mb-6" Style="font-size: clamp(2.5rem, 5vw, 4rem) !important;">
+            Craft Professional Forms <br /> <span class="auth-header-gradient">In Minutes</span>
         </MudText>
-        <MudText Typo="Typo.h5" Class="hero-subtitle" Style="color: #666; margin-bottom: 48px; font-weight: 400; line-height: 1.6;">
-            Designed for everyone, especially elderly and non-technical users
+        <MudText Typo="Typo.h5" Color="Color.Secondary" Class="mb-10 mx-auto" Style="max-width: 700px; font-weight: 400; line-height: 1.6;">
+            A powerful, accessible drag-and-drop builder designed for everyone.
+            From simple RSVPs to complex business applications.
         </MudText>
 
         <!-- Main CTA Buttons -->
-        <div class="cta-container" style="display: flex; justify-content: center; gap: 24px; flex-wrap: wrap; margin-bottom: 48px;">
+        <div class="d-flex justify-center gap-6 flex-wrap mb-12">
             <MudButton Variant="Variant.Filled"
                        Color="Color.Primary"
                        Size="Size.Large"
-                       StartIcon="@Icons.Material.Filled.Add"
+                       StartIcon="@Icons.Material.Filled.RocketLaunch"
                        OnClick='@(() => Navigation.NavigateTo("editor"))'
-                       Class="cta-button"
-                       Style="height: 64px; font-size: 20px; font-weight: 600;">
-                Create New Form
+                       Class="premium-btn px-8 py-4"
+                       Style="height: 60px; font-size: 1.1rem;">
+                Get Started Free
             </MudButton>
 
             <MudButton Variant="Variant.Outlined"
                        Color="Color.Primary"
                        Size="Size.Large"
-                       StartIcon="@Icons.Material.Filled.Description"
+                       StartIcon="@Icons.Material.Filled.AutoAwesome"
                        OnClick='@(() => Navigation.NavigateTo("templates"))'
-                       Class="cta-button"
-                       Style="height: 64px; font-size: 20px; font-weight: 600;">
-                Browse Templates
-            </MudButton>
-
-            <MudButton Variant="Variant.Outlined"
-                       Color="Color.Primary"
-                       Size="Size.Large"
-                       StartIcon="@Icons.Material.Filled.Folder"
-                       OnClick='@(() => Navigation.NavigateTo("forms"))'
-                       Class="cta-button"
-                       Style="height: 64px; font-size: 20px; font-weight: 600;">
-                View My Forms
+                       Class="premium-btn px-8 py-4"
+                       Style="height: 60px; font-size: 1.1rem; border-width: 2px;">
+                Explore Templates
             </MudButton>
         </div>
     </div>
 
-    <style>
-        .hero-title {
-            font-size: 3rem !important;
-        }
-        .hero-subtitle {
-            font-size: 1.5rem !important;
-        }
-        .cta-button {
-            min-width: 220px;
-            width: auto;
-        }
-
-        @media (max-width: 600px) {
-            .hero-title {
-                font-size: 2rem !important;
-            }
-            .hero-subtitle {
-                font-size: 1.1rem !important;
-            }
-            .cta-button {
-                width: 100% !important;
-                min-width: 100% !important;
-            }
-            .cta-container {
-                gap: 12px !important;
-            }
-        }
-    </style>
-
     <!-- Feature Highlights -->
-    <MudText Typo="Typo.h4" Style="text-align: center; font-weight: 600; margin-bottom: 48px;">
-        Why Choose Form Maker?
-    </MudText>
+    <div class="text-center mb-12">
+        <MudText Typo="Typo.h4" Class="premium-header-text mb-4">Why Form Maker?</MudText>
+        <div class="mx-auto rounded-pill mb-12" style="width: 60px; height: 4px; background: var(--premium-primary);"></div>
+    </div>
 
-    <MudGrid>
-        <!-- Feature 1: Drag & Drop -->
+    <MudGrid Spacing="6">
         <MudItem xs="12" md="4">
-            <MudPaper Elevation="3" Style="padding: 32px; text-align: center; height: 100%; background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);">
-                <div style="font-size: 64px; margin-bottom: 16px;">🖱️</div>
-                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 16px;">
-                    Drag & Drop Simple
-                </MudText>
-                <MudText Typo="Typo.body1" Style="color: #666; line-height: 1.7;">
-                    Click or drag elements to build your form. No coding skills needed.
-                    If you can use a mouse, you can create professional forms.
+            <MudPaper Elevation="0" Class="premium-card pa-10 text-center d-flex flex-column" Style="height: 100%;">
+                <div class="mb-6 p-4 rounded-xl d-inline-block mx-auto" style="background: #eef2ff;">
+                    <MudIcon Icon="@Icons.Material.Filled.TouchApp" Color="Color.Primary" Style="font-size: 48px;" />
+                </div>
+                <MudText Typo="Typo.h5" Class="premium-header-text mb-4">Click & Drag</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary" Style="line-height: 1.7;">
+                    The most intuitive builder on the market. Click elements to customize and drag them anywhere on the canvas.
                 </MudText>
             </MudPaper>
         </MudItem>
 
-        <!-- Feature 2: Accessible Design -->
         <MudItem xs="12" md="4">
-            <MudPaper Elevation="3" Style="padding: 32px; text-align: center; height: 100%; background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);">
-                <div style="font-size: 64px; margin-bottom: 16px;">♿</div>
-                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 16px;">
-                    Accessible Design
-                </MudText>
-                <MudText Typo="Typo.body1" Style="color: #666; line-height: 1.7;">
-                    Large text, high contrast, keyboard navigation, and screen reader support.
-                    Designed specifically for elderly and visually impaired users.
+            <MudPaper Elevation="0" Class="premium-card pa-10 text-center d-flex flex-column" Style="height: 100%;">
+                <div class="mb-6 p-4 rounded-xl d-inline-block mx-auto" style="background: #f0fdf4;">
+                    <MudIcon Icon="@Icons.Material.Filled.AccessibilityNew" Color="Color.Success" Style="font-size: 48px;" />
+                </div>
+                <MudText Typo="Typo.h5" Class="premium-header-text mb-4">Inclusive Design</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary" Style="line-height: 1.7;">
+                    Optimized for elderly and non-technical users. Large touch targets and screen-reader compatibility built-in.
                 </MudText>
             </MudPaper>
         </MudItem>
 
-        <!-- Feature 3: No Technical Skills -->
         <MudItem xs="12" md="4">
-            <MudPaper Elevation="3" Style="padding: 32px; text-align: center; height: 100%; background: linear-gradient(135deg, #fff7f0 0%, #ffffff 100%);">
-                <div style="font-size: 64px; margin-bottom: 16px;">✨</div>
-                <MudText Typo="Typo.h5" Style="font-weight: 600; margin-bottom: 16px;">
-                    No Technical Skills Needed
-                </MudText>
-                <MudText Typo="Typo.body1" Style="color: #666; line-height: 1.7;">
-                    Create job applications, authorization letters, consent forms, and more.
-                    Save, share, and export to PDF with just a few clicks.
+            <MudPaper Elevation="0" Class="premium-card pa-10 text-center d-flex flex-column" Style="height: 100%;">
+                <div class="mb-6 p-4 rounded-xl d-inline-block mx-auto" style="background: #fff7ed;">
+                    <MudIcon Icon="@Icons.Material.Filled.Phonelink" Color="Color.Warning" Style="font-size: 48px;" />
+                </div>
+                <MudText Typo="Typo.h5" Class="premium-header-text mb-4">Export Anywhere</MudText>
+                <MudText Typo="Typo.body1" Color="Color.Secondary" Style="line-height: 1.7;">
+                    Share links instantly or export your forms to high-quality PDF. Your data stays synchronized securely.
                 </MudText>
             </MudPaper>
         </MudItem>
     </MudGrid>
 
-    <!-- Use Cases Section -->
-    <div style="margin-top: 80px; text-align: center;">
-        <MudText Typo="Typo.h4" Style="font-weight: 600; margin-bottom: 32px;">
-            Perfect For
-        </MudText>
-
-        <MudGrid Spacing="3" Justify="Justify.Center">
-            <MudItem xs="6" sm="4" md="3">
-                <MudChip T="string" Size="Size.Large" Style="font-size: 18px; padding: 24px 16px;">
-                    Job Applications
-                </MudChip>
-            </MudItem>
-            <MudItem xs="6" sm="4" md="3">
-                <MudChip T="string" Size="Size.Large" Style="font-size: 18px; padding: 24px 16px;">
-                    Authorization Letters
-                </MudChip>
-            </MudItem>
-            <MudItem xs="6" sm="4" md="3">
-                <MudChip T="string" Size="Size.Large" Style="font-size: 18px; padding: 24px 16px;">
-                    Consent Forms
-                </MudChip>
-            </MudItem>
-            <MudItem xs="6" sm="4" md="3">
-                <MudChip T="string" Size="Size.Large" Style="font-size: 18px; padding: 24px 16px;">
-                    Event Registration
-                </MudChip>
-            </MudItem>
-            <MudItem xs="6" sm="4" md="3">
-                <MudChip T="string" Size="Size.Large" Style="font-size: 18px; padding: 24px 16px;">
-                    Leave Requests
-                </MudChip>
-            </MudItem>
-            <MudItem xs="6" sm="4" md="3">
-                <MudChip T="string" Size="Size.Large" Style="font-size: 18px; padding: 24px 16px;">
-                    Attendance Sheets
-                </MudChip>
-            </MudItem>
-            <MudItem xs="6" sm="4" md="3">
-                <MudChip T="string" Size="Size.Large" Style="font-size: 18px; padding: 24px 16px;">
-                    Feedback Forms
-                </MudChip>
-            </MudItem>
-            <MudItem xs="6" sm="4" md="3">
-                <MudChip T="string" Size="Size.Large" Style="font-size: 18px; padding: 24px 16px;">
-                    And More!
-                </MudChip>
-            </MudItem>
-        </MudGrid>
-    </div>
-
     <!-- Final CTA -->
-    <div style="text-align: center; margin-top: 80px; padding: 48px; background-color: #f0f7ff; border-radius: 16px;">
-        <MudText Typo="Typo.h4" Style="font-weight: 600; margin-bottom: 24px;">
-            Ready to Get Started?
-        </MudText>
-        <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 32px; font-size: 20px;">
-            Create your first form in minutes. No sign-up required to start!
+    <div class="mt-16 text-center pa-12 rounded-xl" style="background: linear-gradient(135deg, #594ae2 0%, #7e57c2 100%); position: relative; overflow: hidden;">
+        <div style="position: absolute; top: -50px; right: -50px; width: 200px; height: 200px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+        <div style="position: absolute; bottom: -20px; left: -20px; width: 100px; height: 100px; background: rgba(255,255,255,0.1); border-radius: 50%;"></div>
+        
+        <MudText Typo="Typo.h3" Style="font-weight: 700; color: white; margin-bottom: 24px;">Ready to create?</MudText>
+        <MudText Typo="Typo.body1" Style="color: rgba(255,255,255,0.9); margin-bottom: 40px; font-size: 1.25rem;">
+            Join thousands of users building professional forms today.
         </MudText>
         <MudButton Variant="Variant.Filled"
-                   Color="Color.Primary"
+                   Color="Color.Default"
                    Size="Size.Large"
-                   StartIcon="@Icons.Material.Filled.RocketLaunch"
-                   OnClick='@(() => Navigation.NavigateTo("editor"))'
-                   Style="height: 64px; min-width: 240px; font-size: 20px; font-weight: 600;">
-            Start Building Now
+                   StartIcon="@Icons.Material.Filled.Bolt"
+                   OnClick='@(() => Navigation.NavigateTo("/register"))'
+                   Class="premium-btn px-10 py-4"
+                   Style="height: 60px; font-size: 1.1rem; background: white; color: var(--premium-primary);">
+            Get Started Now
         </MudButton>
     </div>
 </MudContainer>
+</main>
 
 @code {
     // No code needed for landing page

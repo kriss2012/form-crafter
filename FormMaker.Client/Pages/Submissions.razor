@@ -15,125 +15,102 @@
 <!-- Spacer for fixed header -->
 <div style="height: 64px;"></div>
 
-<main aria-label="Form submissions page">
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 32px; padding-bottom: 32px;">
+<main aria-label="Form submissions page" class="page-fade-in">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 48px; padding-bottom: 48px;">
     <!-- Header -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+    <div class="d-flex justify-space-between align-center mb-8">
         <div>
             <MudButton StartIcon="@Icons.Material.Filled.ArrowBack"
                        Variant="Variant.Text"
-                       OnClick='@(() => Navigation.NavigateTo("/forms"))'>
-                Back to My Forms
+                       OnClick='@(() => Navigation.NavigateTo("/forms"))'
+                       Class="mb-4">
+                Workspace
             </MudButton>
-            <MudText Typo="Typo.h3" Style="font-weight: 600; margin-top: 16px;">
-                Form Submissions
+            <MudText Typo="Typo.h3" Class="premium-header-text">
+                Analytics & Submissions
             </MudText>
             @if (submissionsData != null)
             {
-                <MudText Typo="Typo.body1" Color="Color.Secondary">
-                    @submissionsData.TotalCount total submissions
+                <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mt-1">
+                    Monitoring <strong>@submissionsData.TotalCount</strong> responses
                 </MudText>
             }
         </div>
 
-        <div>
-            <MudButton Variant="Variant.Filled"
-                       Color="Color.Primary"
-                       StartIcon="@Icons.Material.Filled.Download"
-                       OnClick="ExportToCsv"
-                       Disabled="@isLoading">
-                Export CSV
-            </MudButton>
-        </div>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   StartIcon="@Icons.Material.Filled.Download"
+                   OnClick="ExportToCsv"
+                   Disabled="@isLoading"
+                   Class="premium-btn px-6 py-3">
+            Export Dataset
+        </MudButton>
     </div>
 
     <!-- Analytics Summary -->
     @if (submissionsData != null && submissionsData.TotalCount > 0)
     {
-        <MudPaper Elevation="1" Style="padding: 24px; margin-bottom: 24px;">
-            <MudText Typo="Typo.h6" Style="margin-bottom: 16px;">Analytics</MudText>
-            <MudGrid>
-                <MudItem xs="12" sm="6" md="3">
-                    <div style="text-align: center;">
-                        <MudIcon Icon="@Icons.Material.Filled.Assignment" Color="Color.Primary" Size="Size.Large" />
-                        <MudText Typo="Typo.h4" Style="margin-top: 8px;">@submissionsData.TotalCount</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">Total Submissions</MudText>
-                    </div>
-                </MudItem>
-                <MudItem xs="12" sm="6" md="3">
-                    <div style="text-align: center;">
-                        <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" Size="Size.Large" />
-                        <MudText Typo="Typo.h4" Style="margin-top: 8px;">@reviewedCount</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">Reviewed</MudText>
-                    </div>
-                </MudItem>
-                <MudItem xs="12" sm="6" md="3">
-                    <div style="text-align: center;">
-                        <MudIcon Icon="@Icons.Material.Filled.PendingActions" Color="Color.Warning" Size="Size.Large" />
-                        <MudText Typo="Typo.h4" Style="margin-top: 8px;">@pendingCount</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">Pending</MudText>
-                    </div>
-                </MudItem>
-                <MudItem xs="12" sm="6" md="3">
-                    <div style="text-align: center;">
-                        <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Info" Size="Size.Large" />
-                        <MudText Typo="Typo.h4" Style="margin-top: 8px;">@recentCount</MudText>
-                        <MudText Typo="Typo.body2" Color="Color.Secondary">Last 7 Days</MudText>
-                    </div>
-                </MudItem>
-            </MudGrid>
-        </MudPaper>
+        <MudGrid Class="mb-8">
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="premium-card pa-6 text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.Assignment" Color="Color.Primary" Size="Size.Large" />
+                    <MudText Typo="Typo.h4" Class="premium-header-text mt-3">@submissionsData.TotalCount</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">Total Responses</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="premium-card pa-6 text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.CheckCircle" Color="Color.Success" Size="Size.Large" />
+                    <MudText Typo="Typo.h4" Class="premium-header-text mt-3">@reviewedCount</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">Reviewed</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="premium-card pa-6 text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.PendingActions" Color="Color.Warning" Size="Size.Large" />
+                    <MudText Typo="Typo.h4" Class="premium-header-text mt-3">@pendingCount</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">Pending Review</MudText>
+                </MudPaper>
+            </MudItem>
+            <MudItem xs="12" sm="6" md="3">
+                <MudPaper Elevation="0" Class="premium-card pa-6 text-center">
+                    <MudIcon Icon="@Icons.Material.Filled.TrendingUp" Color="Color.Info" Size="Size.Large" />
+                    <MudText Typo="Typo.h4" Class="premium-header-text mt-3">@recentCount</MudText>
+                    <MudText Typo="Typo.body2" Color="Color.Secondary">Past 7 Days</MudText>
+                </MudPaper>
+            </MudItem>
+        </MudGrid>
     }
 
     <!-- Filters -->
-    <MudPaper Elevation="1" Style="padding: 16px; margin-bottom: 24px;">
-        <MudText Typo="Typo.h6" Style="margin-bottom: 16px;">Filters</MudText>
+    <MudPaper Elevation="0" Class="premium-card pa-6 mb-8">
+        <div class="d-flex align-center gap-3 mb-6">
+            <MudIcon Icon="@Icons.Material.Filled.FilterList" Color="Color.Primary" />
+            <MudText Typo="Typo.h6" Class="premium-header-text">Filter Insights</MudText>
+        </div>
+        
         <MudGrid>
             <MudItem xs="12" sm="6" md="3">
-                <MudDatePicker Label="Start Date"
-                               @bind-Date="startDate"
-                               Variant="Variant.Outlined"
-                               Clearable="true" />
+                <MudDatePicker Label="From Date" @bind-Date="startDate" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" />
             </MudItem>
             <MudItem xs="12" sm="6" md="3">
-                <MudDatePicker Label="End Date"
-                               @bind-Date="endDate"
-                               Variant="Variant.Outlined"
-                               Clearable="true" />
+                <MudDatePicker Label="To Date" @bind-Date="endDate" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" />
             </MudItem>
             <MudItem xs="12" sm="6" md="3">
-                <MudSelect T="string"
-                           Label="Status"
-                           @bind-Value="reviewStatusFilter"
-                           Variant="Variant.Outlined"
-                           Clearable="true">
-                    <MudSelectItem T="string" Value="@("all")">All</MudSelectItem>
+                <MudSelect T="string" Label="Status" @bind-Value="reviewStatusFilter" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true">
+                    <MudSelectItem T="string" Value="@("all")">All Status</MudSelectItem>
                     <MudSelectItem T="string" Value="@("reviewed")">Reviewed</MudSelectItem>
                     <MudSelectItem T="string" Value="@("pending")">Pending</MudSelectItem>
                 </MudSelect>
             </MudItem>
             <MudItem xs="12" sm="6" md="3">
-                <MudTextField T="string"
-                              Label="Search Email"
-                              @bind-Value="emailSearch"
-                              Variant="Variant.Outlined"
-                              Clearable="true"
-                              Adornment="Adornment.Start"
-                              AdornmentIcon="@Icons.Material.Filled.Search" />
+                <MudTextField T="string" Label="Search Identifier" @bind-Value="emailSearch" Variant="Variant.Outlined" Margin="Margin.Dense" Clearable="true" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" />
             </MudItem>
         </MudGrid>
-        <div style="margin-top: 16px; text-align: right;">
-            <MudButton Variant="Variant.Text"
-                       OnClick="ClearFilters"
-                       StartIcon="@Icons.Material.Filled.Clear">
-                Clear Filters
-            </MudButton>
-            <MudButton Variant="Variant.Filled"
-                       Color="Color.Primary"
-                       OnClick="ApplyFilters"
-                       StartIcon="@Icons.Material.Filled.FilterList">
-                Apply Filters
-            </MudButton>
+        
+        <div class="d-flex justify-end gap-3 mt-6">
+            <MudButton Variant="Variant.Text" OnClick="ClearFilters" Class="premium-btn">Reset</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="ApplyFilters" Class="premium-btn px-6">Apply Filters</MudButton>
         </div>
     </MudPaper>
 

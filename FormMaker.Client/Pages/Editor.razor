@@ -203,7 +203,8 @@ else
 
 <MudLayout Class="main-editor-layout" Style="height: calc(100vh - 192px); display: flex;">
     <!-- Element Library Sidebar (Desktop) and Drawer (Mobile) -->
-    <aside class="d-none d-md-block" style="width: 300px; border-right: 2px solid #e0e0e0; overflow-y: auto; padding: 0 16px 16px 16px;" aria-label="Element library sidebar">
+    <aside class="d-none d-md-block" style="width: 300px; border-right: 1px solid var(--premium-glass-border); overflow-y: auto; padding: 24px 16px; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px);" aria-label="Element library sidebar">
+        <MudText Typo="Typo.h6" Class="premium-header-text mb-6">Library</MudText>
         <ElementLibrary OnElementAdded="HandleElementAdded" @ref="elementLibrary" />
     </aside>
 
@@ -227,7 +228,7 @@ else
     </main>
 
     <!-- Properties Panel Sidebar (Desktop) and Drawer (Mobile) -->
-    <aside class="d-none d-md-block" style="width: 320px; border-left: 2px solid #e0e0e0; overflow-y: auto; background-color: #fafafa; padding: 16px;" aria-label="Properties panel">
+    <aside class="d-none d-md-block" style="width: 320px; border-left: 1px solid var(--premium-glass-border); overflow-y: auto; background: rgba(255,255,255,0.4); backdrop-filter: blur(4px); padding: 24px 16px;" aria-label="Properties panel">
         @PropertiesPanelContent()
     </aside>
 
@@ -248,7 +249,7 @@ else
     private bool _propertiesOpen;
 
     private RenderFragment PropertiesPanelContent() => __builder => {
-            <MudText Typo="Typo.h6" Style="margin-bottom: 16px; font-weight: 600;" Class="d-none d-md-block">Properties</MudText>
+            <MudText Typo="Typo.h6" Class="premium-header-text mb-6 d-none d-md-block">Inspector</MudText>
 
             @{
                 var currentElements = currentTemplate.IsMultiPage && currentTemplate.CurrentPage != null

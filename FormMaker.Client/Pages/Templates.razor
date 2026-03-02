@@ -9,17 +9,18 @@
 <!-- Spacer for fixed header -->
 <div style="height: 64px;"></div>
 
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 32px; padding-bottom: 64px;">
+<main class="page-fade-in">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 48px; padding-bottom: 64px;">
     <!-- Page Header -->
-    <div style="margin-bottom: 48px;">
-        <MudText Typo="Typo.h3" Style="font-weight: 600; margin-bottom: 16px;">Template Gallery</MudText>
-        <MudText Typo="Typo.body1" Color="Color.Secondary" Style="font-size: 20px;">
-            Choose from pre-built templates to get started quickly
+    <div class="mb-12">
+        <MudText Typo="Typo.h3" Class="premium-header-text mb-4">Template Gallery</MudText>
+        <MudText Typo="Typo.body1" Color="Color.Secondary" Style="font-size: 20px; max-width: 600px;">
+            Jumpstart your productivity with professionally designed form templates.
         </MudText>
     </div>
 
-    <!-- Category Tabs (for future use) -->
-    <MudTabs Elevation="2" Rounded="true" ApplyEffectsToContainer="true" Style="margin-bottom: 32px;">
+    <!-- Category Tabs -->
+    <MudTabs Elevation="0" Rounded="true" ApplyEffectsToContainer="true" Class="mb-8" PanelClass="pa-6" Style="background: transparent;">
         <MudTabPanel Text="All" Icon="@Icons.Material.Filled.Apps" />
         <MudTabPanel Text="Business" Icon="@Icons.Material.Filled.Business" />
         <MudTabPanel Text="Legal" Icon="@Icons.Material.Filled.Gavel" />
@@ -28,74 +29,38 @@
         <MudTabPanel Text="General" Icon="@Icons.Material.Filled.Description" />
     </MudTabs>
 
-    <!-- Coming Soon State (Phase 6) -->
-    <MudPaper Elevation="2" Style="padding: 80px 32px; text-align: center; background: linear-gradient(135deg, #f0f7ff 0%, #ffffff 100%);">
-        <div style="font-size: 96px; margin-bottom: 24px;">📄</div>
-        <MudText Typo="Typo.h4" Style="font-weight: 600; margin-bottom: 16px;">
-            Templates Coming Soon!
-        </MudText>
-        <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 32px; font-size: 18px; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.7;">
-            We're working on creating a collection of professional templates including job applications,
-            authorization letters, consent forms, event registrations, and more.
-        </MudText>
-        <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 32px; font-size: 18px;">
-            <strong>Planned for Phase 6 (Story 6.5)</strong>
+    <!-- Coming Soon State -->
+    <div class="d-flex flex-column align-center justify-center py-16 px-8 rounded-xl" style="background: rgba(255,255,255,0.6); backdrop-filter: blur(10px); border: 1px solid var(--premium-glass-border); box-shadow: var(--premium-shadow);">
+        <div class="mb-8 p-6 rounded-circle" style="background: white; box-shadow: 0 10px 25px -5px rgba(89, 74, 226, 0.1);">
+            <MudIcon Icon="@Icons.Material.Filled.AutoAwesome" Style="font-size: 80px; color: var(--premium-primary);" />
+        </div>
+        
+        <MudText Typo="Typo.h4" Class="premium-header-text mb-4">Crafting the Gallery</MudText>
+        
+        <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-10 text-center" Style="max-width: 650px; font-size: 1.1rem; line-height: 1.6;">
+            We're curating a collection of industry-standard templates for HR, Legal, and Business needs. 
+            Stay tuned for the <strong>Phase 6</strong> release featuring one-click form generation.
         </MudText>
 
-        <!-- Preview of planned templates -->
-        <div style="margin-top: 48px;">
-            <MudText Typo="Typo.h6" Style="margin-bottom: 24px; color: #666;">
-                Planned Templates:
-            </MudText>
-            <MudGrid Justify="Justify.Center">
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Job Application</MudChip>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Authorization Letter</MudChip>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Consent Form</MudChip>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Event Registration</MudChip>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Leave Request</MudChip>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Purchase Order</MudChip>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Feedback Form</MudChip>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Attendance Sheet</MudChip>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Quotation</MudChip>
-                </MudItem>
-                <MudItem xs="6" sm="4" md="3">
-                    <MudChip T="string" Size="Size.Large" Style="font-size: 16px;">Timesheet</MudChip>
-                </MudItem>
-            </MudGrid>
+        <!-- Preview Chips -->
+        <div class="d-flex flex-wrap justify-center gap-3 mb-12" style="max-width: 800px;">
+            @foreach (var label in new[] { "Job Application", "Authorization", "Consent Form", "Event RSVP", "Leave Request", "Quotation", "Feedback", "Timesheet" })
+            {
+                <MudChip T="string" Color="Color.Default" Variant="Variant.Text" Style="background: white; border: 1px solid #e2e8f0; font-weight: 500;">@label</MudChip>
+            }
         </div>
 
-        <!-- CTA to create from scratch -->
-        <div style="margin-top: 48px;">
-            <MudText Typo="Typo.body1" Style="color: #666; margin-bottom: 24px; font-size: 18px;">
-                In the meantime, start creating your own form from scratch:
-            </MudText>
-            <MudButton Variant="Variant.Filled"
-                       Color="Color.Primary"
-                       Size="Size.Large"
-                       StartIcon="@Icons.Material.Filled.Add"
-                       OnClick='@(() => Navigation.NavigateTo("editor"))'
-                       Style="height: 56px; min-width: 200px; font-size: 18px;">
-                Create New Form
-            </MudButton>
-        </div>
-    </MudPaper>
+        <MudButton Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Size="Size.Large"
+                   StartIcon="@Icons.Material.Filled.Add"
+                   OnClick='@(() => Navigation.NavigateTo("editor"))'
+                   Class="premium-btn px-10 py-4">
+            Build from Scratch
+        </MudButton>
+    </div>
+</MudContainer>
+</main>
 
     <!-- Future Template Grid Structure (ready for Phase 6) -->
     @*

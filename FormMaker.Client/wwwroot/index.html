@@ -10,12 +10,38 @@
     <link rel="stylesheet" href="css/app.css" />
     <link rel="stylesheet" href="css/custom-theme.css" />
     <link rel="stylesheet" href="css/layout-polish.css" />
+    <link rel="stylesheet" href="css/premium-global.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="FormMaker.Client.styles.css" rel="stylesheet" />
 
-    <!-- MudBlazor CSS -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- Modern Typography & Styles -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+
+    <style>
+        :root {
+            --mud-typography-default-family: 'Outfit', sans-serif;
+            --mud-typography-h1-family: 'Outfit', sans-serif;
+            --mud-typography-h2-family: 'Outfit', sans-serif;
+            --mud-typography-h3-family: 'Outfit', sans-serif;
+            --mud-typography-h4-family: 'Outfit', sans-serif;
+            --mud-typography-h5-family: 'Outfit', sans-serif;
+            --mud-typography-h6-family: 'Outfit', sans-serif;
+            --mud-typography-subtitle1-family: 'Outfit', sans-serif;
+            --mud-typography-subtitle2-family: 'Outfit', sans-serif;
+            --mud-typography-body1-family: 'Outfit', sans-serif;
+            --mud-typography-body2-family: 'Outfit', sans-serif;
+            --mud-typography-button-family: 'Outfit', sans-serif;
+            --mud-typography-caption-family: 'Outfit', sans-serif;
+            --mud-typography-overline-family: 'Outfit', sans-serif;
+        }
+
+        * {
+            transition: background-color 0.3s ease, border-color 0.3s ease;
+        }
+    </style>
 </head>
 
 <body>
@@ -36,7 +62,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script>
         // GitHub Pages SPA redirect handler
-        (function() {
+        (function () {
             var redirect = sessionStorage.getItem('redirect');
             if (redirect) {
                 sessionStorage.removeItem('redirect');

@@ -11,14 +11,14 @@
 <!-- Spacer for fixed header -->
 <div style="height: 64px;"></div>
 
-<main aria-label="My forms page">
-<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 32px; padding-bottom: 32px;">
+<main aria-label="My forms page" class="page-fade-in">
+<MudContainer MaxWidth="MaxWidth.Large" Style="padding-top: 48px; padding-bottom: 48px;">
     <!-- Header -->
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+    <div class="d-flex justify-space-between align-center mb-10">
         <div>
-            <MudText Typo="Typo.h3" Style="font-weight: 600; margin-bottom: 8px;">My Forms</MudText>
+            <MudText Typo="Typo.h3" Class="premium-header-text mb-2">My Workspace</MudText>
             <MudText Typo="Typo.body1" Color="Color.Secondary">
-                Manage your saved form templates
+                Create, manage, and share your forms effortlessly
             </MudText>
         </div>
 
@@ -27,101 +27,93 @@
                    StartIcon="@Icons.Material.Filled.Add"
                    OnClick='@(() => Navigation.NavigateTo("editor"))'
                    Size="Size.Large"
+                   Class="premium-btn px-6 py-3"
                    aria-label="Create new form">
-            New Form
+            Create Form
         </MudButton>
     </div>
 
     <!-- Forms List -->
     @if (isLoading)
     {
-        <div style="text-align: center; padding: 64px 0;">
+        <div style="text-align: center; padding: 100px 0;">
             <MudProgressCircular Color="Color.Primary" Indeterminate="true" Size="Size.Large" aria-label="Loading your forms" />
-            <MudText Typo="Typo.body1" Style="margin-top: 16px;">Loading your forms...</MudText>
+            <MudText Typo="Typo.body1" Class="mt-4" Color="Color.Secondary">Gathering your forms...</MudText>
         </div>
     }
     else if (forms == null || forms.Count == 0)
     {
         <!-- Empty State -->
-        <MudPaper Elevation="0" Style="text-align: center; padding: 64px 32px; background-color: #fafafa;">
-            <MudIcon Icon="@Icons.Material.Filled.Description" Size="Size.Large" Style="font-size: 96px; color: #757575; margin-bottom: 16px;" aria-hidden="true" />
-            <MudText Typo="Typo.h5" Style="margin-bottom: 16px; color: #666;">No Forms Yet</MudText>
-            <MudText Typo="Typo.body1" Style="margin-bottom: 32px; color: #757575;">
-                Create your first form to get started!
+        <div class="d-flex flex-column align-center justify-center py-16 px-8 rounded-xl" style="background: rgba(255,255,255,0.5); backdrop-filter: blur(4px); border: 2px dashed #cbd5e1;">
+            <div class="mb-6 p-6 rounded-circle" style="background: white; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);">
+                <MudIcon Icon="@Icons.Material.Filled.Description" Style="font-size: 64px; color: #94a3b8;" aria-hidden="true" />
+            </div>
+            <MudText Typo="Typo.h5" Class="premium-header-text mb-2">No Forms Found</MudText>
+            <MudText Typo="Typo.body1" Color="Color.Secondary" Class="mb-8 text-center" Style="max-width: 400px;">
+                You haven't created any forms yet. Start building your first project today!
             </MudText>
             <MudButton Variant="Variant.Filled"
                        Color="Color.Primary"
                        StartIcon="@Icons.Material.Filled.Add"
                        OnClick='@(() => Navigation.NavigateTo("editor"))'
                        Size="Size.Large"
+                       Class="premium-btn px-8"
                        aria-label="Create your first form">
-                Create Your First Form
+                Start Building
             </MudButton>
-        </MudPaper>
+        </div>
     }
     else
     {
         <!-- Forms Grid -->
-        <MudGrid>
+        <MudGrid Spacing="4">
             @foreach (var form in forms)
             {
                 <MudItem xs="12" sm="6" md="4">
-                    <MudCard Elevation="2" Style="height: 100%;">
-                        <MudCardContent>
-                            <MudText Typo="Typo.h6" Style="font-weight: 600; margin-bottom: 8px;">
+                    <MudCard Elevation="0" Class="premium-card d-flex flex-column" Style="height: 100%;">
+                        <MudCardContent Class="flex-grow-1 pa-6">
+                            <div class="d-flex justify-space-between align-start mb-4">
+                                <div class="p-3 rounded-lg" style="background: #f1f5f9;">
+                                    <MudIcon Icon="@Icons.Material.Filled.Description" Color="Color.Primary" />
+                                </div>
+                                <MudChip Variant="Variant.Text" Color="Color.Primary" Size="Size.Small" Style="background: #eef2ff; font-weight: 600;">@(form.Category ?? "Form")</MudChip>
+                            </div>
+
+                            <MudText Typo="Typo.h6" Class="premium-header-text mb-2">
                                 @form.Name
                             </MudText>
 
                             @if (!string.IsNullOrEmpty(form.Description))
                             {
-                                <MudText Typo="Typo.body2" Color="Color.Secondary" Style="margin-bottom: 12px;">
+                                <MudText Typo="Typo.body2" Color="Color.Secondary" Class="mb-4" Style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 40px;">
                                     @form.Description
                                 </MudText>
                             }
 
-                            @if (!string.IsNullOrEmpty(form.Category))
-                            {
-                                <MudText Typo="Typo.body2" Style="margin-bottom: 4px;">
-                                    <MudIcon Icon="@Icons.Material.Filled.Category" Size="Size.Small" />
-                                    @form.Category
+                            <div class="d-flex align-center gap-2 mt-4 pt-4" style="border-top: 1px solid #f1f5f9;">
+                                <MudIcon Icon="@Icons.Material.Filled.AccessTime" Size="Size.Small" Color="Color.Secondary" />
+                                <MudText Typo="Typo.caption" Color="Color.Secondary">
+                                    Last edit @GetRelativeTime(form.UpdatedAt)
                                 </MudText>
-                            }
-
-                            <MudText Typo="Typo.caption" Color="Color.Secondary" Style="margin-top: 8px;">
-                                Updated @GetRelativeTime(form.UpdatedAt)
-                            </MudText>
-
-                            <MudText Typo="Typo.caption" Color="Color.Secondary">
-                                Created @GetRelativeTime(form.CreatedAt)
-                            </MudText>
+                            </div>
                         </MudCardContent>
 
-                        <MudCardActions>
-                            <MudButton StartIcon="@Icons.Material.Filled.Edit"
-                                       Color="Color.Primary"
-                                       OnClick="() => OpenForm(form.Id)">
-                                Open
-                            </MudButton>
-
-                            <MudButton StartIcon="@Icons.Material.Filled.Share"
-                                       Color="Color.Secondary"
-                                       OnClick="() => ShareForm(form.Id)">
-                                Share
-                            </MudButton>
-
-                            <MudButton StartIcon="@Icons.Material.Filled.ContentCopy"
-                                       Color="Color.Default"
-                                       OnClick="() => DuplicateForm(form.Id)">
-                                Duplicate
-                            </MudButton>
-
+                        <MudCardActions Class="pa-4 pt-0">
+                            <MudTooltip Text="Edit Form">
+                                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" OnClick="() => OpenForm(form.Id)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Share">
+                                <MudIconButton Icon="@Icons.Material.Filled.Share" Color="Color.Secondary" OnClick="() => ShareForm(form.Id)" />
+                            </MudTooltip>
+                            <MudTooltip Text="Duplicate">
+                                <MudIconButton Icon="@Icons.Material.Filled.ContentCopy" Color="Color.Default" OnClick="() => DuplicateForm(form.Id)" />
+                            </MudTooltip>
+                            
                             <MudSpacer />
-
-                            <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                                           Color="Color.Error"
-                                           OnClick="@(async () => await DeleteForm(form.Id, form.Name))"
-                                           aria-label="@($"Delete {form.Name}")"
-                                           Title="@($"Delete {form.Name}")" />
+                            
+                            <MudTooltip Text="Delete">
+                                <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" OnClick="@(async () => await DeleteForm(form.Id, form.Name))" />
+                            </MudTooltip>
                         </MudCardActions>
                     </MudCard>
                 </MudItem>

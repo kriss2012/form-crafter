@@ -30,9 +30,9 @@ else
 
     <!-- Mobile Toolbar Toggles (shown only on small screens) -->
     <div class="d-flex d-md-none px-4 py-2 align-center justify-space-between" style="background-color: #fafafa; border-bottom: 1px solid #e0e0e0; position: sticky; top: 64px; z-index: 1100;">
-        <MudIconButton Icon="@Icons.Material.Filled.LibraryAdd" Color="Color.Primary" OnClick="@(() => _libraryOpen = !_libraryOpen)" Title="Element Library" />
+        <MudIconButton Icon="@Icons.Material.Filled.LibraryAdd" Color="Color.Primary" OnClick="@(() => _libraryOpen = !_libraryOpen)" title="Element Library" />
         <MudText Typo="Typo.subtitle2" Style="font-weight: 600;">@currentTemplate.Name</MudText>
-        <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Primary" OnClick="@(() => _propertiesOpen = !_propertiesOpen)" Title="Properties" />
+        <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Primary" OnClick="@(() => _propertiesOpen = !_propertiesOpen)" title="Properties" />
     </div>
 
     <!-- Combined Toolbar & Page Tabs - Fixed below main nav on desktop, scrollable on mobile -->
@@ -56,14 +56,14 @@ else
                            Color="Color.Default"
                            OnClick="Undo"
                            Disabled="@(!historyService.CanUndo)"
-                           Title="Undo (Ctrl+Z)"
+                           title="Undo (Ctrl+Z)"
                            Size="Size.Medium" />
 
             <MudIconButton Icon="@Icons.Material.Filled.Redo"
                            Color="Color.Default"
                            OnClick="Redo"
                            Disabled="@(!historyService.CanRedo)"
-                           Title="Redo (Ctrl+Y)"
+                           title="Redo (Ctrl+Y)"
                            Size="Size.Medium" />
         </div>
 
@@ -74,7 +74,7 @@ else
             <MudIconButton Icon="@Icons.Material.Filled.ZoomOut"
                            Color="Color.Default"
                            OnClick="ZoomOut"
-                           Title="Zoom Out"
+                           title="Zoom Out"
                            Size="Size.Medium" />
 
             <MudText Style="min-width: 45px; text-align: center; font-weight: 600; font-size: 0.9rem;">
@@ -84,7 +84,7 @@ else
             <MudIconButton Icon="@Icons.Material.Filled.ZoomIn"
                            Color="Color.Default"
                            OnClick="ZoomIn"
-                           Title="Zoom In"
+                           title="Zoom In"
                            Size="Size.Medium" />
         </div>
 
@@ -101,7 +101,7 @@ else
                 Save
             </MudButton>
 
-            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" Direction="Direction.Left" OffsetX="true" Class="d-flex d-md-none">
+            <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" AnchorOrigin="Origin.BottomLeft" TransformOrigin="Origin.TopRight" Class="d-flex d-md-none">
                 <MudMenuItem Icon="@Icons.Material.Filled.Save" OnClick="SaveForm">Save</MudMenuItem>
                 <MudMenuItem Icon="@Icons.Material.Filled.Share" OnClick="OpenShareDialog">Share</MudMenuItem>
                 <MudMenuItem Icon="@Icons.Material.Filled.Visibility" OnClick="PreviewForm">Preview</MudMenuItem>
@@ -126,7 +126,7 @@ else
                     Preview
                 </MudButton>
 
-                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" Size="Size.Medium" AriaLabel="More options">
+                <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default" Size="Size.Medium" aria-label="More options">
                     <MudMenu Icon="@Icons.Material.Filled.MoreVert" Color="Color.Default">
                         <MudMenuItem Icon="@Icons.Material.Filled.PictureAsPdf" OnClick="ExportToPdf">Export PDF</MudMenuItem>
                         <MudMenuItem Icon="@Icons.Material.Filled.Keyboard" OnClick="ShowKeyboardShortcuts">Shortcuts</MudMenuItem>

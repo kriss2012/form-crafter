@@ -105,7 +105,7 @@
     private string? errorMessage;
     private PublicFormResponse? formData;
     private FormTemplate? template;
-    private Dictionary<string, object> formValues = new();
+    private Dictionary<string, object?> formValues = new();
 
     protected override async Task OnInitializedAsync()
     {

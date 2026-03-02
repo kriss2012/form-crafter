@@ -33,29 +33,32 @@
 
             <MudText Typo="Typo.h6" Class="mb-2">Form Settings</MudText>
 
-            <MudGrid>
-                <MudItem xs="12">
-                    <MudText Typo="Typo.body2">Views: <strong>@formResponse!.ViewCount</strong></MudText>
-                </MudItem>
-                <MudItem xs="12">
-                    <MudText Typo="Typo.body2">Submissions: <strong>@formResponse.SubmissionCount</strong></MudText>
-                </MudItem>
-                @if (formResponse.MaxSubmissions.HasValue)
-                {
+            @if (formResponse != null)
+            {
+                <MudGrid>
                     <MudItem xs="12">
-                        <MudText Typo="Typo.body2">Max Submissions: <strong>@formResponse.MaxSubmissions</strong></MudText>
+                        <MudText Typo="Typo.body2">Views: <strong>@formResponse.ViewCount</strong></MudText>
                     </MudItem>
-                }
-                @if (formResponse.ExpiresAt.HasValue)
-                {
                     <MudItem xs="12">
-                        <MudText Typo="Typo.body2">Expires: <strong>@formResponse.ExpiresAt.Value.ToLocalTime().ToString("MMM d, yyyy h:mm tt")</strong></MudText>
+                        <MudText Typo="Typo.body2">Submissions: <strong>@formResponse.SubmissionCount</strong></MudText>
                     </MudItem>
-                }
-                <MudItem xs="12">
-                    <MudText Typo="Typo.body2">Status: <strong>@(formResponse.IsActive ? "Active" : "Inactive")</strong></MudText>
-                </MudItem>
-            </MudGrid>
+                    @if (formResponse.MaxSubmissions.HasValue)
+                    {
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.body2">Max Submissions: <strong>@formResponse.MaxSubmissions</strong></MudText>
+                        </MudItem>
+                    }
+                    @if (formResponse.ExpiresAt.HasValue)
+                    {
+                        <MudItem xs="12">
+                            <MudText Typo="Typo.body2">Expires: <strong>@formResponse.ExpiresAt.Value.ToLocalTime().ToString("MMM d, yyyy h:mm tt")</strong></MudText>
+                        </MudItem>
+                    }
+                    <MudItem xs="12">
+                        <MudText Typo="Typo.body2">Status: <strong>@(formResponse.IsActive ? "Active" : "Inactive")</strong></MudText>
+                    </MudItem>
+                </MudGrid>
+            }
         }
         else
         {

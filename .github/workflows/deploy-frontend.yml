@@ -41,7 +41,7 @@ jobs:
           touch release/wwwroot/.nojekyll
 
       - name: Upload Artifacts
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: release/wwwroot
 
